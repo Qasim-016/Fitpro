@@ -1,21 +1,32 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 const User = require('../models/User');
 const VerificationCode = require('../models/VerificationCode');
 
 // Email Transporter Setup
+
+
 const transporter = nodemailer.createTransport({
+    service: 'gmail',
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, // Use TLS
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: 'pikachugaming565@gmail.com',
+      pass: 'Uog-@-016', // or use an app-specific password if 2FA is enabled
     },
+    debug: true,
   });
-  
-  
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('Transporter error:', error);
+  } else {
+    console.log('Server is ready to send emails:', success);
+  }
+});
 
 // Send Verification Email
 const sendVerificationEmail = async (email, code) => {
