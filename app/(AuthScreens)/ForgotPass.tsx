@@ -11,6 +11,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styling from '@/assets/Styles/styling';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from './firebaseConfig';
+import { getAuth } from 'firebase/auth';
+import { doc ,getDoc,collection,where,getDocs,query} from 'firebase/firestore';
+import { db } from './firebaseConfig';
 
 const ForgotPass = () => {
   const router = useRouter();
@@ -28,10 +31,23 @@ const ForgotPass = () => {
     return true;
   };
 
+ 
+  
   const handleResetPassword = async (): Promise<void> => {
     if (validateEmail()) {
       try {
-        await sendPasswordResetEmail(auth, email.trim());
+        // Check if the user exists in Firestore
+        const userExists = await checkUserExists();
+  
+        if (!userExists) {
+          Alert.alert('Error', 'This email address is not registered in our system.');
+          return;
+        }
+  
+        // Proceed with Firebase password reset email
+        const authInstance = getAuth(); // Get Firebase Auth instance
+        await sendPasswordResetEmail(authInstance, email.trim());
+  
         Alert.alert(
           'Success',
           'A password reset email has been sent to your email address. Please check your inbox and follow the instructions to reset your password.'
@@ -39,10 +55,27 @@ const ForgotPass = () => {
         router.push('/(AuthScreens)/login'); // Redirect to login screen
       } catch (error: any) {
         console.error('Password reset error:', error.message);
-        Alert.alert('Error', error.message || 'Failed to send password reset email. Please try again.');
+        Alert.alert('Error', error.message || 'An unexpected error occurred.');
       }
     }
   };
+  
+  // Function to check if the user exists in Firestore
+  const checkUserExists = async (): Promise<boolean> => {
+    try {
+      const usersCollectionRef = collection(db, 'users'); // Reference to the users collection
+      const querySnapshot = await getDocs(
+        query(usersCollectionRef, where('email', '==', email.trim()))
+      );
+  
+      // If a document with the specified email exists, return true
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error checking user in Firestore:', error);
+      return false; // Assume user does not exist in case of error
+    }
+  };
+  
 
   return (
     <SafeAreaView style={styling.container}>

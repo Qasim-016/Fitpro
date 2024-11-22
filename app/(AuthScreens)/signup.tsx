@@ -13,8 +13,14 @@ import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Import Firebase methods
-import  {auth} from './firebaseConfig'// Ensure this points to your Firebase configuration file
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { auth} from './firebaseConfig'; // Ensure this points to your Firebase configuration file
+import { createUserWithEmailAndPassword, sendEmailVerification,fetchSignInMethodsForEmail } from 'firebase/auth';
+import { getFirestore, setDoc, doc } from 'firebase/firestore'; // Firestore functions
+import { getAuth } from 'firebase/auth';
+import {  getDoc } from 'firebase/firestore';  // Firestore imports
+// import { Alert } from 'react-native';
+// import { useRouter } from 'expo-router';
+import { db } from './firebaseConfig'; // Ensure to import Firestore and Auth instance
 
 // Regular expressions for validations
 const usernameRegex = /^[A-Za-z ]+$/; // Only letters and spaces allowed
@@ -94,10 +100,21 @@ const Signup = () => {
     return Object.values(formErrors).every((error) => error === '');
   };
 
+
+  
+  
   const handleSignup = async () => {
-    // Ensure form validation
     if (validateForm()) {
       try {
+        // Check if email already exists in Firebase Authentication
+        const emailInUse = await checkEmailExists(formData.email);
+        if (emailInUse) {
+          Alert.alert('Error', 'This email is already registered. Please use a different email.');
+          return;
+        }
+  
+        // Check if phone number already exists in Firestore
+  
         // Firebase signup
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -105,31 +122,56 @@ const Signup = () => {
           formData.password
         );
         const user = userCredential.user;
-
+  
         // Send email verification
         await sendEmailVerification(user);
-
+  
+        // Store user data in Firestore
+        await setDoc(doc(db, 'users', user.uid), {
+          username: formData.username,
+          email: formData.email,
+          phone: formData.phone,
+          createdAt: new Date(),
+        });
+  
         Alert.alert('Success', 'Account created successfully. Please verify your email.');
-
-        // Navigate to VerifyCode screen
+  
+        // Navigate to Login screen
         router.push({
           pathname: '/(AuthScreens)/login',
           params: { email: formData.email },
         });
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error:', error.message); // Properly handle known error types
-          Alert.alert('Error', error.message); // Display user-friendly message
+      } catch (error: any) {
+        // Handle Firebase Auth-specific errors
+        if (error.code === 'auth/email-already-in-use') {
+          Alert.alert('Error', 'This email is already registered. Please use a different email.');
+        } else if (error.code === 'auth/invalid-email') {
+          Alert.alert('Error', 'Invalid email address format.');
+        } else if (error.code === 'auth/weak-password') {
+          Alert.alert('Error', 'Password is too weak. Please use a stronger password.');
         } else {
-          console.error('Unknown error:', error); // Fallback for unknown errors
-          Alert.alert('Error', 'An unexpected error occurred.');
+          // Generic error
+          Alert.alert('Error', error.message || 'An unexpected error occurred.');
         }
       }
     } else {
-      // Inform user about invalid input
       Alert.alert('Error', 'Please correct the errors above.');
     }
   };
+  
+  // Function to check if the email already exists in Firebase Authentication
+  const checkEmailExists = async (email: string): Promise<boolean> => {
+    try {
+      const authInstance = getAuth(); // Initialize auth instance
+      const signInMethods = await fetchSignInMethodsForEmail(authInstance, email); // Check if methods exist
+      return signInMethods.length > 0; // If there are sign-in methods, the email is in use
+    } catch (error) {
+      console.error('Error checking email existence:', error);
+      return false;
+    }
+  };
+  
+
 
   return (
     <SafeAreaView style={styling.container}>

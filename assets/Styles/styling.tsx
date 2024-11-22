@@ -1,12 +1,16 @@
-import FreeTrial from "@/app/(User)/FreeTrial";
 import { StyleSheet } from "react-native";
-import {scale,verticalScale,moderateScale} from "react-native-size-matters"
-
+import { Dimensions } from "react-native";
+const {width} = Dimensions.get('screen');
+    const sidebarheaderwidth = width * 0.7;
+    const {height} = Dimensions.get('screen');
+    const sidebarheaderheight = height * 0.3;
 const styling = StyleSheet.create({
+    
     container: {
         flex: 1, justifyContent: "center", alignItems: "center"
     },
     subcontainer: {
+
         // marginTop: 100,
         // paddingTop:20,
         paddingTop: 10,
@@ -110,10 +114,6 @@ const styling = StyleSheet.create({
       CenterLink:{
         color:'#2ecc71', alignSelf:'center'
       },
-      fullscreenimage:{
-        width:scale(359),
-        height:verticalScale(720)
-      },
       freetrialbtn:{
         backgroundColor:'white',paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
       },
@@ -151,11 +151,52 @@ const styling = StyleSheet.create({
     marginright:{
         marginRight:20
     }
-    
-    
- 
+    ,
+    sidebarContainer: {
+        zIndex:1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: sidebarheaderwidth,
+        // height: verticalScale(700),
+        backgroundColor: '#fff',
+        padding: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        backgroundColor: '#ccc',
+        borderRadius: 15,
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      closeText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      sidebarHeader: {
+        position:'absolute',
+        backgroundColor:'#2ecc71',
+        width:sidebarheaderwidth,
 
-  
+        // height: verticalScale(200),
+        height:sidebarheaderheight,
+        justifyContent:'center',
+        alignItems:'center'
+      },
+      sidebarOption: {
+        fontSize: 16,
+        marginVertical: 10,
+      },
+
     
 
 })

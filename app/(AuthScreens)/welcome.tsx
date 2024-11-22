@@ -14,7 +14,7 @@ export default function Welcome() {
     router.back()
   }
   const GotoLogin=()=>{
-    router.navigate("/login")
+    router.navigate('/(AuthScreens)/login')
   }
   const GotoSignup=()=>{
     router.navigate("/signup")

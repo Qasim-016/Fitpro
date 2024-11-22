@@ -5,17 +5,20 @@ import Heading from '@/components/Text/Heading'
 import Paragraph from '@/components/Text/Paragraph'
 import { useRouter } from 'expo-router'
 import MyButton from '@/components/Buttons/MyButton'
+import { Dimensions } from 'react-native'
 
 const FreeTrial = () => {
   const router = useRouter()
   const Next=()=>{
     router.push("/Dashboard")
   }
+  const { height } = Dimensions.get('screen');
+  const { width } = Dimensions.get('screen');
 
   return (
     
 
-    <ImageBackground source={require('@/assets/User/free-trial.jpg')} style={styling.fullscreenimage} resizeMode='cover'>
+    <ImageBackground source={require('@/assets/User/free-trial.jpg')} style={[{width},{height}]} resizeMode='cover'>
 
     <View style={[styling.container,styling.Gap]}>
       
