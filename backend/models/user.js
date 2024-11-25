@@ -1,11 +1,21 @@
 const mongoose = require('mongoose');
 
-const fitproUserSchema = new mongoose.Schema({
-    firebaseId: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    username: { type: String, required: true },
-    phone: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
-});
+const userSchema = new mongoose.Schema({
+    uid: {
+    type: String,
+    required: true, // Ensure that firebaseId is always provided
+},
+  email: { type: String, required: true, unique: true ,lowercase:true},
+  username: { type: String, required: true },
+  phone: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+}, { collection: 'fitpro' }); // Ensure it's saved in the 'fitpro' collection
 
-module.exports = mongoose.model('FitproUser', fitproUserSchema);
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+
+  
+
+
+

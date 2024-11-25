@@ -13,10 +13,13 @@ export default function RootLayout() {
                 <Stack.Screen name="(AuthScreens)/login" />
                 <Stack.Screen name="(AuthScreens)/signup" />
                 <Stack.Screen name="(AuthScreens)/ForgotPass"/>
-                <Stack.Screen name="(AuthScreens)/verify-code"/>
                 <Stack.Screen name="(User)/FreeTrial" />
                 <Stack.Screen name="(User)/Dashboard"/>
                 <Stack.Screen name="(User)/Bar"/>
+                <Stack.Screen name="(User)/GoNotification"/>
+                <Stack.Screen name="(User)/Dietplan"/>
+                <Stack.Screen name="(User)/Workoutplan"/>
+                <Stack.Screen name="AiScreens/Chatbot"/>
                 {/* <Stack.Screen name="(AuthScreens)/verify-code"/> */}
             </Stack>
             <StatusBar backgroundColor="black" />

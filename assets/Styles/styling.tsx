@@ -1,9 +1,12 @@
+import dashboard from "@/app/(User)/Dashboard";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 const {width} = Dimensions.get('screen');
     const sidebarheaderwidth = width * 0.7;
     const {height} = Dimensions.get('screen');
     const sidebarheaderheight = height * 0.3;
+    const featureimagewidth = width*0.4;
+    const featureimageheight = height*0.2
 const styling = StyleSheet.create({
     
     container: {
@@ -149,7 +152,17 @@ const styling = StyleSheet.create({
     Gap:{gap:10},
     // styling.js
     marginright:{
-        marginRight:20
+    //  right:10
+    },
+    subcontainerfornavbar:{
+        flexDirection: 'row', // Align items horizontally
+        justifyContent: 'space-between', // Space between sidebar name and logo
+        alignItems: 'center', // Align them vertically in the center
+        paddingHorizontal: 10,height:40,
+    },
+    navbarleftside:{
+        flexDirection:'row',
+        columnGap:10
     }
     ,
     sidebarContainer: {
@@ -196,8 +209,49 @@ const styling = StyleSheet.create({
         fontSize: 16,
         marginVertical: 10,
       },
-
-    
-
-})
+      dashboardimageview:{
+        // marginHorizontal:10
+      },
+dashboardimage:{
+    height:200, justifyContent:'center', padding:15
+}
+    ,DashboardHeading:{
+        fontSize: 30, fontWeight: 'bold',color:'white'
+    }
+,dashbaordfeaturesmainview:{
+    marginVertical:10,gap:10,
+alignItems:'center'
+}
+,
+dashbaordfooter:{
+position:'absolute',
+width:width,
+bottom:40, flexDirection: 'row', // Align items horizontally
+justifyContent:'space-between', // Space between sidebar name and logo
+alignItems: 'center', // Align them vertically in the center
+paddingHorizontal: 20,height:50,
+},
+dashboardbtnimages:{height:35,width:30},selectedButton: {
+    // backgroundColor: 'blue',
+    color:'#2ecc71',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button1: {
+    // backgroundColor: 'gray',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  featureimage:{
+    height:featureimageheight,width:featureimagewidth,borderRadius:10
+  },featuresubview:{
+    flexDirection:'row',
+    gap:10
+  }
+  }
+);
 export default styling

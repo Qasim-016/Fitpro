@@ -2,9 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/auth'); // Ensure correct path
-const admin = require('firebase-admin');  // Firebase admin import
-const { getFirestore } = require('firebase-admin/firestore');  // Firestore import
-const path = require('path'); // Node.js path module to handle file paths securely
+const mongoose = require('mongoose')
+const TempUser = require('./models/temuser')
 
 dotenv.config();  // Load environment variables
 
@@ -13,38 +12,99 @@ const app = express();
 app.use(express.json());
 app.use(cors());  // Handle CORS
 
-// Firebase Admin Initialization (Only once here)
-const serviceAccountPath = process.env.FIREBASE_ADMIN_KEY_PATH;  // Use the env variable for the service account path
+// Use the auth routes defined
+app.use('/api/auth', authRoutes);  // This will handle all routes defined in auth.js
+const admin = require('firebase-admin');  // Firebase Admin SDK import
+const path = require('path');
+// const dotenv = require('dotenv');
 
-// Ensure the service account path exists and is correctly resolved
-if (!serviceAccountPath) {
-    console.error('FIREBASE_ADMIN_KEY_PATH is not defined in the .env file.');
-    process.exit(1);  // Exit the process if the path is not found
-}
+dotenv.config();  // Load environment variables
 
-// Check if Firebase app has already been initialized to avoid multiple initializations
+// Initialize Firebase Admin SDK (ensure this is called first)
+const serviceAccountPath = process.env.FIREBASE_ADMIN_KEY_PATH;  // Path to your service account key
+
 if (!admin.apps.length) {
-    try {
-        // Resolve the path and initialize Firebase Admin SDK
-        const serviceAccount = require(path.resolve(serviceAccountPath));  // This will resolve the path properly
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-        });
-        console.log("Firebase Admin initialized successfully.");
-    } catch (error) {
-        console.error("Error initializing Firebase Admin:", error);
-        process.exit(1);  // Exit if initialization fails
-    }
+  try {
+    const serviceAccount = require(path.resolve(serviceAccountPath)); // Resolve path correctly
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+    console.log("Firebase Admin initialized successfully.");
+  } catch (error) {
+    console.error("Error initializing Firebase Admin:", error);
+    process.exit(1);  // Exit if initialization fails
+  }
 } else {
-    console.log('Firebase app already initialized');
+  console.log('Firebase app already initialized');
 }
-
-// Initialize Firestore only after Firebase Admin has been initialized
- // Now it's safe to call Firestore
-
-app.use('/api/auth', authRoutes);  // Use the authentication routes
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
+const connectDB = async () => {
+    try {
+      await mongoose.connect(process.env.MONGO_URI);
+      console.log('MongoDB connected successfully.');
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
+      process.exit(1); // Exit process if connection fails
+    }
+  };
+  require('../backend/cleanuptask');
+
+  connectDB();
+  // async function deleteAllUsers() {
+  //   try {
+  //     let nextPageToken;
+  //     do {
+  //       const userRecords = await admin.auth().listUsers(1000, nextPageToken); // Fetch users in batches of 1000
+  //       const userPromises = userRecords.users.map((user) => {
+  //         return admin.auth().deleteUser(user.uid); // Delete each user
+  //       });
+  
+  //       // Wait for all delete operations to complete
+  //       await Promise.all(userPromises);
+  //       console.log(`Successfully deleted batch of users`);
+  
+  //       nextPageToken = userRecords.pageToken;
+  //     } while (nextPageToken); // Continue if there are more users
+      
+  //     console.log('All users deleted successfully.');
+  //   } catch (error) {
+  //     console.error('Error deleting users:', error);
+  //   }
+  // }
+  
+  // deleteAllUsers();
+  // async function listAllUsers() {
+  //   try {
+  //     // Start listing users from the beginning.
+  //     let nextPageToken;
+  //     do {
+  //       const userRecords = await admin.auth().listUsers(1000, nextPageToken); // Fetch 1000 users at a time
+  //       userRecords.users.forEach((userRecord) => {
+  //         console.log('User:', userRecord.toJSON());
+  //       });
+  //       nextPageToken = userRecords.pageToken;
+  //     } while (nextPageToken);
+  //   } catch (error) {
+  //     console.error('Error listing users:', error);
+  //   }
+  // }
+  
+  // listAllUsers();
+
+  // async function deleteAllTempUsers() {
+  //   try {
+  //     const result = await TempUser.deleteMany({}); // Delete all documents in the collection
+  //     console.log(`Successfully deleted ${result.deletedCount} users from TempUser collection.`);
+  //   } catch (error) {
+  //     console.error('Error deleting users from TempUser collection:', error);
+  //   }
+  // }
+  
+  // deleteAllTempUsers();
+
+
+ 

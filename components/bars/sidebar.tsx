@@ -11,7 +11,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
     if (!isVisible) return null;
     const { height } = Dimensions.get('screen');
-    
+
     return (
       <SafeAreaView style={[styling.sidebarContainer,{height}]}>
         <TouchableOpacity onPress={onClose} style={styling.closeButton}>
