@@ -10,8 +10,7 @@ interface Dashboardscreenimage {
 const Dashboardscreenimage: React.FC<Dashboardscreenimage> = ({ path, styles, tintColor }) => {
   return (
     <View>
-      <Image source={path} style={[styles, tintColor ? { tintColor } : null]} /> 
-      {/* Apply tintColor if provided */}
+      <Image source={path} style={[styles, tintColor ? { tintColor } : null]} />
     </View>
   );
 };

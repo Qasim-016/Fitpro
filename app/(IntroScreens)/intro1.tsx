@@ -20,9 +20,9 @@ const intro1 = () => {
   return (
     <SafeAreaView style={styling.intro1container}>
       <View style={styling.Backbtn}>
-      <MyButton title={<LogoImgForScreen path={require('@/assets/images/weui_back-filled.png')} styles={styling.NextBackbtnimage}/>} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext}/>
+      <MyButton title={<LogoImgForScreen path={require('@/assets/images//nextback/back.png')} styles={styling.NextBackbtnimage}/>} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext}/>
       </View>
-      <Image source={require("@/assets/images/Gym-amico 1.png")}/>
+      <Image source={require("@/assets/images/intro/Gym-amico 1.png")}/>
       <Heading title={'Member Management'} styles={styling.Heading}/>
       <Paragraph paragraph={'Streamline member relationships with our intuitive management tools. Easily view member profiles, track attendence, and access payment history.'} styles={styling.Paragraph}/>
       <View style={styling.DotsContainer}>
@@ -33,7 +33,7 @@ const intro1 = () => {
       </View>
       <View style={styling.Nextbtn}>
 
-      <MyButton title={<LogoImgForScreen path={require('@/assets/images/ooui_next-ltr.png')} styles={styling.NextBackbtnimage}/>} onPress={Next} style1={styling.Nextbutton} style2={styling.NextBackbtntext}/>
+      <MyButton title={<LogoImgForScreen path={require('@/assets/images/nextback/next.png')} styles={styling.NextBackbtnimage}/>} onPress={Next} style1={styling.Nextbutton} style2={styling.NextBackbtntext}/>
       </View>
       
     </SafeAreaView>

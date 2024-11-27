@@ -9,9 +9,11 @@ interface LogoImgForScreenProps {
 const LogoImgForScreen: React.FC<LogoImgForScreenProps> = ({ path, styles }) => {
   return (
     <View>
-      <Image source={path}  style={styles}/>
+      <Image source={path} style={styles} />
     </View>
   );
 };
 
 export default LogoImgForScreen;
+
+

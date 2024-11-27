@@ -103,7 +103,7 @@
 // export default ForgotPass;
 
 
-
+import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import React, { useState } from 'react';
 import { View, Text, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useRouter, Link } from 'expo-router';
@@ -172,32 +172,55 @@ const ForgotPass = () => {
     return isValid;
   };
 
+  // const handleSendOTP = async () => {
+  //   if (!validateForm()) return;
+
+  //   try {
+  //     const response = await axios.post('http://192.168.0.111:5000/api/auth/checkEmailAndSendOTP', {
+  //       email: form.email.trim(),
+  //     });
+
+  //     const { exists, uid, message } = response.data;
+  //     if (!exists) {
+  //       Alert.alert('Error', 'Email is not registered.');
+  //       return;
+  //     }
+  //     if (message === 'You have exceeded the maximum OTP request limit for today.') {
+  //       Alert.alert('Error', message);
+  //       return;
+  //     }
+
+  //     Alert.alert('Success', message);
+  //     setForm((prevForm) => ({ ...prevForm, uid }));
+  //     setOtpSent(true);
+  //   } catch (error: any) {
+  //     // console.error('Error sending OTP:', error.message);
+  //     Alert.alert('Error', error.response?.data?.message || 'Failed to send OTP.');
+  //   }
+  // };
+
+
   const handleSendOTP = async () => {
     if (!validateForm()) return;
-
+  
     try {
       const response = await axios.post('http://192.168.0.111:5000/api/auth/checkEmailAndSendOTP', {
         email: form.email.trim(),
       });
-
-      const { exists, uid, message } = response.data;
-      if (!exists) {
-        Alert.alert('Error', 'Email is not registered.');
-        return;
+  
+      const { status, message, uid } = response.data;
+  
+      if (status === 'success') {
+        // Update the state to show OTP and password fields
+        Alert.alert('Success', message);
+        setForm((prevForm) => ({ ...prevForm, uid })); // Store UID for later use
+        setOtpSent(true); // Show OTP and password fields
       }
-      if (message === 'You have exceeded the maximum OTP request limit for today.') {
-        Alert.alert('Error', message);
-        return;
-      }
-
-      Alert.alert('Success', message);
-      setForm((prevForm) => ({ ...prevForm, uid }));
-      setOtpSent(true);
     } catch (error: any) {
-      // console.error('Error sending OTP:', error.message);
       Alert.alert('Error', error.response?.data?.message || 'Failed to send OTP.');
     }
   };
+  
 
   const handleVerifyAndResetPassword = async () => {
     if (!validateForm()) return;
@@ -210,7 +233,7 @@ const ForgotPass = () => {
       });
 
       Alert.alert('Success', response.data.message);
-      router.push('/(AuthScreens)/login');
+      router.navigate('/(AuthScreens)/login');
     } catch (error: any) {
       // console.error('Error resetting password:', error.message);
       Alert.alert('Error', error.response?.data?.message || 'Failed to reset password.');
@@ -232,6 +255,15 @@ const ForgotPass = () => {
 
   return (
     <SafeAreaView style={styling.container}>
+      <View style={styling.Backbtn}>
+        <MyButton
+          title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage} />}
+          onPress={() => router.back()}
+          style1={styling.button}
+          style2={styling.NextBackbtntext}
+        />
+        <Heading title="Forgot Password" styles={styling.HeaderText} />
+      </View>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -314,3 +346,10 @@ const ForgotPass = () => {
 };
 
 export default ForgotPass;
+
+
+
+
+
+
+

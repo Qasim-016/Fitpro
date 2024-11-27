@@ -3,15 +3,24 @@ import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 const {width} = Dimensions.get('screen');
     const sidebarheaderwidth = width * 0.7;
+
     const {height} = Dimensions.get('screen');
     const sidebarheaderheight = height * 0.3;
     const featureimagewidth = width*0.4;
     const featureimageheight = height*0.2
+    const closeviewheight= height *0.8
+    const chatContainerwidth = width *0.5
 const styling = StyleSheet.create({
     
     container: {
         flex: 1, justifyContent: "center", alignItems: "center"
     },
+    intro1container: { flex: 1, alignItems: 'center', paddingVertical: 90 },
+    intro2container: { flex: 1, alignItems: 'center', paddingVertical: 100 },
+    intro3container: { flex: 1, alignItems: 'center', paddingVertical: 60 },
+    DotsContainer: { flex: 1, flexDirection: 'row', gap: 10 },
+    MarkDot: { color: '#2ECC71', fontSize: 60 },
+    SimpleDot: { color: '#cccccc', fontSize: 60 },
     subcontainer: {
 
         // marginTop: 100,
@@ -41,49 +50,44 @@ const styling = StyleSheet.create({
         borderRadius: 10,
         // height:540
     },
-    Welcomesubcontainer:{
+    WelcomeContainer:{ 
+        flex:1,
+        paddingHorizontal:30,
+        justifyContent:"center",
+        alignItems:"center",
+        // borderWidth:1,
+        // borderColor:'#2ecc71'     
+      },
+      Welcomesubcontainer:{
         position:'static',
         marginTop:50,
         paddingTop:20,
-          paddingBottom:40,
-          paddingHorizontal:10,
-          gap: 15,
-          justifyContent:"center",
-          alignItems:"center",
-          borderWidth:1,
-          borderColor:'#2ecc71',
-          borderRadius:10 
+        paddingBottom:40,
+        paddingHorizontal:10,
+        gap: 15,
+        justifyContent:"center",
+        alignItems:"center",
+        borderWidth:1,
+        borderColor:'#2ecc71',
+        borderRadius:10 
       },
+      Link1: { color: '#2ecc71', alignSelf: 'flex-end' },
+      Link2: { paddingBottom: 5 ,color:'#2ecc71'},
+      Link3: { color: "#2ecc71" },
+      CenterLink:{
+        color:'#2ecc71', alignSelf:'center'
+      },
+      Link3Text: { textDecorationLine: 'underline' ,color:'#2ecc71'},
+      signupimg: { height: 57, width: 80 },
+      loginimg: { height: 130, width: 170 },
+      Indeximg: { height: 400, width: 400 },
+      IndexView: { height: 70, marginTop: 30 },
     placeholder: {
-        backgroundColor: "white",
-        width: 300,
-        borderWidth: 1,
-        borderRadius: 10, padding: 2, paddingHorizontal: 5
+      backgroundColor: "white",
+      width: 300,
+      borderWidth: 1,
+      borderRadius: 10, padding: 2, paddingHorizontal: 5
     },
-   
-     
-    intro1container: { flex: 1, alignItems: 'center', paddingVertical: 90 },
-    intro2container: { flex: 1, alignItems: 'center', paddingVertical: 100 },
-    intro3container: { flex: 1, alignItems: 'center', paddingVertical: 60 },
-    Backbtn:{flex:1,flexDirection:'row',gap:10,alignSelf:'flex-start',position:'absolute',top:40,left:20},
-    HeaderText: { fontSize: 20, fontWeight: 'bold' },
-    Heading: { fontSize: 30, fontWeight: 'bold' },
-    Headinglong:{fontSize:30, fontWeight:'bold', textAlign:'center'},
-    Paragraph: { textAlign: 'center', fontSize: 15, paddingHorizontal: 10 },
-    DotsContainer: { flex: 1, flexDirection: 'row', gap: 10 },
-    MarkDot: { color: '#2ECC71', fontSize: 60 },
-    SimpleDot: { color: '#cccccc', fontSize: 60 },
-    Nextbtn: { alignSelf: 'flex-end', position: 'absolute', bottom: 30, right: 20, backgroundColor: '#2ECC71', borderRadius: 30 },
-    Link1: { color: '#2ecc71', alignSelf: 'flex-end' },
-    Link2: { paddingBottom: 5 ,color:'#2ecc71'},
-    Link3: { color: "#2ecc71" },
-    Link3Text: { textDecorationLine: 'underline' ,color:'#2ecc71'},
-    signupimg: { height: 57, width: 80 },
-    loginimg: { height: 130, width: 170 },
-    Indeximg: { height: 400, width: 400 },
-    IndexView: { height: 70, marginTop: 30 },
-    TextwithColor: { fontWeight: 'bold', color: '#2ecc71', fontSize: 30 },
-    none:{},
     PlaceHolderView: { alignItems: 'flex-start', gap: 5 },
     inputContainer: {
         width: 300,
@@ -95,65 +99,69 @@ const styling = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 0,
         marginBottom: 10,
-    },
-    textInput: {
+      },
+      textInput: {
         flex: 1,
         // paddingVertical: 5,
-        fontSize: 15,
-    },
-    icon: {
-        marginLeft: 8,
-    },
-    CenterItem:{alignItems:'center'},
-    Boldfont:{fontWeight:'bold'},
-    WelcomeContainer:{ 
-        flex:1,
-        paddingHorizontal:30,
-        justifyContent:"center",
-        alignItems:"center",
-        // borderWidth:1,
-        // borderColor:'#2ecc71'     
-      },
-      CenterLink:{
-        color:'#2ecc71', alignSelf:'center'
-      },
-      freetrialbtn:{
-        backgroundColor:'white',paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
-      },
-      FreeTrialText:{
-        color:'#2ecc71' ,fontSize:20,fontWeight:'bold'     }
-      ,FullWidthbutton:{
-         backgroundColor:"#2ECC71",paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
-    },
-    FullwidthbtnText:{
-        fontSize:20, color: "#CCCCCC", fontWeight:"bold"
-    },
-    FullwidthWhitebtn:{
-        paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center', borderWidth:2,borderColor:'#2ecc71'
-    },
-    whitebtntext:{
-        fontSize:20, color: "#2ecc71", fontWeight:"bold"
-    },Nextbutton:{
-        paddingVertical:2,
-        paddingHorizontal: 30
-        
-    },
-    NextBackbtntext:{
-        fontSize:50, color: "#2ECC71", fontWeight:"bold"
+        fontSize: 15,}
+        ,FullWidthbutton:{
+          
+          backgroundColor:"#2ECC71",paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
+        },
+        FullwidthbtnText:{
+          fontSize:20, color: "#CCCCCC", fontWeight:"bold"
+        },
+        FullwidthWhitebtn:{
+          paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center', borderWidth:2,borderColor:'#2ecc71'
+        },
+        whitebtntext:{
+          fontSize:20, color: "#2ecc71", fontWeight:"bold"
+        },Nextbutton:{
+          paddingVertical:2,
+          paddingHorizontal: 30
+          
+        },
+        NextBackbtntext:{
+        fontSize:30, color: "#2ECC71", fontWeight:"bold"
     },
     button:{},
     whitetextheading:{
-        fontSize: 30,fontWeight:'bold', color:'white'
+      fontSize: 30,fontWeight:'bold', color:'white'
     },
-    whitetextparagraph:{
-        color:'white',textAlign: 'center', fontSize: 15, paddingHorizontal: 10 
-    },
-    NextBackbtnimage:{height:30,width:20},
+    NextBackbtnimage:{height:35,width:20},
     Gap:{gap:10},
+    Backbtn:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,justifyContent:'center',position:'absolute',top:30,left:20},
+    Nextbtn: { alignSelf: 'flex-end', position: 'absolute', bottom: 30, right: 20, backgroundColor: '#2ECC71', borderRadius: 30 },
+    freetrialbtn:{
+        backgroundColor:'white',paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
+      },
+      FreeTrialText:{
+        color:'#2ecc71' ,fontSize:20,fontWeight:'bold'     },
+        TextwithColor: { fontWeight: 'bold', color: '#2ecc71', fontSize: 30 },
+        none:{},
+        icon: {
+          marginLeft: 8,
+        },
+        CenterItem:{alignItems:'center'},
+        Boldfont:{fontWeight:'bold'},
+        whitetextparagraph:{
+          color:'white',textAlign: 'center', fontSize: 15, paddingHorizontal: 10 
+        },
+        
+        HeaderText: { fontSize: 25, fontWeight: 'bold' },
+        Heading: { fontSize: 30, fontWeight: 'bold' },
+        Headinglong:{fontSize:30, fontWeight:'bold', textAlign:'center'},
+        Paragraph: { textAlign: 'center', fontSize: 15, paddingHorizontal: 10 }
+        ,
     // styling.js
     marginright:{
     //  right:10
     },
+
+
+
+
+                                  //Dashboard
     subcontainerfornavbar:{
         flexDirection: 'row', // Align items horizontally
         justifyContent: 'space-between', // Space between sidebar name and logo
@@ -181,24 +189,41 @@ const styling = StyleSheet.create({
         elevation: 5,
       },
       closeButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        backgroundColor: '#ccc',
-        borderRadius: 15,
+        // position: 'absolute',right:20,
+        // top: 100,
+        // right: 100,
+        // // zIndex:1,
+        position: 'absolute',right:20,
+        backgroundColor: '#2ecc71',
+
+        // zIndex:1,
+        // borderRadius:7,
+        borderBottomLeftRadius:7,
+        borderTopLeftRadius:7,
         width: 30,
-        height: 30,
-        justifyContent: 'center',
+        height: 70,
+        justifyContent:'center',
         alignItems: 'center',
       },
       closeText: {
-        fontSize: 18,
+        zIndex:1,
+        fontSize: 18,color:'white',
         fontWeight: 'bold',
+      },closebuttonview:{
+        zIndex:1,
+        borderRadius: 15,
+        width: sidebarheaderwidth,
+        height: closeviewheight,
+        justifyContent:'center',
+        alignItems: 'flex-end',
+        // justifyContent:'center',
       },
       sidebarHeader: {
         position:'absolute',
         backgroundColor:'#2ecc71',
         width:sidebarheaderwidth,
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius:15,
 
         // height: verticalScale(200),
         height:sidebarheaderheight,
@@ -251,7 +276,184 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
   },featuresubview:{
     flexDirection:'row',
     gap:10
-  }
-  }
+  },backbtnimagenavbar:{
+    height:30,width:20,color:'white'
+  },sidebarHeaderText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 10,
+  },
+  sidebarUserName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f5f5f5',
+  },
+  sidebarUserEmail: {
+    fontSize: 14,
+    color: '#d3d3d3',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  
+  
+  
+                                //ChatBot
+  
+  
+  ChatBotHeadercontainer:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,position:'absolute',top:30,zIndex:1,width:width,paddingHorizontal:10},
+  ChatbotHeader:{
+    width:40,height:40
+  },// Add these styles in your styling file (styling.ts)
+  chatContainer: {
+    // flex: 1,
+    position:'absolute',
+    bottom:10,
+    // flexDirection:'row',
+    // paddingHorizontal: 20,
+    marginTop: 30,
+    
+  },
+  chatInput: {
+    // width:chatContainerwidth,
+    height: 60,
+    // paddingHorizontal: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  submitButton: {
+    justifyContent:'center',alignItems:'center',
+    backgroundColor: '#2ecc71',
+    // paddingVertical: 10,
+    width:40,height:40,marginBottom:10,
+    // paddingHorizontal: 40,
+    borderRadius: 20,
+  },
+  submitButtonText: {
+    zIndex:1,
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  
+   inputAndButtonContainer: {
+    flexDirection: 'row',gap : 5,
+    // padding: 10,
+    // borderTopWidth: 1,
+    // borderTopColor: '#ccc',
+    // backgroundColor: '#fff',
+    // alignItems: 'center',height:60,
+    justifyContent:'center',
+    paddingTop:5
+  },
+  userMessage: {
+    alignSelf: 'flex-end', 
+    backgroundColor: '#2ecc71', 
+    padding: 10, 
+    borderRadius: 10, 
+    marginVertical: 5,
+  },
+  botMessage: {
+    alignSelf: 'flex-start', 
+    backgroundColor: '#f1f1f1',borderWidth:1,borderColor:'#2ecc71', 
+    padding: 10, 
+    borderRadius: 10, 
+    marginVertical: 5,
+  },
+  chatMessageText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  chatHistoryContainer: {
+    padding: 10,
+  },chatsendmessageimage:{
+    height:20,width:20
+  },timestampText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 5,
+  },timestampContainer: {
+    marginTop: 5,  // Adds some space between the message and timestamp
+    alignSelf: 'flex-end', // Aligns the timestamp to the left, or adjust based on your layout
+  },centeredDate: {
+    position: 'absolute',
+    left: '50%',
+    transform: [{ translateX: -100 }], // Adjust to center the text
+    zIndex: 1,
+  },
+  
+  dateText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+  },
+  systemMessage: {
+    backgroundColor: '#f0f0f0', // Light gray background
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 5,
+    alignSelf: 'center',
+  },  introScreenContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f8f8',height:height,width:width,
+  },
+  introImage: {
+    width: 200,
+    height: 170,
+    // marginBottom: 20,
+  },
+  introText: {
+    fontSize: 16,
+    color: '#555',
+    textAlign: 'center',
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  dateLabelText: {
+    fontSize: 14,
+    color: '#999',
+    textAlign: 'center',
+    marginVertical: 10,
+  },faqText: {
+    fontSize: 16,
+    color: 'white',
+    marginVertical: 10,justifyContent:'center',paddingTop:3,paddingHorizontal:2,
+    textAlign: 'center',width:'auto',height:30,
+    borderRadius:10,borderWidth:1,borderColor:'#2ecc71',backgroundColor:'#2ecc71'
+  },Faqcontainer:{
+    width:width,
+    height:100,gap:5,
+    flexDirection:'row',
+    flexWrap:'wrap'
+  },inputbuttonContainer:{
+    position:'absolute',
+    bottom:0, flexDirection: 'row',gap : 5,
+  },selectedMessage: {
+    backgroundColor: '#f5f5f5',
+    borderColor: '#d32f2f',
+    borderWidth: 1,
+  },
+  deleteButton: {
+    backgroundColor: '#d32f2f',
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  
+  
+}
 );
 export default styling

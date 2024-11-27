@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth ,sendEmailVerification} from 'firebase/auth';
 
 // Replace with your Firebase project configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCVjzwlfUllCSXUxJqhfeSRJf8U0wCogbI",
   authDomain: "firpro-8f42f.firebaseapp.com",
   projectId: "firpro-8f42f",

@@ -16,3 +16,6 @@ const Heading: React.FC<HeadingProps> = ({ title, styles }) => {
 
 export default Heading
 
+
+
+// Heading.tsx (or wherever it's defined)

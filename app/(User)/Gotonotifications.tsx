@@ -1,8 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-const GoNotification = () => {
+const Gotonotifications = () => {
   return (
     <SafeAreaView>
       <Text>Notifications</Text>
@@ -10,4 +9,4 @@ const GoNotification = () => {
   )
 }
 
-export default GoNotification
+export default Gotonotifications
