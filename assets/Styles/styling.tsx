@@ -94,7 +94,7 @@ const styling = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: '#2ecc71',
         borderRadius: 8,
         paddingHorizontal: 5,
         paddingVertical: 0,
@@ -304,7 +304,7 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
                                 //ChatBot
   
   
-  ChatBotHeadercontainer:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,position:'absolute',top:30,zIndex:1,width:width,paddingHorizontal:10},
+  ChatBotHeadercontainer:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,position:'absolute',top:30,zIndex:1,width:width,paddingHorizontal:10,backgroundColor:'#2ecc71',},
   ChatbotHeader:{
     width:40,height:40
   },// Add these styles in your styling file (styling.ts)
@@ -372,6 +372,9 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
   },
   chatHistoryContainer: {
     padding: 10,
+    // position:'relative'
+    marginTop:30,
+    paddingBottom:25
   },chatsendmessageimage:{
     height:20,width:20
   },timestampText: {
@@ -401,8 +404,8 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
     marginVertical: 5,
     alignSelf: 'center',
   },  introScreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 1,paddingTop:60,
+    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8f8f8',height:height,width:width,
   },
@@ -430,7 +433,7 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
     textAlign: 'center',width:'auto',height:30,
     borderRadius:10,borderWidth:1,borderColor:'#2ecc71',backgroundColor:'#2ecc71'
   },Faqcontainer:{
-    width:width,
+    width:width,alignItems:'center',justifyContent:'center',
     height:100,gap:5,
     flexDirection:'row',
     flexWrap:'wrap'
@@ -452,8 +455,19 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
     color: '#fff',
     fontWeight: 'bold',
   },
-  
+  selectButton: {
+    // padding: 10,
+    // backgroundColor: '#e0e0e0',
+    // borderRadius: 5,
+  },
+  selectButtonText: {
+    // color: '#007bff',
+    // fontSize: 14,
+  },
+  // Continue with other styles...
   
 }
 );
-export default styling
+
+  // Other styles...
+ export default styling
