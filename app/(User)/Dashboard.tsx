@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
-import { View, ImageBackground, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ImageBackground, Dimensions, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MyButton from '@/components/Buttons/MyButton';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import Heading from '@/components/Text/Heading';
 import Sidebar from '@/components/bars/sidebar';
 import styling from '@/assets/Styles/styling';
-import { router } from 'expo-router';
-// import Dashboardscreenimage from '@/components/ScreenImages/dashboardscreenimages';
+import { router, useLocalSearchParams } from 'expo-router';
+import { auth } from '../(AuthScreens)/firebaseConfig';
+import axios from 'axios';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
+import PaymentForm from './PaymentForm';
+
 const Dashboard = () => {
+  const { selectedSection } = useLocalSearchParams(); 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<string>('home'); // Default to 'home'
+  const [selectedSectionState, setSelectedSection] = useState<string>(Array.isArray(selectedSection) ? selectedSection[0] : selectedSection || 'home');
+  const [userData, setUserData] = useState<{username: string } | null>(null);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      if (idToken) {
+        const response = await axios.get('http://192.168.0.106:5000/api/auth/getUserdata', {
+          headers: { Authorization: `Bearer ${idToken}` },
+        });
+        setUserData(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
+  };
 
   const openSidebar = () => {
     setIsSidebarVisible(true);
@@ -21,12 +44,11 @@ const Dashboard = () => {
     setIsSidebarVisible(false);
   };
 
-  const { width } = Dimensions.get('screen');
-  const { height } = Dimensions.get('screen');
+  const { width, height } = Dimensions.get('screen');
 
   // Function to determine the tintColor for the image based on the selection
   const getImageTintColor = (section: string) => {
-    return selectedSection === section ? '#4CAF50' : '#000000'; // Green for selected, black for unselected
+    return selectedSectionState === section ? '#4CAF50' : '#000000'; // Green for selected, black for unselected
   };
 
   return (
@@ -34,7 +56,7 @@ const Dashboard = () => {
       <Sidebar isVisible={isSidebarVisible} onClose={closeSidebar} />
       <View style={{ flex: 1 }}>
         {/* Navbar - Show only on the 'home' page */}
-        {selectedSection === 'home' && (
+        {selectedSectionState === 'home' && (
           <View style={styling.subcontainerfornavbar}>
             <View style={styling.navbarleftside}>
               <MyButton
@@ -75,122 +97,99 @@ const Dashboard = () => {
                 style2={styling.NextBackbtntext}
               />
             </View>
-            
           </View>
         )}
 
         {/* Content Area */}
-        {selectedSection === 'home' && (
+        {selectedSectionState === 'home' && (
           <View>
             <ImageBackground
               source={require('@/assets/images/dashboard/Body.png')}
               style={[{ width }, styling.dashboardimage]}
             >
-              <Heading
-                title={'Your Fitness \nJourney Starts\n Here'}
-                styles={styling.DashboardHeading}
-              />
+              {userData ? (
+                <>
+                  <Heading title={`Welcome To \nFitpro. "${userData.username}"`} styles={styling.DashboardHeading}/>
+                </>
+              ) : (
+                <Heading title='Loading'/>
+              )}
             </ImageBackground>
             <View style={styling.dashbaordfeaturesmainview}>
               <Heading title='Features' styles={styling.Heading}/>
               <View style={styling.featuresubview}>
-                <MyButton title={
-                <LogoImgForScreen path={require('@/assets/images/dashboard/workoutplan2.png')} styles={styling.featureimage}/>
-                 } style1={styling.button} style2={styling.NextBackbtntext} onPress={()=>router.navigate('/Workoutplan')}/>
-                 <MyButton title={
-                <LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>
-                 } style1={styling.button} style2={styling.NextBackbtntext} onPress={()=>router.navigate('/Dietplan')}/>
-                   </View>
-                   <View style={styling.featuresubview}>
-                <MyButton title={
-                <LogoImgForScreen path={require('@/assets/images/dashboard/Workoutplan.png')} styles={styling.featureimage}/>
-                 } style1={styling.button} style2={styling.NextBackbtntext} onPress={()=>router.navigate('/Workoutplan')}/>
-                 <MyButton title={
-                <LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>
-                 } style1={styling.button} style2={styling.NextBackbtntext} onPress={()=>router.navigate('/AiScreens/Chatbot')}/>
-                   </View>
-                
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/workoutplan2.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Workoutplan')}/>
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Dietplan')}/>
+              </View>
+              <View style={styling.featuresubview}>
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Workoutplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Workoutplan')}/>
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/AiScreens/Chatbot')}/>
+              </View>
             </View>
           </View>
         )}
 
-        {selectedSection === 'watch' && (
+        {selectedSectionState === 'watch' && (
           <View style={[{ width }, { height }]}>
-            <Heading title={'Watch Section'} styles={styling.Heading} />
-            {/* Add more watch section content here */}
+            <Heading title={'Watch Section'} styles={styling.Heading}/>
           </View>
         )}
 
-        {selectedSection === 'payment' && (
-          <View>
-            <Heading title={'Payment Section'} styles={styling.Heading} />
-            {/* Add payment-related content here */}
+        {selectedSectionState === 'payment' && (
+          <View style={styling.viewpayment}>
+            <View style={styling.subcontainerfornavbar}>
+              <View style={styling.navbarleftside}>
+                <MyButton
+                  title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage}/>}
+                  onPress={() => router.navigate('/(User)/Dashboard')}
+                  style1={styling.button}
+                  style2={styling.NextBackbtntext}
+                />
+                <Heading title={'Payment'} styles={styling.HeaderText}/>
+              </View>
+            </View>
+            <View style={styling.paymentcardview}>
+              <LogoImgForScreen path={require('@/assets/images/payment/Card.png')} styles={{ resizeMode: 'contain', width: '100%' }}/>
+            </View>
+            <PaymentForm/>
           </View>
         )}
 
-        {selectedSection === 'profile' && (
+        {selectedSectionState === 'profile' && (
           <View>
-            <Heading title={'Profile Section'} styles={styling.Heading} />
-            {/* Add profile-related content here */}
+            <Heading title={'Profile Section'} styles={styling.Heading}/>
           </View>
         )}
       </View>
 
       {/* Footer */}
-      <View style={styling.dashbaordfooter}>
+      <View style={[styling.dashbaordfooter, styling.line]}>
         {/* Home Button */}
         <MyButton
-          title={
-            <Dashboardscreenimage
-              path={require('@/assets/images/dashboard/home.png')}
-              styles={styling.dashboardbtnimages}
-              tintColor={getImageTintColor('home')} // Change the tintColor based on selection
-            />
-          }
+          title={<Dashboardscreenimage path={require('@/assets/images/dashboard/home.png')} styles={styling.dashboardfooterbtnimages} tintColor={getImageTintColor('home')}/>}
           onPress={() => setSelectedSection('home')}
-          style1={selectedSection === 'home' ? styling.selectedButton : styling.button1}
+          style1={selectedSectionState === 'home' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
         />
-
         {/* Watch Button */}
         <MyButton
-          title={
-            <Dashboardscreenimage
-              path={require('@/assets/images/dashboard/Watch.png')}
-              styles={styling.dashboardbtnimages}
-              tintColor={getImageTintColor('watch')} // Change the tintColor based on selection
-            />
-          }
+          title={<Dashboardscreenimage path={require('@/assets/images/dashboard/Watch.png')} styles={styling.dashboardfooterbtnimages} tintColor={getImageTintColor('watch')}/>}
           onPress={() => setSelectedSection('watch')}
-          style1={selectedSection === 'watch' ? styling.selectedButton : styling.button1}
+          style1={selectedSectionState === 'watch' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
         />
-
         {/* Payment Button */}
         <MyButton
-          title={
-            <Dashboardscreenimage
-              path={require('@/assets/images/dashboard/payment.png')}
-              styles={styling.dashboardbtnimages}
-              tintColor={getImageTintColor('payment')} // Change the tintColor based on selection
-            />
-          }
+          title={<Dashboardscreenimage path={require('@/assets/images/dashboard/payment.png')} styles={styling.dashboardfooterbtnimages} tintColor={getImageTintColor('payment')}/>}
           onPress={() => setSelectedSection('payment')}
-          style1={selectedSection === 'payment' ? styling.selectedButton : styling.button1}
+          style1={selectedSectionState === 'payment' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
         />
-
         {/* Profile Button */}
         <MyButton
-          title={
-            <Dashboardscreenimage
-              path={require('@/assets/images/dashboard/profile.png')}
-              styles={styling.dashboardbtnimages}
-              tintColor={getImageTintColor('profile')} // Change the tintColor based on selection
-            />
-          }
+          title={<Dashboardscreenimage path={require('@/assets/images/dashboard/profile.png')} styles={styling.dashboardfooterbtnimages} tintColor={getImageTintColor('profile')}/>}
           onPress={() => setSelectedSection('profile')}
-          style1={selectedSection === 'profile' ? styling.selectedButton : styling.button1}
+          style1={selectedSectionState === 'profile' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
         />
       </View>
@@ -199,7 +198,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-

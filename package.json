@@ -19,7 +19,8 @@
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-firebase/app": "^21.6.0",
     "@react-native-firebase/firestore": "^21.6.0",
-    "@react-navigation/native": "^6.0.2",
+    "@react-native-picker/picker": "^2.10.1",
+    "@stripe/stripe-react-native": "^0.40.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -55,7 +56,9 @@
     "react-native-screens": "3.31.1",
     "react-native-size-matters": "^0.4.2",
     "react-native-vector-icons": "^10.2.0",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "react-native-webview": "^13.12.4",
+    "stripe": "^17.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

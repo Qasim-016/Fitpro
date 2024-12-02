@@ -10,7 +10,7 @@ import { Dimensions } from 'react-native'
 const FreeTrial = () => {
   const router = useRouter()
   const Next=()=>{
-    router.push("/Dashboard")
+    router.push("/(User)/Dashboard")
   }
   const { height } = Dimensions.get('screen');
   const { width } = Dimensions.get('screen');
@@ -31,8 +31,8 @@ const FreeTrial = () => {
   
 
 
-    <MyButton title={'3 Days Free Trial'} onPress={Next} style1={styling.freetrialbtn} style2={styling.FreeTrialText}/>
-     <MyButton title={'Get Premium'} onPress={Next} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText}/>
+    <MyButton title={'3 Days Free Trial'} onPress={() => router.push({ pathname: '/Dashboard', params: { selectedSection: 'home' } })} style1={styling.freetrialbtn} style2={styling.FreeTrialText}/>
+     <MyButton title={'Get Premium'} onPress={() => router.push({ pathname: '/Dashboard', params: { selectedSection: 'payment' } })} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText}/>
     </View>
       {/* <FreeTrialButton title={'3 Day Free Trial'} onPress={Next}/> */}
     

@@ -6,10 +6,14 @@ const {width} = Dimensions.get('screen');
 
     const {height} = Dimensions.get('screen');
     const sidebarheaderheight = height * 0.3;
+    const sidebarbodyheight = height *0.7;
     const featureimagewidth = width*0.4;
-    const featureimageheight = height*0.2
-    const closeviewheight= height *0.8
-    const chatContainerwidth = width *0.5
+    const featureimageheight = height*0.2;
+    const closeviewheight= height *0.8;
+    const chatContainerwidth = width *0.5;
+    const sidebarbarbodywidth=width*0.5
+    // const paymentcardwidth = width*0.8
+
 const styling = StyleSheet.create({
     
     container: {
@@ -99,6 +103,8 @@ const styling = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 0,
         marginBottom: 10,
+      },flexdirectionrow:{
+flexDirection:'row'
       },
       textInput: {
         flex: 1,
@@ -177,7 +183,7 @@ const styling = StyleSheet.create({
         zIndex:1,
         position: 'absolute',
         top: 0,
-        left: 0,
+        left: 0,height:height,
         width: sidebarheaderwidth,
         // height: verticalScale(700),
         backgroundColor: '#fff',
@@ -249,14 +255,14 @@ alignItems:'center'
 }
 ,
 dashbaordfooter:{
-position:'absolute',
+position:'absolute',rowGap:15,
 width:width,
-bottom:40, flexDirection: 'row', // Align items horizontally
+bottom:80, flexDirection: 'row', // Align items horizontally
 justifyContent:'space-between', // Space between sidebar name and logo
 alignItems: 'center', // Align them vertically in the center
 paddingHorizontal: 20,height:50,
 },
-dashboardbtnimages:{height:35,width:30},selectedButton: {
+dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,width:30,marginTop:10},selectedButton: {
     // backgroundColor: 'blue',
     color:'#2ecc71',
     borderRadius: 10,
@@ -285,20 +291,42 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
     marginBottom: 10,
   },
   sidebarUserName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#f5f5f5',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
   },
   sidebarUserEmail: {
     fontSize: 14,
-    color: '#d3d3d3',
+    color: 'white',
   },
   errorText: {
     color: 'red',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  
+  sidebarbody:{
+    width:sidebarbarbodywidth,
+    height:sidebarbodyheight,position:'absolute',top:sidebarheaderheight,padding:30,rowGap:10,zIndex:1
+  }
+  ,
+  sidebarbodysubview:{ flexDirection:'row',gap:10,alignItems:'center',},
+  sidebarbtn:{
+    width: 120,height:30,color:'black',fontSize:16,fontWeight:'bold',justifyContent:'center'
+  }, line: {
+    height: 1, // Line thickness
+    backgroundColor: '#2ecc71', // Line color
+    marginVertical: 10, // Spacing around the line
+    width: '100%', // Full width
+  },sidebaricons:{
+    width:20,height:20
+  },userProfileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40, // Circular image
+    borderWidth: 2,
+    borderColor: '#fff',
+    marginBottom: 10,
+  },
   
   
                                 //ChatBot
@@ -464,6 +492,16 @@ dashboardbtnimages:{height:35,width:30},selectedButton: {
     // color: '#007bff',
     // fontSize: 14,
   },
+
+
+  paymentcardview:{
+    width:width*0.94,height:height*0.3,marginHorizontal:10
+  },
+  paymentcard:{
+    // resizeMode:'cover'
+  },viewpayment:{
+    width:width,height:height
+  }
   // Continue with other styles...
   
 }
