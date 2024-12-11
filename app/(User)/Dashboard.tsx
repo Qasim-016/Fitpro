@@ -26,7 +26,7 @@ const Dashboard = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.106:5000/api/auth/getUserdata', {
+        const response = await axios.get('http://192.168.0.109:5000/api/auth/getUserdata', {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -70,7 +70,13 @@ const Dashboard = () => {
                 style1={styling.button}
                 style2={styling.NextBackbtntext}
               />
-              <Heading title={'Hi, Qasim'} styles={styling.HeaderText} />
+              {userData ? (
+                <>
+                  <Heading title={`Hi, ${userData.username}`} styles={styling.HeaderText}/>
+                </>
+              ) : (
+                <Heading title='Loading'/>
+              )}
             </View>
             <View style={styling.navbarleftside}>
               <MyButton
@@ -107,23 +113,19 @@ const Dashboard = () => {
               source={require('@/assets/images/dashboard/Body.png')}
               style={[{ width }, styling.dashboardimage]}
             >
-              {userData ? (
-                <>
-                  <Heading title={`Welcome To \nFitpro. "${userData.username}"`} styles={styling.DashboardHeading}/>
-                </>
-              ) : (
-                <Heading title='Loading'/>
-              )}
+              
+                  <Heading title={`Welcome To \nFitpro.`} styles={styling.DashboardHeading}/>
             </ImageBackground>
+              <Heading title='Features' styles={styling.featureheading}/>
             <View style={styling.dashbaordfeaturesmainview}>
-              <Heading title='Features' styles={styling.Heading}/>
               <View style={styling.featuresubview}>
                 <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/workoutplan2.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Workoutplan')}/>
                 <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Dietplan')}/>
               </View>
               <View style={styling.featuresubview}>
-                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Workoutplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Workoutplan')}/>
-                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/AiScreens/Chatbot')}/>
+                
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/bot.png')} styles={styling.featurebotimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/AiScreens/Chatbot')}/>
+                {/* <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage}/>} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/AiScreens/Chatbot')}/> */}
               </View>
             </View>
           </View>

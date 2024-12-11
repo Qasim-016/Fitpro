@@ -7,11 +7,15 @@ const {width} = Dimensions.get('screen');
     const {height} = Dimensions.get('screen');
     const sidebarheaderheight = height * 0.3;
     const sidebarbodyheight = height *0.7;
-    const featureimagewidth = width*0.4;
+    const featureimagewidth = width*0.45;
+    const featureimagebotwidth = width * 0.93;
+    const featureimagebotheight = height * 0.15;
     const featureimageheight = height*0.2;
     const closeviewheight= height *0.8;
     const chatContainerwidth = width *0.5;
-    const sidebarbarbodywidth=width*0.5
+    const sidebarbarbodywidth=width*0.5;
+    const widthcont = width*0.9;
+    const heightcont = height*0.5;
     // const paymentcardwidth = width*0.8
 
 const styling = StyleSheet.create({
@@ -277,8 +281,13 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     alignItems: 'center',
     justifyContent: 'center',
   },
+  featureheading:{fontSize: 30, fontWeight: 'bold',paddingHorizontal:10,marginTop:30},
   featureimage:{
     height:featureimageheight,width:featureimagewidth,borderRadius:10
+  },featurebotimage:{
+    // height:featureimageheight,width:featureimagebotwidth,borderRadius:10
+    height:featureimagebotheight,width:featureimagebotwidth,borderRadius:10
+
   },featuresubview:{
     flexDirection:'row',
     gap:10
@@ -501,7 +510,27 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     // resizeMode:'cover'
   },viewpayment:{
     width:width,height:height
-  }
+  }, subcontainercontact: {
+    width:widthcont,height: heightcont,
+
+    // marginTop: 100,
+    // paddingTop:20,
+    paddingTop: 0,
+    paddingHorizontal: 10,
+    // paddingBottom:10,
+    gap: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#2ecc71',
+    borderRadius: 10
+},
+
+contactbtn:{
+  position:'absolute',left:0,bottom:42,zIndex:1,width:sidebarheaderwidth,height:40,backgroundColor:'#2ecc71',justifyContent:'center',alignItems:'center'
+},contactbtntext:{
+  color:'white',fontWeight:'bold',fontSize:19
+}
   // Continue with other styles...
   
 }

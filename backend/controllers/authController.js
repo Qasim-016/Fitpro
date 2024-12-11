@@ -337,7 +337,7 @@ exports.verifyOTPAndResetPassword = async (req, res) => {
     console.log('Hashed password:', hashedPassword);
     user.password = hashedPassword;
     await user.save();
-    console.log('Password updated in MongoDB successfully.');
+    console.log('Password updated successfully.');
 
     // Remove the OTP after successful verification
     await TempOTP.deleteOne({ email });
@@ -345,7 +345,7 @@ exports.verifyOTPAndResetPassword = async (req, res) => {
 
     return res.status(200).json({
       status: 'success',
-      message: 'Password successfully updated in MongoDB.',
+      message: 'Password Updated Successfully',
     });
   } catch (error) {
     console.error('Error verifying OTP:', error);

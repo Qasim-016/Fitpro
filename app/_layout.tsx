@@ -20,6 +20,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(User)/Workoutplan"/>
                 <Stack.Screen name="AiScreens/Chatbot"/>
                 <Stack.Screen name="(User)/PaymentForm"/>
+                <Stack.Screen name="(User)/Contact"/>
             </Stack>
             <StatusBar backgroundColor="black" />
         </>

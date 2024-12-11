@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get('http://192.168.0.106:5000/api/auth/getUserdata', {
+            const response = await axios.get('http://192.168.0.109:5000/api/auth/getUserdata', {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
@@ -86,6 +86,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
         <MyButton title='Fitpro AI' style1={styling.sidebarbtn} style2={styling.none} onPress={()=>router.navigate('/AiScreens/Chatbot')}/>
       </View>
       </View>
+
+        <MyButton title={'Contact Us'} style1={styling.contactbtn} style2={styling.contactbtntext} onPress={()=>router.navigate('/Contact')}/>
     </SafeAreaView>
   );
 };
