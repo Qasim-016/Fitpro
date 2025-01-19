@@ -21,6 +21,9 @@ export default function RootLayout() {
                 <Stack.Screen name="AiScreens/Chatbot"/>
                 <Stack.Screen name="(User)/PaymentForm"/>
                 <Stack.Screen name="(User)/Contact"/>
+                <Stack.Screen name="(User)/GymScheduleScreen"/>
+                <Stack.Screen name="Admin"/>
+
             </Stack>
             <StatusBar backgroundColor="black" />
         </>

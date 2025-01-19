@@ -11,6 +11,7 @@ import { auth } from '../(AuthScreens)/firebaseConfig';
 import axios from 'axios';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 import PaymentForm from './PaymentForm';
+import GymScheduleScreen from './GymScheduleScreen';
 
 const Dashboard = () => {
   const { selectedSection } = useLocalSearchParams(); 
@@ -26,7 +27,7 @@ const Dashboard = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.109:5000/api/auth/getUserdata', {
+        const response = await axios.get('http://192.168.0.115:5000/api/auth/getUserdata', {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -132,9 +133,26 @@ const Dashboard = () => {
         )}
 
         {selectedSectionState === 'watch' && (
-          <View style={[{ width }, { height }]}>
-            <Heading title={'Watch Section'} styles={styling.Heading}/>
+          <View style={styling.viewpayment}>
+          <View style={styling.subcontainerfornavbar}>
+            <View style={styling.navbarleftside}>
+                <MyButton
+                  title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage}/>}
+                  onPress={() => router.navigate('/(User)/Dashboard')}
+                  style1={styling.button}
+                  style2={styling.NextBackbtntext}
+                />
+            <Heading title={'Gym Timing'} styles={styling.HeaderText}/>
+
+              </View>
+
           </View>
+          <View style={styling.paymentcardview}>
+
+              <LogoImgForScreen path={require('@/assets/images/Chatbot/gymtiming.jpg')} styles={{ resizeMode: 'contain', width: '100%',height:240 }}/> 
+          </View>
+          <GymScheduleScreen/>
+</View>
         )}
 
         {selectedSectionState === 'payment' && (

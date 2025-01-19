@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get('http://192.168.0.109:5000/api/auth/getUserdata', {
+            const response = await axios.get('http://192.168.0.115:5000/api/auth/getUserdata', {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
   return (
     <SafeAreaView style={styling.sidebarContainer}>
       <View style={styling.closebuttonview}>
-        <MyButton title={<Dashboardscreenimage path={require('@/assets/images/dashboard/closebtn.png')} styles={styling.backbtnimagenavbar} tintColor='white' />} onPress={onClose} style1={styling.closeButton} style2={styling.closeText} />
+        <MyButton title={<Dashboardscreenimage path={require('@/assets/images/dashboard/closebtn.png')} styles={styling.backbtnimagenavbar} tintColor='#CCCCCC' />} onPress={onClose} style1={styling.closeButton} style2={styling.closeText} />
       </View>
 
       <View style={styling.sidebarHeader}>
@@ -87,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
       </View>
       </View>
 
-        <MyButton title={'Contact Us'} style1={styling.contactbtn} style2={styling.contactbtntext} onPress={()=>router.navigate('/Contact')}/>
+        <MyButton title={'Contact Us'} style1={styling.contactbtn} style2={styling.FullwidthbtnText} onPress={()=>router.navigate('/Contact')}/>
     </SafeAreaView>
   );
 };

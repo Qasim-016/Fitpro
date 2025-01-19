@@ -217,7 +217,7 @@ flexDirection:'row'
       },
       closeText: {
         zIndex:1,
-        fontSize: 18,color:'white',
+        fontSize: 18,color:'#CCCCCC',
         fontWeight: 'bold',
       },closebuttonview:{
         zIndex:1,
@@ -374,7 +374,7 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
   },
   submitButtonText: {
     zIndex:1,
-    color: 'white',
+    color: '#CCCCCC',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -530,6 +530,8 @@ contactbtn:{
   position:'absolute',left:0,bottom:42,zIndex:1,width:sidebarheaderwidth,height:40,backgroundColor:'#2ecc71',justifyContent:'center',alignItems:'center'
 },contactbtntext:{
   color:'white',fontWeight:'bold',fontSize:19
+},featureheadingtiming:{
+  fontSize: 30, fontWeight: 'bold'
 }
   // Continue with other styles...
   

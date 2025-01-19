@@ -1,88 +1,3 @@
-// import { View, Text } from 'react-native'
-// import React from 'react'
-// import { SafeAreaView } from 'react-native-safe-area-context'
-// import styling from '@/assets/Styles/styling'
-// import MyButton from '@/components/Buttons/MyButton'
-// import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen'
-// import Heading from '@/components/Text/Heading'
-// import PlaceHolder from '@/components/PlaceHolder/PlaceHolder'
-// import { useState } from 'react'
-// import { useRouter } from 'expo-router'
-// const usernameRegex = /^[A-Za-z ]+$/; // Only letters and spaces allowed
-// const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-// const Contact = () => {
-//     const router = useRouter();
-//     const [formData, setFormData] = useState({
-//         username: '',
-//         email: '',
-       
-//       });
-//     const [errors, setErrors] = useState({
-//         username: '',
-//         email: '',
-//       });
-//     const handleChange = (name:string, value:string) => {
-//         setFormData((prevFormData) => ({
-//           ...prevFormData,
-//           [name]: value,
-//         }));
-//       };
-//     const handleBlur = (name:string) => {
-//         if (name === 'email') {
-//           setFormData((prevFormData) => ({
-//             ...prevFormData,
-//             email: prevFormData.email.toLowerCase(),
-//           }));
-//         }
-//       };
-//     const validateForm = () => {
-//         const { username, email} = formData;
-//         let formErrors = { ...errors };
-    
-//         formErrors.username = username.match(usernameRegex) ? '' : 'Username can only contain letters and spaces';
-//         formErrors.email = email.match(emailRegex) ? '' : 'Please enter a valid Gmail address (e.g., example@gmail.com)';
-    
-//         setErrors(formErrors);
-    
-//         return Object.values(formErrors).every((error) => error === '');
-//       };
-//   return (
-//     <SafeAreaView style={styling.container}>
-//       <View style={styling.Backbtn}>
-//         <MyButton
-//           title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
-//           onPress={() => router.navigate('/(User)/Dashboard')}
-//           style1={styling.button}
-//           style2={styling.NextBackbtntext}
-//         />
-//         <Heading title="Contact" styles={styling.HeaderText} />
-//       </View>
-//             <View style={styling.subcontainercontact}>
-//             <PlaceHolder
-//                 placeholderText={'Ali Ahmed'}
-//                 value={formData.username}
-//                 onChangeText={(value) => handleChange('username', value)}
-//                 onBlur={() => handleBlur('email')}
-//                 iconName="person"
-//                 />
-//               {errors.username && <Text style={{ color: 'red', marginBottom: 10 }}>{errors.username}</Text>}
-//               <PlaceHolder
-//                 placeholderText={'abc123@gmail.com'}
-//                 value={formData.email}
-//                 onChangeText={(value) => handleChange('email', value)}
-//                 onBlur={() => handleBlur('email')}
-//                 iconName="email"
-//                 />
-//               {errors.email && <Text style={{ color: 'red', marginBottom: 10 }}>{errors.email}</Text>}
-//             </View>
-//     </SafeAreaView>
-//   )
-// }
-
-// export default Contact
-
-
 import { View, Text, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -145,7 +60,7 @@ const Contact = () => {
   const handleSubmit = async () => {
     if (validateForm()) {
       try {
-        const response = await fetch('http://192.168.0.109:5000/api/auth/submit', {
+        const response = await fetch('http://192.168.0.115:5000/api/auth/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
