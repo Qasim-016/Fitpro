@@ -1,0 +1,14 @@
+const mongoose = require('mongoose');
+
+const subscriptionSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  name: { type: String, required: true },
+  amount: { type: Number, required: true },
+  startDate: { type: Date, required: true },
+//   endDate:{type: Date,required:true},
+  subscriptionEndTime: { type: Number, required: true } // Timestamp of subscription end time
+});
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+module.exports = Subscription;

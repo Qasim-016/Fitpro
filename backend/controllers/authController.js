@@ -434,10 +434,105 @@ exports.getUserData = async (req, res) => {
 
     return res.status(200).json({
       email: user.email,
-      username: user.username,
+      username: user.username,phone:user.phone,password:'******************',
     });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch user data', error });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { userId, username, email, phone, password } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    let updateFields = { username, email, phone };
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateFields.password = await bcrypt.hash(password, salt);
+    }
+
+    // 🔴 Change `_id` to `uid` since you're storing Firebase UID in `uid`
+    const updatedUser = await User.findOneAndUpdate(
+      { uid: userId }, // ✅ Search using `uid`
+      updateFields,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ success: true, message: 'User details updated successfully', updatedUser });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Failed to update user data' });
+  }
+};
+
+
+
+
+
+
+const Trial = require('../models/trialSchema'); // Import Trial model
+
+
+
+
+
+exports.startTrial = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    // Check if a trial already exists
+    let existingTrial = await Trial.findOne({ userId });
+
+    if (existingTrial) {
+      if (existingTrial.count >= 1) {
+        return res.status(400).json({ error: 'Free trial has already been used.' });
+      }
+
+      // Update existing trial to active and set count to 1
+      existingTrial.trialStatus = 'active';
+      existingTrial.count = 1;
+      existingTrial.startDate = new Date();
+      existingTrial.endTime = new Date(Date.now() + 60 * 1000); // 3-day trial
+      await existingTrial.save();
+
+      return res.json({ success: true, message: 'Trial started successfully', trial: existingTrial });
+    }
+
+    // If no trial exists, create a new one
+    const trial = new Trial({
+      userId,
+      startDate: new Date(),
+      endTime: new Date(Date.now() + 60 * 1000), // 3-day trial
+      trialStatus: 'active',
+      count: 1, // Initialize count to 1 on first trial start
+    });
+
+    await trial.save();
+
+    res.json({ success: true, message: 'Trial started successfully', trial });
+  } catch (error) {
+    console.error(' Error starting trial:', error);
+    res.status(500).json({ error: 'Failed to start trial' });
+  }
+};
+
+
+
+
+
+
+
 

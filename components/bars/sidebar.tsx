@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import styling from '@/assets/Styles/styling';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,11 +7,12 @@ import axios from 'axios';
 import MyButton from '../Buttons/MyButton';
 import LogoImgForScreen from '../ScreenImages/LogoImgForScreen';
 import Dashboardscreenimage from '../ScreenImages/Dashboardscreenimages';
-// import { auth } from './firebaseConfig';
-import { auth } from '@/app/(AuthScreens)/firebaseConfig'; // Make sure this is the correct path for Firebase
+import { auth } from '@/app/(AuthScreens)/firebaseConfig'; // Ensure correct path
 import Heading from '../Text/Heading';
 import Paragraph from '../Text/Paragraph';
 import { Link, router } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface SidebarProps {
   isVisible: boolean; // Whether the sidebar is visible
@@ -20,6 +21,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
   const [userData, setUserData] = useState<{ email: string, username: string } | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch user data when sidebar is visible
@@ -30,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get('http://192.168.0.115:5000/api/auth/getUserdata', {
+            const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
@@ -44,8 +46,51 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
       };
 
       fetchUserData();
+      loadProfileImage();
     }
   }, [isVisible]);
+
+  // Load profile image from AsyncStorage using userId (uid)
+  const loadProfileImage = async () => {
+    try {
+      const userId = auth.currentUser?.uid; // Get the current user's UID
+      if (userId) {
+        const savedImage = await AsyncStorage.getItem(`profileImage_${userId}`);
+        if (savedImage) {
+          setProfileImage(savedImage);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading profile image', error);
+    }
+  };
+
+  // Handle image selection
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'You need to allow access to the gallery.');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1], // Square image
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      const selectedImage = result.assets[0].uri;
+      setProfileImage(selectedImage);
+
+      // Store the image for the current user using their uid
+      const userId = auth.currentUser?.uid;
+      if (userId) {
+        await AsyncStorage.setItem(`profileImage_${userId}`, selectedImage);
+      }
+    }
+  };
 
   if (!isVisible) return null;
 
@@ -58,6 +103,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
       </View>
 
       <View style={styling.sidebarHeader}>
+        <TouchableOpacity onPress={pickImage}>
+          {/* Profile image */}
+          <Image
+            source={profileImage ? { uri: profileImage } : require('@/assets/images/dashboard/noimage.png')} // Default image
+            style={styling.profileImage} // Add styling for the profile image
+          />
+        </TouchableOpacity>
+        
         {userData ? (
           <>
             <Heading title={userData.username} styles={styling.sidebarUserName}/>
@@ -67,32 +120,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           <Text>Loading user data...</Text>
         )}
       </View>
+
       <View style={styling.sidebarbody}>
         <View style={styling.sidebarbodysubview}>
-        <LogoImgForScreen path={require('@/assets/images/sidebar/personalinfo.png')} styles={styling.sidebaricons}/>
-        <Link href={'/AiScreens/Chatbot'}>Personal info</Link>
-        {/* <MyButton title='Personal info' style1={styling.sidebarbtn} style2={styling.none} onPress={()=>router.push('/AiScreens/Chatbot')}/> */}
+          <LogoImgForScreen path={require('@/assets/images/sidebar/personalinfo.png')} styles={styling.sidebaricons}/>
+          <Link href={'/(User)/Profile'}>Personal info</Link>
         </View>
         <View style={styling.sidebarbodysubview}>
-        <LogoImgForScreen path={require('@/assets/images/sidebar/key.png')} styles={styling.sidebaricons}/>
-        <MyButton title='Account Settings' style1={styling.sidebarbtn} style2={styling.none} onPress={()=>router.navigate('/AiScreens/Chatbot')}/>
-       </View>
-       <View style={styling.sidebarbodysubview}>
-        <LogoImgForScreen path={require('@/assets/images/sidebar/notify.png')} styles={styling.sidebaricons}/>
-        <MyButton title='Notifications' style1={styling.sidebarbtn} style2={styling.none} onPress={()=>router.navigate('/(User)/Gotonotifications')}/>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/key.png')} styles={styling.sidebaricons}/>
+          <MyButton title='Account Settings' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Profile')} />
         </View>
         <View style={styling.sidebarbodysubview}>
-        <LogoImgForScreen path={require('@/assets/images/sidebar/ai.png')} styles={styling.sidebaricons}/>
-        <MyButton title='Fitpro AI' style1={styling.sidebarbtn} style2={styling.none} onPress={()=>router.navigate('/AiScreens/Chatbot')}/>
-      </View>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/notify.png')} styles={styling.sidebaricons}/>
+          <MyButton title='Notifications' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Gotonotifications')} />
+        </View>
+        <View style={styling.sidebarbodysubview}>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/ai.png')} styles={styling.sidebaricons}/>
+          <MyButton title='Fitpro AI' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/AiScreens/Chatbot')} />
+        </View>
       </View>
 
-        <MyButton title={'Contact Us'} style1={styling.contactbtn} style2={styling.FullwidthbtnText} onPress={()=>router.navigate('/Contact')}/>
+      <MyButton title={'Contact Us'} style1={styling.contactbtn} style2={styling.FullwidthbtnText} onPress={() => router.navigate('/Contact')} />
     </SafeAreaView>
   );
 };
 
 export default Sidebar;
-
-
-

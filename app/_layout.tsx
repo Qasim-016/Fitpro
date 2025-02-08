@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import React from "react";
 import { StatusBar } from "react-native";
 
 export default function RootLayout() {
@@ -23,7 +24,10 @@ export default function RootLayout() {
                 <Stack.Screen name="(User)/Contact"/>
                 <Stack.Screen name="(User)/GymScheduleScreen"/>
                 <Stack.Screen name="Admin"/>
-
+                <Stack.Screen name="(User)/Profile"/>
+                <Stack.Screen name="(User)/AccountSettings"/>
+                <Stack.Screen name="(User)/PersonalInfo"/>
+                <Stack.Screen name="(User)/EditInfo"/>
             </Stack>
             <StatusBar backgroundColor="black" />
         </>

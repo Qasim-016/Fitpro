@@ -72,7 +72,7 @@ const ForgotPass = () => {
     if (!validateForm()) return;
   
     try {
-      const response = await axios.post('http://192.168.0.115:5000/api/auth/checkEmailAndSendOTP', {
+      const response = await axios.post('http://192.168.0.114:5000/api/auth/checkEmailAndSendOTP', {
         email: form.email.trim(),
       });
   
@@ -94,7 +94,7 @@ const ForgotPass = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post('http://192.168.0.115:5000/api/auth/verifyOTPAndResetPassword', {
+      const response = await axios.post('http://192.168.0.114:5000/api/auth/verifyOTPAndResetPassword', {
         email: form.email.trim(),
         otp: form.otp.trim(),
         newPassword: form.password,
@@ -110,7 +110,7 @@ const ForgotPass = () => {
 
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post('http://192.168.0.115:5000/api/auth/checkEmailAndSendOTP', {
+      const response = await axios.post('http://192.168.0.114:5000/api/auth/checkEmailAndSendOTP', {
         email: form.email.trim(),
       });
 

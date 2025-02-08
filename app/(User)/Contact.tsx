@@ -60,7 +60,7 @@ const Contact = () => {
   const handleSubmit = async () => {
     if (validateForm()) {
       try {
-        const response = await fetch('http://192.168.0.115:5000/api/auth/submit', {
+        const response = await fetch('http://192.168.0.114:5000/api/auth/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

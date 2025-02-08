@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, login,getUserData ,verifyUserEmail, checkEmailAndSendOTP,verifyOTPAndResetPassword} = require('../controllers/authController');
+const { signup, login,getUserData ,verifyUserEmail, checkEmailAndSendOTP,verifyOTPAndResetPassword,trial,updateUser,startTrial} = require('../controllers/authController');
 const {createContact } = require('../controllers/Contactcontroller')
 const router = express.Router();
 router.post('/checkEmailAndSendOTP',checkEmailAndSendOTP)
@@ -9,12 +9,17 @@ router.post('/signup', signup);
 router.post('/login', login);
 router.post('/verifyUserEmail',verifyUserEmail);
 router.post('/submit',createContact)
+router.post('/updateUser',updateUser)
+router.post('/startTrial', startTrial);
 
 
 
-// Replace with your actual chatbot API URL or service
+
+  
+
+  module.exports = router;
 
 
 
-module.exports = router;
+
 

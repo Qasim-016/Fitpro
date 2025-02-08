@@ -12,22 +12,28 @@ import axios from 'axios';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 import PaymentForm from './PaymentForm';
 import GymScheduleScreen from './GymScheduleScreen';
+import Profile from './Profile';
+import { Alert } from 'react-native';
 
 const Dashboard = () => {
   const { selectedSection } = useLocalSearchParams(); 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [selectedSectionState, setSelectedSection] = useState<string>(Array.isArray(selectedSection) ? selectedSection[0] : selectedSection || 'home');
   const [userData, setUserData] = useState<{username: string } | null>(null);
+  const [hasAccess, setHasAccess] = useState(true); // Track access permission
 
   useEffect(() => {
     fetchUserData();
+    checkTrialAndSubscriptionStatus(); // ✅ Check both trial & subscription on mount
+    const interval = setInterval(checkTrialAndSubscriptionStatus, 1000); // 🔄 Check every 10 sec
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   const fetchUserData = async () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.115:5000/api/auth/getUserdata', {
+        const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -36,7 +42,65 @@ const Dashboard = () => {
       console.error('Error fetching user data', error);
     }
   };
+  
 
+  const checkTrialAndSubscriptionStatus = async () => {
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) return;
+  
+      // 🔹 Check trial status first
+      try {
+        const trialResponse = await axios.get(`http://192.168.0.114:5000/api/trial/${userId}`);
+        if (trialResponse.data.trialStatus === 'active') {
+          console.log("✅ Free trial is active. Granting access.");
+          setHasAccess(true);
+          return; // Exit early
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          console.log("🚫 No active free trial found. Checking subscription...");
+        } else {
+          console.error("❌ Error checking trial:", error);
+          return;
+        }
+      }
+  
+      // 🔹 If no active trial, check subscription
+      try {
+        const subscriptionResponse = await axios.get(`http://192.168.0.114:5000/api/subscription/${userId}`);
+        const subscriptionData = subscriptionResponse.data;
+  
+        const currentTime = Date.now();
+        const isSubscriptionActive = subscriptionData.subscriptionEndTime > currentTime;
+  
+        if (isSubscriptionActive) {
+          console.log("✅ Subscription is active. Granting access.");
+          setHasAccess(true);
+          return; // Exit early
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          console.log("🚫 No active subscription found.");
+        } else {
+          console.error("❌ Error checking subscription:", error);
+          return;
+        }
+      }
+  
+      // ❌ If neither trial nor subscription is active, restrict access
+      console.log("❌ No active trial or subscription. Restricting access.");
+      setHasAccess(false);
+      setSelectedSection('payment'); // Redirect to Payment page
+  
+    } catch (error) {
+      console.error("❌ Unexpected error:", error);
+    }
+  };
+  
+  
+
+  
   const openSidebar = () => {
     setIsSidebarVisible(true);
   };
@@ -176,8 +240,9 @@ const Dashboard = () => {
         )}
 
         {selectedSectionState === 'profile' && (
-          <View>
-            <Heading title={'Profile Section'} styles={styling.Heading}/>
+         <View style={styling.viewpayment}>
+         
+         <Profile/>
           </View>
         )}
       </View>
@@ -190,6 +255,7 @@ const Dashboard = () => {
           onPress={() => setSelectedSection('home')}
           style1={selectedSectionState === 'home' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
+          disabled={!hasAccess} 
         />
         {/* Watch Button */}
         <MyButton
@@ -197,6 +263,7 @@ const Dashboard = () => {
           onPress={() => setSelectedSection('watch')}
           style1={selectedSectionState === 'watch' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
+          disabled={!hasAccess} 
         />
         {/* Payment Button */}
         <MyButton
@@ -211,6 +278,7 @@ const Dashboard = () => {
           onPress={() => setSelectedSection('profile')}
           style1={selectedSectionState === 'profile' ? styling.selectedButton : styling.button1}
           style2={styling.NextBackbtntext}
+          disabled={!hasAccess} 
         />
       </View>
     </SafeAreaView>

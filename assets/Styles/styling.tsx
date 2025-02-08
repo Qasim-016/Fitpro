@@ -532,9 +532,212 @@ contactbtn:{
   color:'white',fontWeight:'bold',fontSize:19
 },featureheadingtiming:{
   fontSize: 30, fontWeight: 'bold'
-}
+},
   // Continue with other styles...
   
+
+
+  Paymentmaincontainer: { padding: 20, flex: 1 },
+  scrollViewContent: { paddingBottom: 20, paddingTop: 10 },
+  input: { borderWidth: 1, borderColor: '#2ecc71', borderRadius: 5, paddingHorizontal: 10,paddingVertical:5 },
+  cardField: {
+    // borderColor: '#2ecc71',
+    // borderRadius: 5,
+    // borderWidth: 1,
+    backgroundColor: '#fff',paddingHorizontal:5,
+    height: 40,justifyContent:'center',
+    // marginVertical: 10,
+  },
+  dropdown: { borderWidth: 1, borderColor: '#2ecc71', borderRadius: 5, padding: 10 },
+  dropdownText: { color: '#999' },
+  modalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
+  modalContent: { width: '80%', backgroundColor: '#fff', borderRadius: 10, padding: 20 },
+  buttonRow: { flexDirection: 'row', justifyContent:'center',columnGap:10 },
+  modalButton: { backgroundColor: '#2ecc71', padding: 10, borderRadius: 5 },
+  modalButtonText: { color: 'white', fontSize: 16 },
+  submitButtonpayment: { marginTop: 15, backgroundColor: '#2ecc71', padding: 5, borderRadius: 8, alignItems: 'center' },
+  submitButtonTextpayment: { color: 'white', fontSize: 16, fontWeight: 'bold' },
+  option: { padding: 10, borderBottomWidth: 1, borderColor: '#ccc' },
+  optionText: { fontSize: 16 },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalsubtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    // textAlign: 'center',
+  },
+  closeButtonpayment: {
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  closeTextpayment: {
+    color: '#2ecc71',
+    fontSize: 16,
+  }, timerContainer: {
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  timerText: {
+    fontSize: 16,
+    color: 'red',
+  },
+    cancelButton: {borderWidth:2,borderColor:'#2ecc71', padding: 10, alignItems: 'center' },
+    cancelButtonText: { color: '#2ecc71' },
+
+    profilecontainer: {
+      flex: 1,
+      backgroundColor: '#F5F5F5',
+      // paddingHorizontal: 20,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 20,
+      left: 20,
+      padding: 10,
+    },
+    backButtonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#000',
+    },
+    profileHeader: {
+      alignItems: 'center',
+      // marginTop: 50,
+    },
+    profileImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+    },
+    profileUsername: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginTop: 10,
+    },
+    infoContainer: {
+      marginTop: 30,
+    },
+    infoItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: '#E0E0E0',
+    },
+    infoIcon: {
+      width: 30,
+      height: 30,
+      marginRight: 15,
+    },
+    infoText: {
+      flex: 1,
+    },
+    infoTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    infoSubtitle: {
+      fontSize: 14,
+      color: '#777',
+    },
+    profileHeader1: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 30,
+    },
+    
+    imageContainer: {
+      width: 100,
+      height: 100,
+      borderRadius: 50, // Makes it circular
+      overflow: 'hidden',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#ccc', // Grey background if no image
+    },
+    
+    profileImage1: {
+      width: '100%',
+      height: '100%',
+      resizeMode: 'cover',
+    },
+    
+    profileUsername1: {
+      marginTop: 10,
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+
+
+
+    headerTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginLeft: 10,
+    },
+    content: {
+      flex: 1,
+      padding: 20,
+    },
+    sectionContent: {
+      fontSize: 16,
+      textAlign: 'center',
+      marginTop: 20,
+    },
+    footer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      paddingVertical: 10,
+      borderTopWidth: 1,
+      borderTopColor: '#ddd',
+      backgroundColor: '#fff',
+    },
+    navbarleftsideprofile:{
+      flexDirection:'row',
+      columnGap:10,position:'absolute',top:3,left:10,width:'100%',
+  },profileicons:{
+    flexDirection:'row',marginTop:10,alignItems:'center'
+  },profileviewicons2:{
+    flexDirection:'row',alignItems:'center',position:'absolute',right:20,top:3,columnGap:5
+
+  },
+  profileicons3:{
+    flexDirection:'row',alignItems:'center'
+  },
+  profilecontainer2:{
+    flex: 1,
+    padding: 20,
+  },
+  inputField: {
+    height: 30,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 5,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  updateButton: {
+    // backgroundColor: '#2ecc71',
+    // paddingVertical: 10,
+    // borderRadius: 5,
+    // alignItems: 'center',
+
+    backgroundColor:"#2ECC71",paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center',marginTop:5
+
+  },
+  updateButtonText: {
+    fontSize:20, color: "#CCCCCC", fontWeight:"bold"
+
+  },
 }
 );
 
