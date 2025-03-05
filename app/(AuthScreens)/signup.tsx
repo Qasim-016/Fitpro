@@ -112,7 +112,7 @@ const handleSignup = async () => {
       const user = userCredential.user;
 
       // Call backend to save user details
-      const response = await axios.post('http://192.168.0.114:5000/api/auth/signup', {
+      const response = await axios.post('http://192.168.0.116:5000/api/auth/signup', {
         username: formData.username,
         email: user.email,
         phone: formData.phone,
@@ -148,7 +148,7 @@ const handleSignup = async () => {
 
   const handleEmailVerification = async (uid:string) => {
     try {
-      const response = await axios.post('http://192.168.0.114:5000/api/auth/verifyUserEmail', { uid });
+      const response = await axios.post('http://192.168.0.116:5000/api/auth/verifyUserEmail', { uid });
 
       if (response.status === 200) {
         Alert.alert('Success', 'Your email is verified, and your account is activated.');

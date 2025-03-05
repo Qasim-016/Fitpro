@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 // import auth from '@react-native-firebase/auth'; 
-import {auth}  from '../(AuthScreens)/firebaseConfig';// Import Firebase auth
+import { auth } from '../(AuthScreens)/firebaseConfig';// Import Firebase auth
 import styling from '@/assets/Styles/styling';
 // import { Auth } from 'firebase/auth';
 import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
@@ -50,7 +50,7 @@ const Chatbot = () => {
   const [showFAQs, setShowFAQs] = useState(true); // Track if FAQs should be shown
   const scrollViewRef = useRef<ScrollView>(null);
   const [userId, setUserId] = useState<string | null>(null); // Store the user ID
-  
+
 
   const FAQs = [
     'What workouts suit me?, Tell me.',
@@ -111,10 +111,10 @@ const Chatbot = () => {
 
       // Fetch response from backend
       try {
-        const response = await axios.post('http://192.168.0.114:5000/api/chatbot', { question: userQuestion });
+        const response = await axios.post('http://192.168.0.116:5000/api/chatbot', { question: userQuestion });
         const botResponse = response.data.answer || "Sorry, I couldn't get an answer.";
-// insufficient balance: 4000 0000 0000 9995
-// payment successfull : 4242 4242 4242 4242
+        // insufficient balance: 4000 0000 0000 9995
+        // payment successfull : 4242 4242 4242 4242
         // Add the bot's reply to the chat history
         updatedChatHistory = [
           ...updatedChatHistory,
@@ -183,8 +183,8 @@ const Chatbot = () => {
               chat.sender === 'user'
                 ? styling.userMessage
                 : chat.sender === 'bot'
-                ? styling.botMessage
-                : styling.systemMessage
+                  ? styling.botMessage
+                  : styling.systemMessage
             }
           >
             <Text style={styling.chatMessageText}>{chat.message}</Text>
@@ -203,7 +203,7 @@ const Chatbot = () => {
       <View
         style={[
           styling.ChatBotHeadercontainer,
-          
+
         ]}
       >
         {showIntroScreen ? (

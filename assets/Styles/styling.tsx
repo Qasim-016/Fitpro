@@ -1,274 +1,278 @@
 import dashboard from "@/app/(User)/Dashboard";
+import BenchPress from "@/app/Chest/BenchPress";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
-const {width} = Dimensions.get('screen');
-    const sidebarheaderwidth = width * 0.7;
+const { width } = Dimensions.get('screen');
+const sidebarheaderwidth = width * 0.7;
 
-    const {height} = Dimensions.get('screen');
-    const sidebarheaderheight = height * 0.3;
-    const sidebarbodyheight = height *0.7;
-    const featureimagewidth = width*0.45;
-    const featureimagebotwidth = width * 0.93;
-    const featureimagebotheight = height * 0.15;
-    const featureimageheight = height*0.2;
-    const closeviewheight= height *0.8;
-    const chatContainerwidth = width *0.5;
-    const sidebarbarbodywidth=width*0.5;
-    const widthcont = width*0.9;
-    const heightcont = height*0.5;
-    // const paymentcardwidth = width*0.8
+const { height } = Dimensions.get('screen');
+const sidebarheaderheight = height * 0.3;
+const sidebarbodyheight = height * 0.7;
+const featureimagewidth = width * 0.45;
+const featureimagebotwidth = width * 0.93;
+const featureimagebotheight = height * 0.15;
+const featureimageheight = height * 0.2;
+const closeviewheight = height * 0.8;
+const chatContainerwidth = width * 0.5;
+const sidebarbarbodywidth = width * 0.5;
+const widthcont = width * 0.9;
+const heightcont = height * 0.5;
+// const paymentcardwidth = width*0.8
 
 const styling = StyleSheet.create({
-    
-    container: {
-        flex: 1, justifyContent: "center", alignItems: "center"
-    },
-    intro1container: { flex: 1, alignItems: 'center', paddingVertical: 90 },
-    intro2container: { flex: 1, alignItems: 'center', paddingVertical: 100 },
-    intro3container: { flex: 1, alignItems: 'center', paddingVertical: 60 },
-    DotsContainer: { flex: 1, flexDirection: 'row', gap: 10 },
-    MarkDot: { color: '#2ECC71', fontSize: 60 },
-    SimpleDot: { color: '#cccccc', fontSize: 60 },
-    subcontainer: {
 
-        // marginTop: 100,
-        // paddingTop:20,
-        paddingTop: 10,
-        paddingHorizontal: 10,
-        // paddingBottom:10,
-        gap: 5,
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: '#2ecc71',
-        borderRadius: 10
-    },
-    Signupsubcontainer: {
-        // position:'absolute',
-        marginTop: 50,
-        // paddingTop:20,
-        paddingTop: 5,
-        paddingHorizontal: 10,
-        paddingBottom:10,
-        gap: 5,
-        // justifyContent:'flex-start',
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: '#2ecc71',
-        borderRadius: 10,
-        // height:540
-    },
-    WelcomeContainer:{ 
-        flex:1,
-        paddingHorizontal:30,
-        justifyContent:"center",
-        alignItems:"center",
-        // borderWidth:1,
-        // borderColor:'#2ecc71'     
-      },
-      Welcomesubcontainer:{
-        position:'static',
-        marginTop:50,
-        paddingTop:20,
-        paddingBottom:40,
-        paddingHorizontal:10,
-        gap: 15,
-        justifyContent:"center",
-        alignItems:"center",
-        borderWidth:1,
-        borderColor:'#2ecc71',
-        borderRadius:10 
-      },
-      Link1: { color: '#2ecc71', alignSelf: 'flex-end' },
-      Link2: { paddingBottom: 5 ,color:'#2ecc71'},
-      Link3: { color: "#2ecc71" },
-      CenterLink:{
-        color:'#2ecc71', alignSelf:'center'
-      },
-      Link3Text: { textDecorationLine: 'underline' ,color:'#2ecc71'},
-      signupimg: { height: 57, width: 80 },
-      loginimg: { height: 130, width: 170 },
-      Indeximg: { height: 400, width: 400 },
-      IndexView: { height: 70, marginTop: 30 },
-    placeholder: {
-      backgroundColor: "white",
-      width: 300,
-      borderWidth: 1,
-      borderRadius: 10, padding: 2, paddingHorizontal: 5
-    },
-    PlaceHolderView: { alignItems: 'flex-start', gap: 5 },
-    inputContainer: {
-        width: 300,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#2ecc71',
-        borderRadius: 8,
-        paddingHorizontal: 5,
-        paddingVertical: 0,
-        marginBottom: 10,
-      },flexdirectionrow:{
-flexDirection:'row'
-      },
-      textInput: {
-        flex: 1,
-        // paddingVertical: 5,
-        fontSize: 15,}
-        ,FullWidthbutton:{
-          
-          backgroundColor:"#2ECC71",paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
-        },
-        FullwidthbtnText:{
-          fontSize:20, color: "#CCCCCC", fontWeight:"bold"
-        },
-        FullwidthWhitebtn:{
-          paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center', borderWidth:2,borderColor:'#2ecc71'
-        },
-        whitebtntext:{
-          fontSize:20, color: "#2ecc71", fontWeight:"bold"
-        },Nextbutton:{
-          paddingVertical:2,
-          paddingHorizontal: 30
-          
-        },
-        NextBackbtntext:{
-        fontSize:30, color: "#2ECC71", fontWeight:"bold"
-    },
-    button:{},
-    whitetextheading:{
-      fontSize: 30,fontWeight:'bold', color:'white'
-    },
-    NextBackbtnimage:{height:35,width:20},
-    Gap:{gap:10},
-    Backbtn:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,justifyContent:'center',position:'absolute',top:30,left:20},
-    Nextbtn: { alignSelf: 'flex-end', position: 'absolute', bottom: 30, right: 20, backgroundColor: '#2ECC71', borderRadius: 30 },
-    freetrialbtn:{
-        backgroundColor:'white',paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center'
-      },
-      FreeTrialText:{
-        color:'#2ecc71' ,fontSize:20,fontWeight:'bold'     },
-        TextwithColor: { fontWeight: 'bold', color: '#2ecc71', fontSize: 30 },
-        none:{},
-        icon: {
-          marginLeft: 8,
-        },
-        CenterItem:{alignItems:'center'},
-        Boldfont:{fontWeight:'bold'},
-        whitetextparagraph:{
-          color:'white',textAlign: 'center', fontSize: 15, paddingHorizontal: 10 
-        },
-        
-        HeaderText: { fontSize: 25, fontWeight: 'bold' },
-        Heading: { fontSize: 30, fontWeight: 'bold' },
-        Headinglong:{fontSize:30, fontWeight:'bold', textAlign:'center'},
-        Paragraph: { textAlign: 'center', fontSize: 15, paddingHorizontal: 10 }
-        ,
-    // styling.js
-    marginright:{
+  container: {
+    flex: 1, justifyContent: "center", alignItems: "center"
+  },
+  Workoutcontainer:{flex: 1, justifyContent: "center", alignItems: "center"},
+  intro1container: { flex: 1, alignItems: 'center', paddingVertical: 90 },
+  intro2container: { flex: 1, alignItems: 'center', paddingVertical: 100 },
+  intro3container: { flex: 1, alignItems: 'center', paddingVertical: 60 },
+  DotsContainer: { flex: 1, flexDirection: 'row', gap: 10 },
+  MarkDot: { color: '#2ECC71', fontSize: 60 },
+  SimpleDot: { color: '#cccccc', fontSize: 60 },
+  subcontainer: {
+
+    // marginTop: 100,
+    // paddingTop:20,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    // paddingBottom:10,
+    gap: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#2ecc71',
+    borderRadius: 10
+  },
+  Signupsubcontainer: {
+    // position:'absolute',
+    marginTop: 50,
+    // paddingTop:20,
+    paddingTop: 5,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    gap: 5,
+    // justifyContent:'flex-start',
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#2ecc71',
+    borderRadius: 10,
+    // height:540
+  },
+  WelcomeContainer: {
+    flex: 1,
+    paddingHorizontal: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    // borderWidth:1,
+    // borderColor:'#2ecc71'     
+  },
+  Welcomesubcontainer: {
+    position: 'static',
+    marginTop: 50,
+    paddingTop: 20,
+    paddingBottom: 40,
+    paddingHorizontal: 10,
+    gap: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#2ecc71',
+    borderRadius: 10
+  },
+  Link1: { color: '#2ecc71', alignSelf: 'flex-end' },
+  Link2: { paddingBottom: 5, color: '#2ecc71' },
+  Link3: { color: "#2ecc71" },
+  CenterLink: {
+    color: '#2ecc71', alignSelf: 'center'
+  },
+  Link3Text: { textDecorationLine: 'underline', color: '#2ecc71' },
+  signupimg: { height: 57, width: 80 },
+  loginimg: { height: 130, width: 170 },
+  Indeximg: { height: 400, width: 400 },
+  IndexView: { height: 70, marginTop: 30 },
+  placeholder: {
+    backgroundColor: "white",
+    width: 300,
+    borderWidth: 1,
+    borderRadius: 10, padding: 2, paddingHorizontal: 5
+  },
+  PlaceHolderView: { alignItems: 'flex-start', gap: 5 },
+  inputContainer: {
+    width: 300,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#2ecc71',
+    borderRadius: 8,
+    paddingHorizontal: 5,
+    paddingVertical: 0,
+    marginBottom: 10,
+  }, flexdirectionrow: {
+    flexDirection: 'row'
+  },
+  textInput: {
+    flex: 1,
+    // paddingVertical: 5,
+    fontSize: 15,
+  }
+  , FullWidthbutton: {
+
+    backgroundColor: "#2ECC71", paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center'
+  },
+  FullwidthbtnText: {
+    fontSize: 20, color: "#CCCCCC", fontWeight: "bold"
+  },
+  FullwidthWhitebtn: {
+    paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center', borderWidth: 2, borderColor: '#2ecc71'
+  },
+  whitebtntext: {
+    fontSize: 20, color: "#2ecc71", fontWeight: "bold"
+  }, Nextbutton: {
+    paddingVertical: 2,
+    paddingHorizontal: 30
+
+  },
+  NextBackbtntext: {
+    fontSize: 30, color: "#2ECC71", fontWeight: "bold"
+  },
+  button: {},
+  whitetextheading: {
+    fontSize: 30, fontWeight: 'bold', color: 'white'
+  },
+  NextBackbtnimage: { height: 35, width: 20 },
+  Gap: { gap: 10 },
+  Backbtn: { flex: 1, flexDirection: 'row', gap: 10, alignItems: 'flex-start', height: 40, justifyContent: 'center', position: 'absolute', top: 30, left: 20 },
+  Nextbtn: { alignSelf: 'flex-end', position: 'absolute', bottom: 30, right: 20, backgroundColor: '#2ECC71', borderRadius: 30 },
+  freetrialbtn: {
+    backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center'
+  },
+  FreeTrialText: {
+    color: '#2ecc71', fontSize: 20, fontWeight: 'bold'
+  },
+  TextwithColor: { fontWeight: 'bold', color: '#2ecc71', fontSize: 30 },
+  none: {},
+  icon: {
+    marginLeft: 8,
+  },
+  CenterItem: { alignItems: 'center' },
+  Boldfont: { fontWeight: 'bold' },
+  whitetextparagraph: {
+    color: 'white', textAlign: 'center', fontSize: 15, paddingHorizontal: 10
+  },
+
+  HeaderText: { fontSize: 25, fontWeight: 'bold' },
+  Heading: { fontSize: 30, fontWeight: 'bold' },
+  Headinglong: { fontSize: 30, fontWeight: 'bold', textAlign: 'center' },
+  Paragraph: { textAlign: 'center', fontSize: 15, paddingHorizontal: 10 }
+  ,
+  // styling.js
+  marginright: {
     //  right:10
-    },
+  },
 
 
 
 
-                                  //Dashboard
-    subcontainerfornavbar:{
-        flexDirection: 'row', // Align items horizontally
-        justifyContent: 'space-between', // Space between sidebar name and logo
-        alignItems: 'center', // Align them vertically in the center
-        paddingHorizontal: 10,height:40,
-    },
-    navbarleftside:{
-        flexDirection:'row',
-        columnGap:10
-    }
-    ,
-    sidebarContainer: {
-        zIndex:1,
-        position: 'absolute',
-        top: 0,
-        left: 0,height:height,
-        width: sidebarheaderwidth,
-        // height: verticalScale(700),
-        backgroundColor: '#fff',
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      },
-      closeButton: {
-        // position: 'absolute',right:20,
-        // top: 100,
-        // right: 100,
-        // // zIndex:1,
-        position: 'absolute',right:20,
-        backgroundColor: '#2ecc71',
+  //Dashboard
+  subcontainerfornavbar: {
+    flexDirection: 'row', // Align items horizontally
+    justifyContent: 'space-between', // Space between sidebar name and logo
+    alignItems: 'center', // Align them vertically in the center
+    paddingHorizontal: 10, height: 40,
+  },
+  navbarleftside: {
+    flexDirection: 'row',
+    columnGap: 10
+  }
+  ,
+  sidebarContainer: {
+    zIndex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0, height: height,
+    width: sidebarheaderwidth,
+    // height: verticalScale(700),
+    backgroundColor: '#fff',
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  closeButton: {
+    // position: 'absolute',right:20,
+    // top: 100,
+    // right: 100,
+    // // zIndex:1,
+    position: 'absolute', right: 20,
+    backgroundColor: '#2ecc71',
 
-        // zIndex:1,
-        // borderRadius:7,
-        borderBottomLeftRadius:7,
-        borderTopLeftRadius:7,
-        width: 30,
-        height: 70,
-        justifyContent:'center',
-        alignItems: 'center',
-      },
-      closeText: {
-        zIndex:1,
-        fontSize: 18,color:'#CCCCCC',
-        fontWeight: 'bold',
-      },closebuttonview:{
-        zIndex:1,
-        borderRadius: 15,
-        width: sidebarheaderwidth,
-        height: closeviewheight,
-        justifyContent:'center',
-        alignItems: 'flex-end',
-        // justifyContent:'center',
-      },
-      sidebarHeader: {
-        position:'absolute',
-        backgroundColor:'#2ecc71',
-        width:sidebarheaderwidth,
-        borderBottomLeftRadius:15,
-        borderBottomRightRadius:15,
+    // zIndex:1,
+    // borderRadius:7,
+    borderBottomLeftRadius: 7,
+    borderTopLeftRadius: 7,
+    width: 30,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeText: {
+    zIndex: 1,
+    fontSize: 18, color: '#CCCCCC',
+    fontWeight: 'bold',
+  }, closebuttonview: {
+    zIndex: 1,
+    borderRadius: 15,
+    width: sidebarheaderwidth,
+    height: closeviewheight,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    // justifyContent:'center',
+  },
+  sidebarHeader: {
+    position: 'absolute',
+    backgroundColor: '#2ecc71',
+    width: sidebarheaderwidth,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
 
-        // height: verticalScale(200),
-        height:sidebarheaderheight,
-        justifyContent:'center',
-        alignItems:'center'
-      },
-      sidebarOption: {
-        fontSize: 16,
-        marginVertical: 10,
-      },
-      dashboardimageview:{
-        // marginHorizontal:10
-      },
-dashboardimage:{
-    height:200, justifyContent:'center', padding:15
-}
-    ,DashboardHeading:{
-        fontSize: 30, fontWeight: 'bold',color:'white'
-    }
-,dashbaordfeaturesmainview:{
-    marginVertical:10,gap:10,
-alignItems:'center'
-}
-,
-dashbaordfooter:{
-position:'absolute',rowGap:15,
-width:width,
-bottom:80, flexDirection: 'row', // Align items horizontally
-justifyContent:'space-between', // Space between sidebar name and logo
-alignItems: 'center', // Align them vertically in the center
-paddingHorizontal: 20,height:50,
-},
-dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,width:30,marginTop:10},selectedButton: {
+    // height: verticalScale(200),
+    height: sidebarheaderheight,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  sidebarOption: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  dashboardimageview: {
+    // marginHorizontal:10
+  },
+  dashboardimage: {
+    height: 200, justifyContent: 'center', padding: 15
+  }
+  , DashboardHeading: {
+    fontSize: 30, fontWeight: 'bold', color: 'white'
+  }
+  , dashbaordfeaturesmainview: {
+    marginVertical: 10, gap: 10,
+    alignItems: 'center'
+  }
+  ,
+  dashbaordfooter: {
+    position: 'absolute', rowGap: 15,
+    width: width,
+    bottom: 80, flexDirection: 'row', // Align items horizontally
+    justifyContent: 'space-between', // Space between sidebar name and logo
+    alignItems: 'center', // Align them vertically in the center
+    paddingHorizontal: 20, height: 50,
+  },
+  dashboardbtnimages: { height: 35, width: 30 }, dashboardfooterbtnimages: { height: 35, width: 30, marginTop: 10 }, selectedButton: {
     // backgroundColor: 'blue',
-    color:'#2ecc71',
+    color: '#2ecc71',
     borderRadius: 10,
     padding: 10,
     alignItems: 'center',
@@ -281,19 +285,19 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     alignItems: 'center',
     justifyContent: 'center',
   },
-  featureheading:{fontSize: 30, fontWeight: 'bold',paddingHorizontal:10,marginTop:30},
-  featureimage:{
-    height:featureimageheight,width:featureimagewidth,borderRadius:10
-  },featurebotimage:{
+  featureheading: { fontSize: 30, fontWeight: 'bold', paddingHorizontal: 10, marginTop: 30 },
+  featureimage: {
+    height: featureimageheight, width: featureimagewidth, borderRadius: 10
+  }, featurebotimage: {
     // height:featureimageheight,width:featureimagebotwidth,borderRadius:10
-    height:featureimagebotheight,width:featureimagebotwidth,borderRadius:10
+    height: featureimagebotheight, width: featureimagebotwidth, borderRadius: 10
 
-  },featuresubview:{
-    flexDirection:'row',
-    gap:10
-  },backbtnimagenavbar:{
-    height:30,width:20,color:'white'
-  },sidebarHeaderText: {
+  }, featuresubview: {
+    flexDirection: 'row',
+    gap: 10
+  }, backbtnimagenavbar: {
+    height: 30, width: 20, color: 'white'
+  }, sidebarHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
@@ -313,22 +317,22 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     fontSize: 16,
     fontWeight: 'bold',
   },
-  sidebarbody:{
-    width:sidebarbarbodywidth,
-    height:sidebarbodyheight,position:'absolute',top:sidebarheaderheight,padding:30,rowGap:10,zIndex:1
+  sidebarbody: {
+    width: sidebarbarbodywidth,
+    height: sidebarbodyheight, position: 'absolute', top: sidebarheaderheight, padding: 30, rowGap: 10, zIndex: 1
   }
   ,
-  sidebarbodysubview:{ flexDirection:'row',gap:10,alignItems:'center',},
-  sidebarbtn:{
-    width: 120,height:30,color:'black',fontSize:16,fontWeight:'bold',justifyContent:'center'
+  sidebarbodysubview: { flexDirection: 'row', gap: 10, alignItems: 'center', },
+  sidebarbtn: {
+    width: 120, height: 30, color: 'black', fontSize: 16, fontWeight: 'bold', justifyContent: 'center'
   }, line: {
     height: 1, // Line thickness
     backgroundColor: '#2ecc71', // Line color
     marginVertical: 10, // Spacing around the line
     width: '100%', // Full width
-  },sidebaricons:{
-    width:20,height:20
-  },userProfileImage: {
+  }, sidebaricons: {
+    width: 20, height: 20
+  }, userProfileImage: {
     width: 80,
     height: 80,
     borderRadius: 40, // Circular image
@@ -336,23 +340,23 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     borderColor: '#fff',
     marginBottom: 10,
   },
-  
-  
-                                //ChatBot
-  
-  
-  ChatBotHeadercontainer:{flex:1,flexDirection:'row',gap:10,alignItems:'flex-start',height:40,position:'absolute',top:30,zIndex:1,width:width,paddingHorizontal:10,backgroundColor:'#2ecc71',},
-  ChatbotHeader:{
-    width:40,height:40
+
+
+  //ChatBot
+
+
+  ChatBotHeadercontainer: { flex: 1, flexDirection: 'row', gap: 10, alignItems: 'flex-start', height: 40, position: 'absolute', top: 30, zIndex: 1, width: width, paddingHorizontal: 10, backgroundColor: '#2ecc71', },
+  ChatbotHeader: {
+    width: 40, height: 40
   },// Add these styles in your styling file (styling.ts)
   chatContainer: {
     // flex: 1,
-    position:'absolute',
-    bottom:10,
+    position: 'absolute',
+    bottom: 10,
     // flexDirection:'row',
     // paddingHorizontal: 20,
     marginTop: 30,
-    
+
   },
   chatInput: {
     // width:chatContainerwidth,
@@ -365,42 +369,42 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     marginBottom: 20,
   },
   submitButton: {
-    justifyContent:'center',alignItems:'center',
+    justifyContent: 'center', alignItems: 'center',
     backgroundColor: '#2ecc71',
     // paddingVertical: 10,
-    width:40,height:40,marginBottom:10,
+    width: 40, height: 40, marginBottom: 10,
     // paddingHorizontal: 40,
     borderRadius: 20,
   },
   submitButtonText: {
-    zIndex:1,
+    zIndex: 1,
     color: '#CCCCCC',
     fontSize: 14,
     fontWeight: 'bold',
   },
-  
-   inputAndButtonContainer: {
-    flexDirection: 'row',gap : 5,
+
+  inputAndButtonContainer: {
+    flexDirection: 'row', gap: 5,
     // padding: 10,
     // borderTopWidth: 1,
     // borderTopColor: '#ccc',
     // backgroundColor: '#fff',
     // alignItems: 'center',height:60,
-    justifyContent:'center',
-    paddingTop:5
+    justifyContent: 'center',
+    paddingTop: 5
   },
   userMessage: {
-    alignSelf: 'flex-end', 
-    backgroundColor: '#2ecc71', 
-    padding: 10, 
-    borderRadius: 10, 
+    alignSelf: 'flex-end',
+    backgroundColor: '#2ecc71',
+    padding: 10,
+    borderRadius: 10,
     marginVertical: 5,
   },
   botMessage: {
-    alignSelf: 'flex-start', 
-    backgroundColor: '#f1f1f1',borderWidth:1,borderColor:'#2ecc71', 
-    padding: 10, 
-    borderRadius: 10, 
+    alignSelf: 'flex-start',
+    backgroundColor: '#f1f1f1', borderWidth: 1, borderColor: '#2ecc71',
+    padding: 10,
+    borderRadius: 10,
     marginVertical: 5,
   },
   chatMessageText: {
@@ -410,24 +414,24 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
   chatHistoryContainer: {
     padding: 10,
     // position:'relative'
-    marginTop:30,
-    paddingBottom:25
-  },chatsendmessageimage:{
-    height:20,width:20
-  },timestampText: {
+    marginTop: 30,
+    paddingBottom: 25
+  }, chatsendmessageimage: {
+    height: 20, width: 20
+  }, timestampText: {
     fontSize: 12,
     color: '#888',
     marginTop: 5,
-  },timestampContainer: {
+  }, timestampContainer: {
     marginTop: 5,  // Adds some space between the message and timestamp
     alignSelf: 'flex-end', // Aligns the timestamp to the left, or adjust based on your layout
-  },centeredDate: {
+  }, centeredDate: {
     position: 'absolute',
     left: '50%',
     transform: [{ translateX: -100 }], // Adjust to center the text
     zIndex: 1,
   },
-  
+
   dateText: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -440,11 +444,11 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     borderRadius: 5,
     marginVertical: 5,
     alignSelf: 'center',
-  },  introScreenContainer: {
-    flex: 1,paddingTop:60,
+  }, introScreenContainer: {
+    flex: 1, paddingTop: 60,
     // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',height:height,width:width,
+    backgroundColor: '#f8f8f8', height: height, width: width,
   },
   introImage: {
     width: 200,
@@ -463,21 +467,21 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     color: '#999',
     textAlign: 'center',
     marginVertical: 10,
-  },faqText: {
+  }, faqText: {
     fontSize: 16,
     color: 'white',
-    marginVertical: 10,justifyContent:'center',paddingTop:3,paddingHorizontal:2,
-    textAlign: 'center',width:'auto',height:30,
-    borderRadius:10,borderWidth:1,borderColor:'#2ecc71',backgroundColor:'#2ecc71'
-  },Faqcontainer:{
-    width:width,alignItems:'center',justifyContent:'center',
-    height:100,gap:5,
-    flexDirection:'row',
-    flexWrap:'wrap'
-  },inputbuttonContainer:{
-    position:'absolute',
-    bottom:0, flexDirection: 'row',gap : 5,
-  },selectedMessage: {
+    marginVertical: 10, justifyContent: 'center', paddingTop: 3, paddingHorizontal: 2,
+    textAlign: 'center', width: 'auto', height: 30,
+    borderRadius: 10, borderWidth: 1, borderColor: '#2ecc71', backgroundColor: '#2ecc71'
+  }, Faqcontainer: {
+    width: width, alignItems: 'center', justifyContent: 'center',
+    height: 100, gap: 5,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }, inputbuttonContainer: {
+    position: 'absolute',
+    bottom: 0, flexDirection: 'row', gap: 5,
+  }, selectedMessage: {
     backgroundColor: '#f5f5f5',
     borderColor: '#d32f2f',
     borderWidth: 1,
@@ -503,15 +507,15 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
   },
 
 
-  paymentcardview:{
-    width:width*0.94,height:height*0.3,marginHorizontal:10
+  paymentcardview: {
+    width: width * 0.94, height: height * 0.3, marginHorizontal: 10
   },
-  paymentcard:{
+  paymentcard: {
     // resizeMode:'cover'
-  },viewpayment:{
-    width:width,height:height
+  }, viewpayment: {
+    width: width, height: height
   }, subcontainercontact: {
-    width:widthcont,height: heightcont,
+    width: widthcont, height: heightcont,
 
     // marginTop: 100,
     // paddingTop:20,
@@ -524,35 +528,35 @@ dashboardbtnimages:{height:35,width:30},dashboardfooterbtnimages:{height:35,widt
     borderWidth: 1,
     borderColor: '#2ecc71',
     borderRadius: 10
-},
+  },
 
-contactbtn:{
-  position:'absolute',left:0,bottom:42,zIndex:1,width:sidebarheaderwidth,height:40,backgroundColor:'#2ecc71',justifyContent:'center',alignItems:'center'
-},contactbtntext:{
-  color:'white',fontWeight:'bold',fontSize:19
-},featureheadingtiming:{
-  fontSize: 30, fontWeight: 'bold'
-},
+  contactbtn: {
+    position: 'absolute', left: 0, bottom: 42, zIndex: 1, width: sidebarheaderwidth, height: 40, backgroundColor: '#2ecc71', justifyContent: 'center', alignItems: 'center'
+  }, contactbtntext: {
+    color: 'white', fontWeight: 'bold', fontSize: 19
+  }, featureheadingtiming: {
+    fontSize: 30, fontWeight: 'bold'
+  },
   // Continue with other styles...
-  
+
 
 
   Paymentmaincontainer: { padding: 20, flex: 1 },
   scrollViewContent: { paddingBottom: 20, paddingTop: 10 },
-  input: { borderWidth: 1, borderColor: '#2ecc71', borderRadius: 5, paddingHorizontal: 10,paddingVertical:5 },
+  input: { borderWidth: 1, borderColor: '#2ecc71', borderRadius: 5, paddingHorizontal: 10, paddingVertical: 5 },
   cardField: {
     // borderColor: '#2ecc71',
     // borderRadius: 5,
     // borderWidth: 1,
-    backgroundColor: '#fff',paddingHorizontal:5,
-    height: 40,justifyContent:'center',
+    backgroundColor: '#fff', paddingHorizontal: 5,
+    height: 40, justifyContent: 'center',
     // marginVertical: 10,
   },
   dropdown: { borderWidth: 1, borderColor: '#2ecc71', borderRadius: 5, padding: 10 },
   dropdownText: { color: '#999' },
   modalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
   modalContent: { width: '80%', backgroundColor: '#fff', borderRadius: 10, padding: 20 },
-  buttonRow: { flexDirection: 'row', justifyContent:'center',columnGap:10 },
+  buttonRow: { flexDirection: 'row', justifyContent: 'center', columnGap: 10 },
   modalButton: { backgroundColor: '#2ecc71', padding: 10, borderRadius: 5 },
   modalButtonText: { color: 'white', fontSize: 16 },
   submitButtonpayment: { marginTop: 15, backgroundColor: '#2ecc71', padding: 5, borderRadius: 8, alignItems: 'center' },
@@ -589,131 +593,131 @@ contactbtn:{
     fontSize: 16,
     color: 'red',
   },
-    cancelButton: {borderWidth:2,borderColor:'#2ecc71', padding: 10, alignItems: 'center' },
-    cancelButtonText: { color: '#2ecc71' },
+  cancelButton: { borderWidth: 2, borderColor: '#2ecc71', padding: 10, alignItems: 'center' },
+  cancelButtonText: { color: '#2ecc71' },
 
-    profilecontainer: {
-      flex: 1,
-      backgroundColor: '#F5F5F5',
-      // paddingHorizontal: 20,
-    },
-    backButton: {
-      position: 'absolute',
-      top: 20,
-      left: 20,
-      padding: 10,
-    },
-    backButtonText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#000',
-    },
-    profileHeader: {
-      alignItems: 'center',
-      // marginTop: 50,
-    },
-    profileImage: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
-    },
-    profileUsername: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginTop: 10,
-    },
-    infoContainer: {
-      marginTop: 30,
-    },
-    infoItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingVertical: 15,
-      borderBottomWidth: 1,
-      borderBottomColor: '#E0E0E0',
-    },
-    infoIcon: {
-      width: 30,
-      height: 30,
-      marginRight: 15,
-    },
-    infoText: {
-      flex: 1,
-    },
-    infoTitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    infoSubtitle: {
-      fontSize: 14,
-      color: '#777',
-    },
-    profileHeader1: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 30,
-    },
-    
-    imageContainer: {
-      width: 100,
-      height: 100,
-      borderRadius: 50, // Makes it circular
-      overflow: 'hidden',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ccc', // Grey background if no image
-    },
-    
-    profileImage1: {
-      width: '100%',
-      height: '100%',
-      resizeMode: 'cover',
-    },
-    
-    profileUsername1: {
-      marginTop: 10,
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#333',
-    },
+  profilecontainer: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    // paddingHorizontal: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 10,
+  },
+  backButtonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  profileHeader: {
+    alignItems: 'center',
+    // marginTop: 50,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  profileUsername: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  infoContainer: {
+    marginTop: 30,
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  infoIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 15,
+  },
+  infoText: {
+    flex: 1,
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  infoSubtitle: {
+    fontSize: 14,
+    color: '#777',
+  },
+  profileHeader1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+
+  imageContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, // Makes it circular
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ccc', // Grey background if no image
+  },
+
+  profileImage1: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+
+  profileUsername1: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 
 
 
-    headerTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginLeft: 10,
-    },
-    content: {
-      flex: 1,
-      padding: 20,
-    },
-    sectionContent: {
-      fontSize: 16,
-      textAlign: 'center',
-      marginTop: 20,
-    },
-    footer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      paddingVertical: 10,
-      borderTopWidth: 1,
-      borderTopColor: '#ddd',
-      backgroundColor: '#fff',
-    },
-    navbarleftsideprofile:{
-      flexDirection:'row',
-      columnGap:10,position:'absolute',top:3,left:10,width:'100%',
-  },profileicons:{
-    flexDirection:'row',marginTop:10,alignItems:'center'
-  },profileviewicons2:{
-    flexDirection:'row',alignItems:'center',position:'absolute',right:20,top:3,columnGap:5
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  sectionContent: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    backgroundColor: '#fff',
+  },
+  navbarleftsideprofile: {
+    flexDirection: 'row',
+    columnGap: 10, position: 'absolute', top: 3, left: 10, width: '100%',
+  }, profileicons: {
+    flexDirection: 'row', marginTop: 10, alignItems: 'center'
+  }, profileviewicons2: {
+    flexDirection: 'row', alignItems: 'center', position: 'absolute', right: 20, top: 3, columnGap: 5
 
   },
-  profileicons3:{
-    flexDirection:'row',alignItems:'center'
+  profileicons3: {
+    flexDirection: 'row', alignItems: 'center'
   },
-  profilecontainer2:{
+  profilecontainer2: {
     flex: 1,
     padding: 20,
   },
@@ -731,15 +735,458 @@ contactbtn:{
     // borderRadius: 5,
     // alignItems: 'center',
 
-    backgroundColor:"#2ECC71",paddingHorizontal:20, paddingVertical: 5, borderRadius:10,width:300,alignItems:'center',marginTop:5
+    backgroundColor: "#2ECC71", paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center', marginTop: 5
 
   },
   updateButtonText: {
-    fontSize:20, color: "#CCCCCC", fontWeight:"bold"
+    fontSize: 20, color: "#CCCCCC", fontWeight: "bold"
 
   },
+
+
+
+
+
+
+
+  admincontainer: {
+    padding: 20,
+  },
+  admintitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  admintable: {
+    marginBottom: 20,
+  },
+  admintableHeader: {
+    fontWeight: 'bold',
+    marginVertical: 5,
+  },
+  admintableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  adminsubTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  admininputGroup: {
+    marginBottom: 15,
+  },
+  admininput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingLeft: 8,
+  },
+  admindropdown: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 8,
+  },
+  adminmodalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  adminmodalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+  },
+  adminmodalTitle: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  adminmodalItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+  },
+  admincloseButton: {
+    padding: 10,
+    backgroundColor: '#ccc',
+    marginTop: 20,
+    alignItems: 'center',
+  },
+
+
+
+  // workoutnormalcontainer: {
+  //   flex: 1,
+  //   backgroundColor: '#f4f4f4',
+  //   paddingHorizontal: 16,
+  // },
+  // daySelector: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   marginVertical: 10,
+  //   backgroundColor: '#fff',
+  //   paddingVertical: 10,
+  //   borderRadius: 10,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowOffset: { width: 0, height: 3 },
+  //   elevation: 3,
+  // },
+  // dayButton: {
+  //   padding: 10,
+  //   borderRadius: 10,
+  //   backgroundColor: '#ccc',
+  // },
+  // selectedDay: {
+  //   backgroundColor: '#4CAF50',
+  // },
+  // dayText: {
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  //   color: '#fff',
+  // },
+  // workoutCard: {
+  //   backgroundColor: '#4CAF50',
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   alignItems: 'center',
+  //   marginVertical: 10,
+  // },
+  // workoutTitle: {
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  //   color: '#fff',
+  // },
+  // workoutSubtitle: {
+  //   fontSize: 16,
+  //   color: '#fff',
+  //   marginBottom: 10,
+  // },
+  // buttonRowworkoutnormal: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   width: '100%',
+  // },
+  // startButton: {
+  //   backgroundColor: '#2e8b57',
+  //   padding: 10,
+  //   borderRadius: 5,
+  // },
+  // endButton: {
+  //   backgroundColor: '#d9534f',
+  //   padding: 10,
+  //   borderRadius: 5,
+  // },
+  // sectionTitle: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  //   marginVertical: 10,
+  // },
+  // workoutItem: {
+  //   flexDirection: 'row',
+  //   backgroundColor: '#fff',
+  //   padding: 10,
+  //   marginVertical: 5,
+  //   borderRadius: 10,
+  //   alignItems: 'center',
+  // },
+  // workoutImage: {
+  //   width: 60,
+  //   height: 60,
+  //   borderRadius: 10,
+  // },
+  // workoutDetails: {
+  //   marginLeft: 10,
+  // },
+  // workoutName: {
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  // },
+  // workoutSets: {
+  //   fontSize: 14,
+  //   color: '#666',
+  // },
+  // videoThumbnail: {
+  //   width: '100%',
+  //   height: 200,
+  //   borderRadius: 10,
+  //   marginVertical: 10,
+  // },
+
+
+  workoutnormalcontainer: {
+    flex: 1,
+    backgroundColor: '#f4f4f4',
+    paddingHorizontal: 16,
+  },
+  navbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 30,gap:10
+  },
+  
+  daySelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+    paddingVertical: 10,
+    borderRadius: 10,gap:5
+  },
+  dayButton: {
+    paddingVertical: 20,width:45,
+    borderRadius: 10,
+    backgroundColor: '#fff',borderWidth:1,borderColor:'#2ecc71',
+  },
+  selectedDay: {
+    backgroundColor: '#2ecc71',
+  },
+  dayText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',textAlign:'center'
+  },
+  workoutCard: {
+    backgroundColor: '#2ecc71',height:140,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  workoutTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  workoutSubtitle: {
+    fontSize: 16,
+    color: '#2ecc71',
+  },
+  workoutSubtitle2: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  
+  startButton: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 10,
+  },startbtntext:{
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  endButton: {
+    padding: 10,
+    borderRadius: 10,borderWidth:1,borderColor:'#fff',
+  },video: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  endbtntext:{
+    fontSize: 16,
+    fontWeight: 'bold',
+color:'#fff'
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  workoutItem: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  workoutImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+  },
+  workoutDetails: {
+    marginLeft: 10,
+  },
+  workoutName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  workoutSets: {
+    fontSize: 14,
+    color: '#666',
+  },
+  videoThumbnail: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginVertical: 10,
+  },restDayMessage: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#777',
+    marginVertical: 10,
+  },
+  viewButton: {
+    backgroundColor: '#2ecc71', // Blue button
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginTop: 5,right:60,
+  },
+  
+  viewButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },workoutRow: {
+    flexDirection: 'row', // Align items in a row
+    justifyContent: 'space-between', // Push "View" button to the right
+    alignItems: 'center', // Align items vertically in the center
+    width: '100%', // Ensure it takes full width
+  },restDayQuote: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FF5733', // Orange shade for motivation
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  workoutRowContainer: {
+    flexDirection: 'row', // Arrange items in a row
+    // alignItems: 'center', // Align items in the center vertically
+    justifyContent: 'space-between', // Push elements apart
+  },
+  
+  workoutDetailsContainer: {
+    flex: 1, // Takes remaining space
+    paddingRight: 10, // Adds space between text & image
+  },
+  
+  workoutImageRight: {
+    width: 100, // Adjust image width as needed
+    height: 120,
+    resizeMode: 'contain',position:'absolute',top:1,right:1
+  }, dayItem: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#E0E0E0',
+    marginHorizontal: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+},    mealHeading: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginTop: 15,
+},
+foodItem: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  padding: 10,
+  marginVertical: 5,
+  borderRadius: 10,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowOffset: { width: 0, height: 2 },
+},
+foodImage: {
+  width: 60,
+  height: 60,
+  borderRadius: 10,
+},
+foodDetails: {
+  marginLeft: 10,
+  flex: 1,
+},
+foodName: {
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+foodMacros: {
+  fontSize: 14,
+  color: '#666',
+},
+foodMeta: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginTop: 5,
+},
+foodWeight: {
+  backgroundColor: '#E0E0E0',
+  padding: 5,
+  borderRadius: 5,
+  fontSize: 12,
+},
+foodCalories: {
+  backgroundColor: '#4CAF50',
+  color: '#fff',
+  padding: 5,
+  borderRadius: 5,
+  fontSize: 12,
+}
+,dietnormalcontainer: {
+  flex: 1,
+  backgroundColor: '#F5F5F5',
+  paddingHorizontal: 16,
+},
+mealTitle: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#333',
+  marginVertical: 10,
+}
+,foodInfo: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: 10,
+}
+,mealContainer: {
+  marginVertical: 10,
+  padding: 10,
+  backgroundColor: '#f5f5f5',
+  borderRadius: 10,
+},totalContainer: {
+  marginTop: 20,
+  padding: 10,
+  backgroundColor: '#f8f9fa',
+  borderRadius: 10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 3, // For Android shadow
+},
+
+totalText: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#333',
+  marginVertical: 5,
+},
+bicepcurlview:{
+alignItems:'center',height:370
+},
+BenchPresssubview:{
+  // marginTop:0
+  padding:10
+},
+workoutheadingsdescriptions:{
+  fontSize:14,
+  color:'#2ecc71',fontWeight:'bold'
+}
 }
 );
 
-  // Other styles...
- export default styling
+// Other styles...
+export default styling

@@ -12,7 +12,7 @@ cron.schedule('* * * * *', async () => {
     // Find users who are older than the cutoff time
     const unverifiedUsers = await TemUser.find({ createdAt: { $lt: cutoffTime } });
 
-    console.log('Unverified users found:',unverifiedUsers); // Log users found
+    console.log('Unverified users found:', unverifiedUsers); // Log users found
 
     for (const tempUser of unverifiedUsers) {
       const { uid } = tempUser;
@@ -27,7 +27,7 @@ cron.schedule('* * * * *', async () => {
           } catch (error) {
             console.error(`Error deleting user ${uid}:`, error.message);
           }
-          
+
         }
 
         // Remove the user from the temporary MongoDB collection

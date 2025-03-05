@@ -60,14 +60,14 @@ const Contact = () => {
   const handleSubmit = async () => {
     if (validateForm()) {
       try {
-        const response = await fetch('http://192.168.0.114:5000/api/auth/submit', {
+        const response = await fetch('http://192.168.0.116:5000/api/auth/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
         });
-  
+
         const result = await response.json();
         if (response.ok) {
           Alert.alert('Success', result.message);
@@ -105,50 +105,50 @@ const Contact = () => {
           keyboardShouldPersistTaps="handled"
         >
 
-      <View style={styling.subcontainercontact}>
-      <LogoImgForScreen path={require('@/assets/images/icon.png')} styles={styling.loginimg} />
+          <View style={styling.subcontainercontact}>
+            <LogoImgForScreen path={require('@/assets/images/icon.png')} styles={styling.loginimg} />
 
-        {/* Username Input */}
-        <PlaceHolder
-          placeholderText={'Ali Ahmed'}
-          value={formData.username}
-          onChangeText={(value) => handleChange('username', value)}
-          onBlur={() => handleBlur('username')}
-          iconName="person"
-          />
-        {errors.username && (
-          <Text style={{ color: 'red', marginBottom: 10 }}>{errors.username}</Text>
-        )}
-
-        {/* Email Input */}
-        <PlaceHolder
-          placeholderText={'abc123@gmail.com'}
-          value={formData.email}
-          onChangeText={(value) => handleChange('email', value)}
-          onBlur={() => handleBlur('email')}
-          iconName="email"
-          />
-        {errors.email && (
-            <Text style={{ color: 'red', marginBottom: 10 }}>{errors.email}</Text>
-        )}
-
-        {/* Message Input */}
-        <PlaceHolder
-          placeholderText={'Enter your message here'}
-          value={formData.message}
-          onChangeText={(value) => handleChange('message', value)}
-          iconName="message" // Use a suitable icon name
-          multiline={true} // Allows multi-line input
-          numberOfLines={4}
-          style={{
-              height: 150, // Height set to 3 times (approximately) the height of other inputs
-            }} // Optional: Suggests 4 lines in the input field
+            {/* Username Input */}
+            <PlaceHolder
+              placeholderText={'Ali Ahmed'}
+              value={formData.username}
+              onChangeText={(value) => handleChange('username', value)}
+              onBlur={() => handleBlur('username')}
+              iconName="person"
             />
-        {errors.message && (
-            <Text style={{ color: 'red', marginBottom: 10 }}>{errors.message}</Text>
-        )}
-        <MyButton title="Submit" onPress={handleSubmit} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText}/>
-      </View>
+            {errors.username && (
+              <Text style={{ color: 'red', marginBottom: 10 }}>{errors.username}</Text>
+            )}
+
+            {/* Email Input */}
+            <PlaceHolder
+              placeholderText={'abc123@gmail.com'}
+              value={formData.email}
+              onChangeText={(value) => handleChange('email', value)}
+              onBlur={() => handleBlur('email')}
+              iconName="email"
+            />
+            {errors.email && (
+              <Text style={{ color: 'red', marginBottom: 10 }}>{errors.email}</Text>
+            )}
+
+            {/* Message Input */}
+            <PlaceHolder
+              placeholderText={'Enter your message here'}
+              value={formData.message}
+              onChangeText={(value) => handleChange('message', value)}
+              iconName="message" // Use a suitable icon name
+              multiline={true} // Allows multi-line input
+              numberOfLines={4}
+              style={{
+                height: 150, // Height set to 3 times (approximately) the height of other inputs
+              }} // Optional: Suggests 4 lines in the input field
+            />
+            {errors.message && (
+              <Text style={{ color: 'red', marginBottom: 10 }}>{errors.message}</Text>
+            )}
+            <MyButton title="Submit" onPress={handleSubmit} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

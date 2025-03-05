@@ -10,32 +10,32 @@ import Heading from '@/components/Text/Heading';
 // import Paragraph from '@/components/Text/Paragraph';
 
 const Paragraph = ({ paragraph }: { paragraph: string }) => {
-    const parts = paragraph.split(' '); // Split the paragraph into parts by spaces
-  
-    return (
-      <View style={styles.paragraphContainer}>
-        {parts.map((word, index) => {
-          // Apply green color to "Diet" and "Workout"
-          if (word === 'Diet' || word === 'Workout' || word === 'plan?') {
-            return (
-              <Text key={index} style={styles.greenText}>
-                {word}{' '}
-              </Text>
-            );
-          }
-          // Apply black color to all other words
+  const parts = paragraph.split(' '); // Split the paragraph into parts by spaces
+
+  return (
+    <View style={styles.paragraphContainer}>
+      {parts.map((word, index) => {
+        // Apply green color to "Diet" and "Workout"
+        if (word === 'Diet' || word === 'Workout' || word === 'plan?') {
           return (
-            <Text key={index} style={styles.blackText}>
+            <Text key={index} style={styles.greenText}>
               {word}{' '}
             </Text>
           );
-        })}
-      </View>
-    );
-  };
-  
+        }
+        // Apply black color to all other words
+        return (
+          <Text key={index} style={styles.blackText}>
+            {word}{' '}
+          </Text>
+        );
+      })}
+    </View>
+  );
+};
 
-  
+
+
 
 
 // Define a type for each schedule item
@@ -55,7 +55,7 @@ const GymScheduleScreen = () => {
   // Fetch gym schedule from the backend
   const fetchGymSchedule = async () => {
     try {
-      const response = await axios.get('http://192.168.0.114:5000/api/gym-schedule');
+      const response = await axios.get('http://192.168.0.116:5000/api/gym-schedule');
       const today = moment().format('dddd'); // Get current day (e.g., 'Monday')
       const todaySchedule = response.data.find((schedule: GymScheduleItem) => schedule.day === today);
 
@@ -89,7 +89,7 @@ const GymScheduleScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styling.featureheadingtiming}>{currentDate}</Text>
-           {/* <Text style={styles.statusText}>
+      {/* <Text style={styles.statusText}>
         {isGymOpen ? 'The gym is open!' : 'The gym is closed.'}
       </Text> */}
 
@@ -98,22 +98,22 @@ const GymScheduleScreen = () => {
         {error ? (
           <Text style={styles.errorText}>{error}</Text>
         ) : gymSchedule ? (
-            <View style={styles.scheduleItem}>
+          <View style={styles.scheduleItem}>
             {/* <Text>{gymSchedule.startTime} - {gymSchedule.endTime}</Text> */}
-              <Text style={styles.statusText}>{gymSchedule.status ? gymSchedule.status : 'No status available'}</Text>
+            <Text style={styles.statusText}>{gymSchedule.status ? gymSchedule.status : 'No status available'}</Text>
             <View style={styles.timing}>
-            <Heading title='From' styles={styling.featureheadingtiming}/>
+              <Heading title='From' styles={styling.featureheadingtiming} />
 
-            <View>
+              <View>
 
-                        <MyButton title={gymSchedule.startTime ? gymSchedule.startTime : '-'} onPress={() => router} style1={styles.buton} style2={styles.btntext} />
-            </View>
-            <Heading title='to' styles={styling.featureheadingtiming}/>
-            
-            <View>
+                <MyButton title={gymSchedule.startTime ? gymSchedule.startTime : '-'} onPress={() => router} style1={styles.buton} style2={styles.btntext} />
+              </View>
+              <Heading title='to' styles={styling.featureheadingtiming} />
 
-                        <MyButton title={gymSchedule.endTime ? gymSchedule.endTime : '-'} onPress={() => router} style1={styles.buton} style2={styles.btntext} />
-            </View>
+              <View>
+
+                <MyButton title={gymSchedule.endTime ? gymSchedule.endTime : '-'} onPress={() => router} style1={styles.buton} style2={styles.btntext} />
+              </View>
             </View>
 
           </View>
@@ -123,7 +123,7 @@ const GymScheduleScreen = () => {
       </View>
 
       <View style={styles.GymtimingbuttonContainer}>
-        <Paragraph paragraph='Want to know about Workout and Diet plan?'/>
+        <Paragraph paragraph='Want to know about Workout and Diet plan?' />
         {/* <Text>Want to know about Diet and Workout Plan?</Text> */}
         <MyButton title={'Diet Plan'} onPress={() => router.push('/(User)/Dietplan')} style1={styling.FullwidthWhitebtn} style2={styling.FreeTrialText} />
         <MyButton title={'Goto admin panel'} onPress={() => router.push('/Admin')} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-  },textview:{
+  }, textview: {
     // flex:1,
-    width:150,height:50,borderWidth:2,borderColor:'#2ecc71',textAlign:'center',color:'#333'
+    width: 150, height: 50, borderWidth: 2, borderColor: '#2ecc71', textAlign: 'center', color: '#333'
   },
   statusText: {
     fontSize: 18,
@@ -154,24 +154,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   scheduleContainer: {
-    flex:1,justifyContent:'center',borderWidth:2,borderColor:'#2ecc71',marginBottom:10,paddingHorizontal:10,
+    flex: 1, justifyContent: 'center', borderWidth: 2, borderColor: '#2ecc71', marginBottom: 10, paddingHorizontal: 10,
     // marginBottom: 20,
-    
-  },buton:{
-    width:80,borderWidth:2,borderColor:'#2ecc71',alignItems:'center',height:50,justifyContent:'center'
-  },btntext:{
-    color:'black',fontWeight:'bold',fontSize:16
+
+  }, buton: {
+    width: 80, borderWidth: 2, borderColor: '#2ecc71', alignItems: 'center', height: 50, justifyContent: 'center'
+  }, btntext: {
+    color: 'black', fontWeight: 'bold', fontSize: 16
   },
   scheduleItem: {
     marginBottom: 10,
     fontSize: 16,
     color: '#333'
-  },timing:{
-    flexDirection:'row',gap:10
+  }, timing: {
+    flexDirection: 'row', gap: 10
   },
   GymtimingbuttonContainer: {
-    marginBottom:150,
-    flex:1,
+    marginBottom: 150,
+    flex: 1,
     flexDirection: 'column',
     // justifyContent: 'center',
     alignItems: 'center',
@@ -182,11 +182,11 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 16,
   }, greenText: {
-    color: '#2ecc71',fontWeight:'bold',fontSize:16,
+    color: '#2ecc71', fontWeight: 'bold', fontSize: 16,
   },
   blackText: {
-    color: 'black',fontSize:16,
-  },paragraphContainer: {
+    color: 'black', fontSize: 16,
+  }, paragraphContainer: {
     flexDirection: 'row', // Set to 'row' for horizontal text display
     flexWrap: 'wrap', // Allows wrapping in case text overflows
     alignItems: 'center',

@@ -8,26 +8,26 @@ const bcrypt = require('bcryptjs');
 const { getAuth } = require('firebase-admin/auth');  // Temporary collection to store OTPs
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-}); 
+});
 
 exports.signup = async (req, res) => {
   const { email, username, phone, uid, password } = req.body;
 
-  if (!email|| !username || !phone || !password || !uid) {
+  if (!email || !username || !phone || !password || !uid) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
   try {
     // Check if the user already exists in MongoDB (permanent collection)
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
-    if (existingUser){ 
+    if (existingUser) {
       await admin.auth().deleteUser(uid);  // Deleting user from Firebase
-            console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
+      console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
       return res.status(409).json({ message: 'phone number already registered.' });
     }
 
     let firebaseUser;
-      firebaseUser = await admin.auth().getUser(uid);
+    firebaseUser = await admin.auth().getUser(uid);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -46,7 +46,7 @@ exports.signup = async (req, res) => {
     // Generate an email verification link
     const verificationLink = await admin.auth().generateEmailVerificationLink(email);
     console.log('Verification link generated:', verificationLink);
-console.log(password);
+    console.log(password);
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -59,7 +59,7 @@ console.log(password);
 
     async function main() {
       const info = await transporter.sendMail({
-        from: 'pikachugaming565@gmail.com', 
+        from: 'pikachugaming565@gmail.com',
         to: email, // Send to the user's email
         subject: "Verify your email",
         html: `${verificationLink}`, // HTML body
@@ -83,7 +83,7 @@ console.log(password);
 };
 
 
- // Assuming your temporary user model is here
+// Assuming your temporary user model is here
 
 exports.verifyUserEmail = async (req, res) => {
   const { uid } = req.body;
@@ -112,7 +112,7 @@ exports.verifyUserEmail = async (req, res) => {
       setTimeout(async () => {
         const updatedFirebaseUser = await admin.auth().getUser(uid);
         const hashedPassword = await bcrypt.hash(tempUser.password, 10);
-        
+
         if (updatedFirebaseUser.emailVerified) {
           // User verified, proceed to save to permanent database
           const user = new User({
@@ -137,22 +137,22 @@ exports.verifyUserEmail = async (req, res) => {
                 pass: "crkzwidgxlglnpaf",
               },
             });
-        
+
             async function main() {
               const info = await transporter.sendMail({
-                from: 'pikachugaming565@gmail.com', 
+                from: 'pikachugaming565@gmail.com',
                 to: firebaseUser.email, // Send to the user's email
                 subject: "Verification successful",
                 // html: `${verificationLink}`, // HTML body
-                text:'You are successfully verified ,Now you can SignIn'
+                text: 'You are successfully verified ,Now you can SignIn'
               });
               console.log("Message sent: %s", info.messageId);
             }
-        
+
             main().catch(console.error);
             console.log('Verified');
             return res.status(200).json({ message: 'User verified and saved to database.' });
-            
+
           } catch (saveError) {
             console.error('Error saving user to permanent database:', saveError);
             return res.status(500).json({ message: 'Error saving user to permanent database.' });
@@ -183,7 +183,7 @@ exports.verifyUserEmail = async (req, res) => {
         phone: tempUser.phone,
         password: hashedPassword,
       });
-      
+
       try {
         await user.save();
         console.log('User successfully saved to permanent database:', user);
@@ -434,7 +434,7 @@ exports.getUserData = async (req, res) => {
 
     return res.status(200).json({
       email: user.email,
-      username: user.username,phone:user.phone,password:'******************',
+      username: user.username, phone: user.phone, password: '******************',
     });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch user data', error });
@@ -456,9 +456,9 @@ exports.updateUser = async (req, res) => {
       updateFields.password = await bcrypt.hash(password, salt);
     }
 
-    // 🔴 Change `_id` to `uid` since you're storing Firebase UID in `uid`
+    //  Change `_id` to `uid` since you're storing Firebase UID in `uid`
     const updatedUser = await User.findOneAndUpdate(
-      { uid: userId }, // ✅ Search using `uid`
+      { uid: userId }, //  Search using `uid`
       updateFields,
       { new: true }
     );
@@ -505,7 +505,7 @@ exports.startTrial = async (req, res) => {
       existingTrial.trialStatus = 'active';
       existingTrial.count = 1;
       existingTrial.startDate = new Date();
-      existingTrial.endTime = new Date(Date.now() + 60 * 1000); // 3-day trial
+      existingTrial.endTime = new Date(Date.now() + 3 * 60 * 60 * 60 * 1000); // 3-day trial
       await existingTrial.save();
 
       return res.json({ success: true, message: 'Trial started successfully', trial: existingTrial });
@@ -524,7 +524,7 @@ exports.startTrial = async (req, res) => {
 
     res.json({ success: true, message: 'Trial started successfully', trial });
   } catch (error) {
-    console.error(' Error starting trial:', error);
+    // console.error(' Error starting trial:', error);
     res.status(500).json({ error: 'Failed to start trial' });
   }
 };

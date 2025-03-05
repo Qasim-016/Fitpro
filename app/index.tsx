@@ -39,8 +39,8 @@ const Index = () => {
   return (
     <StripeProvider publishableKey="pk_test_51QQorvDwtEPD58vaMZbz1YntQIM2RmEGqgccF7CwB2iMSB8KceswRbcQdkwERI96ERRAXffCYRxgV4oouiX8zl1k002VZTVUUM">
 
-    <SafeAreaView style={styling.container}>
-      <AutoLogout/>
+      <SafeAreaView style={styling.container}>
+        <AutoLogout />
         <LogoImg path={require('@/assets/images/intro/splash.png')} styles={styling.Indeximg} />
         <View style={styling.IndexView}>
           {loading ? (
@@ -50,8 +50,8 @@ const Index = () => {
             </>
           ) : null}
         </View>
-    </SafeAreaView>
-          </StripeProvider>
+      </SafeAreaView>
+    </StripeProvider>
   );
 
 };

@@ -20,7 +20,7 @@ const FreeTrial = () => {
       const userId = auth.currentUser?.uid;
       if (!userId) return;
 
-      const response = await axios.get(`http://192.168.0.114:5000/api/auth/trialStatus/${userId}`);
+      const response = await axios.get(`http://192.168.0.116:5000/api/auth/trialStatus/${userId}`);
 
       if (response.status === 200 && response.data.count >= 1) {
         setTrialUsed(true); // Disable button if trial has been used
@@ -41,7 +41,7 @@ const FreeTrial = () => {
       }
 
       const response = await axios.post(
-        'http://192.168.0.114:5000/api/auth/startTrial',
+        'http://192.168.0.116:5000/api/auth/startTrial',
         { userId },
         { headers: { Authorization: `Bearer ${idToken}` } }
       );
@@ -76,18 +76,18 @@ const FreeTrial = () => {
           Welcome to FitPro! Your fitness journey starts here...
         </Text>
 
-        <MyButton 
-          title="3 Days Free Trial" 
-          onPress={startTrial} 
-          style1={[styling.freetrialbtn, trialUsed ? { backgroundColor: 'gray' } : {}]} 
-          style2={styling.FreeTrialText} 
+        <MyButton
+          title="3 Days Free Trial"
+          onPress={startTrial}
+          style1={[styling.freetrialbtn, trialUsed ? { backgroundColor: 'gray' } : {}]}
+          style2={styling.FreeTrialText}
           disabled={trialUsed} // 🔹 Disable if count >= 1
         />
-        <MyButton 
-          title="Get Premium" 
-          onPress={() => router.push({ pathname: '/Dashboard', params: { selectedSection: 'payment' } })} 
-          style1={styling.FullWidthbutton} 
-          style2={styling.FullwidthbtnText} 
+        <MyButton
+          title="Get Premium"
+          onPress={() => router.push({ pathname: '/Dashboard', params: { selectedSection: 'payment' } })}
+          style1={styling.FullWidthbutton}
+          style2={styling.FullwidthbtnText}
         />
       </View>
     </ImageBackground>

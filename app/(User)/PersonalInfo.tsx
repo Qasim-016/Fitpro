@@ -15,7 +15,7 @@ const PersonalInfo = () => {
         try {
           const idToken = await auth.currentUser?.getIdToken();
           if (idToken) {
-            const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
+            const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
               headers: { Authorization: `Bearer ${idToken}` },
             });
             setUserData(response.data);

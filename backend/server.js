@@ -14,6 +14,7 @@ const admin = require('firebase-admin');
 require('./cleanuptask'); // Include the cleanup task
 const Subscription = require('./models/subscription');
 
+const WorkoutPlan = require('./models/CustomizedWorkout');
 
 
 
@@ -128,7 +129,7 @@ app.post('/api/subscription', async (req, res) => {
 
     res.json({ success: true, subscription });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: 'Failed to save subscription data' });
   }
 });
@@ -141,7 +142,7 @@ app.delete('/api/subscription/:userId', async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: 'Failed to cancel subscription' });
   }
 });
@@ -158,16 +159,16 @@ if(!trial){
       return res.status(404).json({ error: 'No free trial found' });
     }
 
-    console.log("Trial found:", trial);
+    // console.log("Trial found:", trial);
 
     if (trial.trialStatus === 'active') {
-      console.log("✅ Trial is active!");
+      // console.log("Trial is active!");
       return res.status(200).json({ success: true, trialStatus: 'active' });
     }
 
     
   } catch (error) {
-    console.error('❌ Error fetching trial:', error);
+    // console.error('Error fetching trial:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -181,16 +182,16 @@ const updateExpiredTrials = async () => {
     for (const trial of expiredTrials) {
       trial.trialStatus = 'inactive'; // Set trial status to inactive
       await trial.save();
-      console.log(`⏳ Trial expired for user: ${trial.userId}`);
+      // console.log(` Trial expired for user: ${trial.userId}`);
     }
   } catch (error) {
-    console.error('❌ Error updating expired trials:', error);
+    // console.error(' Error updating expired trials:', error);
   }
 };
 
 // Run every hour (3600000ms)
 setInterval(updateExpiredTrials, 6000);
-console.log('🔄 Trial auto-expiration job started...');
+// console.log(' Trial auto-expiration job started...');
 
 
 app.get('/api/subscription/:userId', async (req, res) => {
@@ -199,12 +200,12 @@ app.get('/api/subscription/:userId', async (req, res) => {
     const subscription = await Subscription.findOne({ userId });
 
     if (!subscription) {
-      return res.status(404).json({ error: 'No subscription found' }); // ✅ Explicit 404
+      return res.status(404).json({ error: 'No subscription found' }); //  Explicit 404
     }
 
     res.json({ subscriptionEndTime: subscription.subscriptionEndTime });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ error: 'Failed to retrieve subscription data' });
   }
 });
@@ -219,7 +220,7 @@ app.get('/api/gym-schedule', async (req, res) => {
     const schedule = await GymSchedule.find();
     res.json(schedule);
   } catch (error) {
-    console.error('Error fetching schedule:', error);
+    // console.error('Error fetching schedule:', error);
     res.status(500).json({ message: 'Failed to fetch gym schedule', error });
   }
 });
@@ -243,7 +244,7 @@ app.put('/api/gym-schedule/:day', async (req, res) => {
 
     res.json(updatedSchedule);
   } catch (error) {
-    console.error('Error updating schedule:', error);
+    // console.error('Error updating schedule:', error);
     res.status(500).json({ message: 'Failed to update gym schedule', error });
   }
 });
@@ -262,9 +263,90 @@ const initializeSchedule = async () => {
     }));
 
     await GymSchedule.insertMany(schedule);
-    console.log('Initialized gym schedule.');
+    // console.log('Initialized gym schedule.');
   }
 };
+
+const verifyToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+
+  try {
+      const decodedToken = await admin.auth().verifyIdToken(token);
+      req.user = decodedToken;
+      next();
+  } catch (error) {
+      res.status(403).json({ error: 'Invalid or expired token' });
+  }
+};
+
+app.post('/saveWorkoutPlan', verifyToken, async (req, res) => {
+  console.log('Incoming request:', req.body);
+
+  const { level, goal } = req.body;
+  const userId = req.user.uid;
+
+  if (!level || !goal) {
+      return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+      const existingPlan = await WorkoutPlan.findOne({ userId });
+
+      if (existingPlan) {
+          existingPlan.level = level;
+          existingPlan.goal = goal;
+          await existingPlan.save();
+          console.log('Updated workout plan:', existingPlan);
+      } else {
+          const newWorkout = new WorkoutPlan({ userId, level, goal});
+          await newWorkout.save();
+          console.log('New workout plan created:', newWorkout);
+      }
+
+      res.status(200).json({ message: 'Workout plan saved successfully!' });
+  } catch (error) {
+      console.error('Error saving workout plan:', error);
+      res.status(500).json({ error: 'Error saving workout plan' });
+  }
+});
+
+
+
+app.get('/getWorkoutPlan', verifyToken, async (req, res) => {
+  const userId = req.user.uid;
+
+  try {
+      const workoutPlan = await WorkoutPlan.findOne({ userId });
+
+      if (workoutPlan) {
+          res.status(200).json({ workoutPlan });
+      } else {
+          res.status(404).json({ message: 'No workout plan found' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error fetching workout plan' });
+  }
+});
+
+app.delete('/deleteWorkoutPlan', async (req, res) => {
+  try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) return res.status(401).json({ message: 'Unauthorized' });
+
+      const decodedToken = await admin.auth().verifyIdToken(authHeader);
+      const userId = decodedToken.uid;
+
+      await WorkoutPlan.deleteOne({ userId }); // Assuming your collection is named WorkoutPlan
+
+      res.json({ message: 'Workout plan deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting workout plan:', error);
+      res.status(500).json({ message: 'Failed to delete workout plan' });
+  }
+});
+
 
 initializeSchedule();
 

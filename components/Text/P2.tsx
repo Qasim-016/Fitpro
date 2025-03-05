@@ -11,14 +11,14 @@ const P2 = ({ paragraph }: { paragraph: string }) => {
         if (word === 'Diet' || word === 'Workout') {
           return (
             <Text key={index} style={styles.greenText}>
-              {word} 
+              {word}
             </Text>
           );
         }
         // Apply black color to all other words
         return (
           <Text key={index} style={styles.blackText}>
-            {word} 
+            {word}
           </Text>
         );
       })}

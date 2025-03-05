@@ -18,4 +18,3 @@ export default Heading
 
 
 
-// Heading.tsx (or wherever it's defined)

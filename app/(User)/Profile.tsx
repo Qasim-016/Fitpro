@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from '@/app/(AuthScreens)/firebaseConfig';
 import axios from 'axios';
 import styling from '@/assets/Styles/styling';
-import MyButton from '@/components/Buttons/MyButton'; 
+import MyButton from '@/components/Buttons/MyButton';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,7 +42,7 @@ interface Errors {
 }
 const Profile = () => {
   const [activeSection, setActiveSection] = useState('Profile');
-  const [userData, setUserData] = useState<{ username: string; email: string ;phone:number ;password:string } | null>(null);
+  const [userData, setUserData] = useState<{ username: string; email: string; phone: number; password: string } | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Profile = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
+        const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -75,6 +75,36 @@ const Profile = () => {
       }
     } catch (error) {
       console.error('Error loading profile image', error);
+    }
+  };
+
+  const selectProfileImage = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission required', 'Please grant access to your photo library.');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const selectedImage = result.assets[0].uri;
+        setProfileImage(selectedImage);
+
+        // Save to AsyncStorage
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+          await AsyncStorage.setItem(`profileImage_${userId}`, selectedImage);
+        }
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
     }
   };
 
@@ -107,26 +137,26 @@ const Profile = () => {
     formErrors.username = username.trim() === ''
       ? 'Username is required'
       : !username.match(usernameRegex)
-      ? 'Username can only contain letters and spaces'
-      : '';
+        ? 'Username can only contain letters and spaces'
+        : '';
 
     formErrors.email = email.trim() === ''
       ? 'Email is required'
       : !email.match(emailRegex)
-      ? 'Please enter a valid Gmail address (e.g., example@gmail.com)'
-      : '';
+        ? 'Please enter a valid Gmail address (e.g., example@gmail.com)'
+        : '';
 
     formErrors.phone = phone.trim() === ''
       ? 'Phone number is required'
       : phone.length !== 12
-      ? 'Phone number should be 12 digits (e.g., +923154721687)'
-      : '';
+        ? 'Phone number should be 12 digits (e.g., +923154721687)'
+        : '';
 
     formErrors.password = password.trim() === ''
       ? 'Password is required'
       : !password.match(passwordRegex)
-      ? 'At least 8 characters, start with a capital letter, and contain a number'
-      : '';
+        ? 'At least 8 characters, start with a capital letter, and contain a number'
+        : '';
 
     setErrors(formErrors);
     return Object.values(formErrors).every(error => error === '');
@@ -137,7 +167,7 @@ const Profile = () => {
       try {
         const idToken = await auth.currentUser?.getIdToken();
         if (idToken) {
-          const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
+          const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
             headers: { Authorization: `Bearer ${idToken}` },
           });
           const { username, email, phone, password } = response.data;
@@ -163,22 +193,22 @@ const Profile = () => {
       Alert.alert('Correct the errors before updating');
       return;
     }
-  
+
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const userId = auth.currentUser?.uid;
-  
+
       if (!userId || !idToken) {
         Alert.alert('User not authenticated');
         return;
       }
-  
+
       const response = await axios.post(
-        'http://192.168.0.114:5000/api/auth/updateUser',
+        'http://192.168.0.116:5000/api/auth/updateUser',
         { userId, ...formData },
         { headers: { Authorization: `Bearer ${idToken}` } }
       );
-  
+
       if (response.data.success) {
         Alert.alert('Updated successfully');
       } else {
@@ -189,74 +219,74 @@ const Profile = () => {
       Alert.alert('Error updating user');
     }
   };
-  
+
 
   return (
     <SafeAreaView style={styling.profilecontainer}>
-      
 
-<View style={styling.navbarleftsideprofile}>
-  <MyButton
-    title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
-    onPress={() => setActiveSection('Profile')}
-        style1={styling.button}
-    style2={styling.NextBackbtntext}
-  />
-  <Heading title={activeSection} styles={styling.HeaderText} />
 
-  {/* Conditionally render logout button in the navbar */}
-  {activeSection === 'Personal Info' && (
-    <View style={styling.profileviewicons2}>
+      <View style={styling.navbarleftsideprofile}>
+        <MyButton
+          title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
+          onPress={() => setActiveSection('Profile')}
+          style1={styling.button}
+          style2={styling.NextBackbtntext}
+        />
+        <Heading title={activeSection} styles={styling.HeaderText} />
 
-    <MyButton
-    title={
-      <Dashboardscreenimage
-      path={require('@/assets/images/dashboard/logout.png')}
-      styles={styling.dashboardbtnimages}
-      tintColor='#2ecc71'
-      />
-    }
-    onPress={() => router.navigate('/(AuthScreens)/login')}
-    style1={styling.button}
-    style2={styling.NextBackbtntext}
-    />
-  </View>
-  )}
-  {activeSection === 'Account Settings' && (
-    <View style={styling.profileviewicons2}>
-<MyButton
-    title={
-      <Dashboardscreenimage
-      path={require('@/assets/images/Profile/edit.png')}
-      styles={styling.dashboardbtnimages}
-      // tintColor='#2ecc71'
-      />
-    }
-    onPress={() => setActiveSection('Edit Profile')}
-    style1={styling.button}
-    style2={styling.NextBackbtntext}
-    />
-    <MyButton
-    title={
-      <Dashboardscreenimage
-      path={require('@/assets/images/dashboard/logout.png')}
-      styles={styling.dashboardbtnimages}
-      tintColor='#2ecc71'
-      />
-    }
-    onPress={() => router.navigate('/(AuthScreens)/login')}
-    style1={styling.button}
-    style2={styling.NextBackbtntext}
-    />
-    </View>
-  )}
-</View>
+        {/* Conditionally render logout button in the navbar */}
+        {activeSection === 'Personal Info' && (
+          <View style={styling.profileviewicons2}>
 
-      
+            <MyButton
+              title={
+                <Dashboardscreenimage
+                  path={require('@/assets/images/dashboard/logout.png')}
+                  styles={styling.dashboardbtnimages}
+                  tintColor='#2ecc71'
+                />
+              }
+              onPress={() => router.navigate('/(AuthScreens)/login')}
+              style1={styling.button}
+              style2={styling.NextBackbtntext}
+            />
+          </View>
+        )}
+        {activeSection === 'Account Settings' && (
+          <View style={styling.profileviewicons2}>
+            <MyButton
+              title={
+                <Dashboardscreenimage
+                  path={require('@/assets/images/Profile/edit.png')}
+                  styles={styling.dashboardbtnimages}
+                // tintColor='#2ecc71'
+                />
+              }
+              onPress={() => setActiveSection('Edit Profile')}
+              style1={styling.button}
+              style2={styling.NextBackbtntext}
+            />
+            <MyButton
+              title={
+                <Dashboardscreenimage
+                  path={require('@/assets/images/dashboard/logout.png')}
+                  styles={styling.dashboardbtnimages}
+                  tintColor='#2ecc71'
+                />
+              }
+              onPress={() => router.navigate('/(AuthScreens)/login')}
+              style1={styling.button}
+              style2={styling.NextBackbtntext}
+            />
+          </View>
+        )}
+      </View>
+
+
 
       {/* Static Profile Section */}
       <View style={styling.profileHeader1}>
-        <TouchableOpacity style={styling.imageContainer}>
+        {/* <TouchableOpacity style={styling.imageContainer}>
           <Image
             source={
               profileImage
@@ -265,7 +295,13 @@ const Profile = () => {
             }
             style={styling.profileImage}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <TouchableOpacity style={styling.imageContainer} onPress={selectProfileImage}>
+        <Image
+          source={profileImage ? { uri: profileImage } : require('@/assets/images/dashboard/noimage.png')}
+          style={styling.profileImage}
+        />
+      </TouchableOpacity>
         <Text style={styling.profileUsername}>{userData?.username || 'User Name'}</Text>
       </View>
 
@@ -297,36 +333,36 @@ const Profile = () => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styling.infoItem} onPress={() => router.push('/AiScreens/Chatbot')}>
-           <Image source={require('@/assets/images/sidebar/ai.png')} style={styling.infoIcon} />
-           <View style={styling.infoText}>
-             <Text style={styling.infoTitle}>AI ChatBot</Text>
-             <Text style={styling.infoSubtitle}>Personalized chatbot</Text>
-           </View>
-        </TouchableOpacity>
+              <Image source={require('@/assets/images/sidebar/ai.png')} style={styling.infoIcon} />
+              <View style={styling.infoText}>
+                <Text style={styling.infoTitle}>AI ChatBot</Text>
+                <Text style={styling.infoSubtitle}>Personalized chatbot</Text>
+              </View>
+            </TouchableOpacity>
             {activeSection === 'Profile' && (
-        <MyButton
-          title="Logout"
-          onPress={() => {
-            router.navigate('/login');
-          }}
-          style1={styling.updateButton}
-          style2={styling.updateButtonText}
-        />
-      )}
+              <MyButton
+                title="Logout"
+                onPress={() => {
+                  router.navigate('/login');
+                }}
+                style1={styling.updateButton}
+                style2={styling.updateButtonText}
+              />
+            )}
           </View>
         )}
 
         {activeSection === 'Personal Info' && (
-           <View>
-           {/* <Text style={styling.headerTitle}>Personal Info</Text> */}
-           <PersonalInfo/>
-           
-         </View>
+          <View>
+            {/* <Text style={styling.headerTitle}>Personal Info</Text> */}
+            <PersonalInfo />
+
+          </View>
         )}
 
         {activeSection === 'Account Settings' && (
           <View>
-             <AccountSettings/>
+            <AccountSettings />
           </View>
         )}
 
@@ -335,87 +371,87 @@ const Profile = () => {
             <Text style={styling.sectionContent}>Customize your notification preferences.</Text>
           </View>
         )}
-        {activeSection === 'Edit Profile' &&(
-           <KeyboardAvoidingView 
-           behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-           style={{ flex: 1 }}
-         >
-           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-             <ScrollView 
-               contentContainerStyle={{ flexGrow: 1, padding: 10 }} 
-               keyboardShouldPersistTaps="handled"
-             >
-               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Personal Info</Text>
-     
-               {/* Username */}
-               <View style={styling.profileicons3}>
-                 <Image source={require('@/assets/images/Profile/profilegreen.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Name</Text>
-               </View>
-               <TextInput
-                 style={styling.placeholder}
-                 placeholder="Username"
-                 value={formData.username}
-                 onChangeText={(value) => handleInputChange('username', value)}
-               />
-               {errors.username ? <Text style={{ color: 'red'}}>{errors.username}</Text> : null}
-     
-               {/* Email */}
-               <View style={styling.profileicons3}>
-                 <Image source={require('@/assets/images/Profile/profileemail.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Email</Text>
-               </View>
-               <TextInput
-                 style={styling.placeholder}
-                 placeholder="Email"
-                 value={formData.email}
-                 onChangeText={(value) => handleInputChange('email', value)}
-                 keyboardType="email-address"
-               />
-               {errors.email ? <Text style={{ color: 'red'}}>{errors.email}</Text> : null}
-     
-               {/* Phone */}
-               <View style={styling.profileicons3}>
-                 <Image source={require('@/assets/images/Profile/profilecontact.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Contact No.</Text>
-               </View>
-               <TextInput
-                 style={styling.placeholder}
-                 placeholder="Phone"
-                 value={formData.phone}
-                 onChangeText={(value) => handleInputChange('phone', value)}
-                 keyboardType="phone-pad"
-               />
-               {errors.phone ? <Text style={{ color: 'red'}}>{errors.phone}</Text> : null}
-     
-               {/* Password */}
-               <View style={styling.profileicons3}>
-                 <Image source={require('@/assets/images/Profile/profilepass.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                 <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Password</Text>
-               </View>
-               <TextInput
-                 style={styling.placeholder}
-                 placeholder="Password"
-                 onChangeText={(value) => handleInputChange('password', value)}
-                 secureTextEntry
-               />
-               {errors.password ? <Text style={{ color: 'red'}}>{errors.password}</Text> : null}
-     
-               {/* Update Button */}
-               <TouchableOpacity onPress={handleUpdate} style={styling.updateButton}>
-                 <Text style={styling.updateButtonText}>Update</Text>
-               </TouchableOpacity>
-             </ScrollView>
-           </TouchableWithoutFeedback>
-         </KeyboardAvoidingView>
+        {activeSection === 'Edit Profile' && (
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}
+          >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <ScrollView
+                contentContainerStyle={{ flexGrow: 1, padding: 10 }}
+                keyboardShouldPersistTaps="handled"
+              >
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Personal Info</Text>
+
+                {/* Username */}
+                <View style={styling.profileicons3}>
+                  <Image source={require('@/assets/images/Profile/profilegreen.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Name</Text>
+                </View>
+                <TextInput
+                  style={styling.placeholder}
+                  placeholder="Username"
+                  value={formData.username}
+                  onChangeText={(value) => handleInputChange('username', value)}
+                />
+                {errors.username ? <Text style={{ color: 'red' }}>{errors.username}</Text> : null}
+
+                {/* Email */}
+                <View style={styling.profileicons3}>
+                  <Image source={require('@/assets/images/Profile/profileemail.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Email</Text>
+                </View>
+                <TextInput
+                  style={styling.placeholder}
+                  placeholder="Email"
+                  value={formData.email}
+                  onChangeText={(value) => handleInputChange('email', value)}
+                  keyboardType="email-address"
+                />
+                {errors.email ? <Text style={{ color: 'red' }}>{errors.email}</Text> : null}
+
+                {/* Phone */}
+                <View style={styling.profileicons3}>
+                  <Image source={require('@/assets/images/Profile/profilecontact.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Contact No.</Text>
+                </View>
+                <TextInput
+                  style={styling.placeholder}
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChangeText={(value) => handleInputChange('phone', value)}
+                  keyboardType="phone-pad"
+                />
+                {errors.phone ? <Text style={{ color: 'red' }}>{errors.phone}</Text> : null}
+
+                {/* Password */}
+                <View style={styling.profileicons3}>
+                  <Image source={require('@/assets/images/Profile/profilepass.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Password</Text>
+                </View>
+                <TextInput
+                  style={styling.placeholder}
+                  placeholder="Password"
+                  onChangeText={(value) => handleInputChange('password', value)}
+                  secureTextEntry
+                />
+                {errors.password ? <Text style={{ color: 'red' }}>{errors.password}</Text> : null}
+
+                {/* Update Button */}
+                <TouchableOpacity onPress={handleUpdate} style={styling.updateButton}>
+                  <Text style={styling.updateButtonText}>Update</Text>
+                </TouchableOpacity>
+              </ScrollView>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
         )}
       </View>
 
       {/* Logout Button (Static) */}
-      
+
 
       {/* Footer - Static */}
-      
+
     </SafeAreaView>
   );
 };

@@ -91,7 +91,7 @@ const Login = () => {
   
       try {
         // Send login request to the backend
-        const response = await axios.post('http://192.168.0.114:5000/api/auth/login', {
+        const response = await axios.post('http://192.168.0.116:5000/api/auth/login', {
           email: form.email.trim(),
           password: form.password.trim(),
         });
@@ -105,7 +105,7 @@ const Login = () => {
           // 🔹 Step 1: Check Free Trial
           let isTrialActive = false;
           try {
-            const trialResponse = await axios.get(`http://192.168.0.114:5000/api/trial/${userData.uid}`);
+            const trialResponse = await axios.get(`http://192.168.0.116:5000/api/trial/${userData.uid}`);
             if (trialResponse.status === 200 && trialResponse.data?.trialStatus === 'active') {
               isTrialActive = true;
             }
@@ -117,7 +117,7 @@ const Login = () => {
           // 🔹 Step 2: Check Subscription
           let hasActiveSubscription = false;
           try {
-            const subscriptionResponse = await axios.get(`http://192.168.0.114:5000/api/subscription/${userData.uid}`);
+            const subscriptionResponse = await axios.get(`http://192.168.0.116:5000/api/subscription/${userData.uid}`);
             if (subscriptionResponse.status === 200 && subscriptionResponse.data?.subscriptionEndTime > Date.now()) {
               hasActiveSubscription = true;
             }

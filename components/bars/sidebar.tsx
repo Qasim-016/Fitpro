@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get('http://192.168.0.114:5000/api/auth/getUserdata', {
+            const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
@@ -110,11 +110,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
             style={styling.profileImage} // Add styling for the profile image
           />
         </TouchableOpacity>
-        
+
         {userData ? (
           <>
-            <Heading title={userData.username} styles={styling.sidebarUserName}/>
-            <Paragraph paragraph={userData.email} styles={styling.sidebarUserEmail}/>
+            <Heading title={userData.username} styles={styling.sidebarUserName} />
+            <Paragraph paragraph={userData.email} styles={styling.sidebarUserEmail} />
           </>
         ) : (
           <Text>Loading user data...</Text>
@@ -123,19 +123,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
 
       <View style={styling.sidebarbody}>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/personalinfo.png')} styles={styling.sidebaricons}/>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/personalinfo.png')} styles={styling.sidebaricons} />
           <Link href={'/(User)/Profile'}>Personal info</Link>
         </View>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/key.png')} styles={styling.sidebaricons}/>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/key.png')} styles={styling.sidebaricons} />
           <MyButton title='Account Settings' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Profile')} />
         </View>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/notify.png')} styles={styling.sidebaricons}/>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/notify.png')} styles={styling.sidebaricons} />
           <MyButton title='Notifications' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Gotonotifications')} />
         </View>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/ai.png')} styles={styling.sidebaricons}/>
+          <LogoImgForScreen path={require('@/assets/images/sidebar/ai.png')} styles={styling.sidebaricons} />
           <MyButton title='Fitpro AI' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/AiScreens/Chatbot')} />
         </View>
       </View>
