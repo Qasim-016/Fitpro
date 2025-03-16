@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styling from '@/assets/Styles/styling';
 import axios from 'axios';
 import PlaceHolderHeading from '@/components/PlaceHolder/PlaceHolderHeading';
-
+import { SERVER_IP } from '../config';
 const ForgotPass = () => {
   const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '', uid: '', otp: '' });
@@ -72,7 +72,7 @@ const ForgotPass = () => {
     if (!validateForm()) return;
   
     try {
-      const response = await axios.post('http://192.168.0.116:5000/api/auth/checkEmailAndSendOTP', {
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/checkEmailAndSendOTP`, {
         email: form.email.trim(),
       });
   
@@ -94,7 +94,7 @@ const ForgotPass = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post('http://192.168.0.116:5000/api/auth/verifyOTPAndResetPassword', {
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/verifyOTPAndResetPassword`, {
         email: form.email.trim(),
         otp: form.otp.trim(),
         newPassword: form.password,
@@ -110,7 +110,7 @@ const ForgotPass = () => {
 
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post('http://192.168.0.116:5000/api/auth/checkEmailAndSendOTP', {
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/checkEmailAndSendOTP`, {
         email: form.email.trim(),
       });
 

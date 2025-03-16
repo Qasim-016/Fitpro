@@ -15,6 +15,8 @@ require('./cleanuptask'); // Include the cleanup task
 const Subscription = require('./models/subscription');
 
 const WorkoutPlan = require('./models/CustomizedWorkout');
+const DietPlan = require('./models/DietPlan');
+
 
 
 
@@ -346,6 +348,116 @@ app.delete('/deleteWorkoutPlan', async (req, res) => {
       res.status(500).json({ message: 'Failed to delete workout plan' });
   }
 });
+// app.post('/saveDietPlan', verifyToken, async (req, res) => {
+//   try {
+//       const { level,duration ,goal, currentWeight, targetWeight } = req.body;
+
+//       // Ensure weights are numbers
+//       if (isNaN(currentWeight) || isNaN(targetWeight)) {
+//           return res.status(400).json({ message: 'Current weight and target weight must be valid numbers' });
+//       }
+
+//       // Validation: Target weight must be greater for weight gain
+//       if (goal === 'Weight Gain' && targetWeight <= currentWeight) {
+//           return res.status(400).json({ message: 'Target weight must be greater than current weight for Weight Gain' });
+//       }else if(goal === 'Weight Loss' && targetWeight >= currentWeight){
+//         return res.status(400).json({ message: 'Target weight must be less than current weight for Weight loss' });
+
+//       }
+
+//       const userId = req.user.uid; // Get user ID from Firebase token
+
+//       let dietPlan = await DietPlan.findOne({ userId });
+//       if (dietPlan) {
+//           // Update existing record
+//           dietPlan.level = level;
+//           dietPlan.duration = duration;
+//           dietPlan.goal = goal;
+//           dietPlan.currentWeight = currentWeight;
+//           dietPlan.targetWeight = targetWeight;
+//       } else {
+//           // Create a new record
+//           dietPlan = new DietPlan({ userId, level,duration, goal, currentWeight, targetWeight });
+//       }
+
+//       await dietPlan.save();
+//       return res.status(200).json({ message: 'Diet plan saved successfully', dietPlan });
+
+//   } catch (error) {
+//       console.error('Error saving diet plan:', error);
+//       res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+
+app.post('/saveDietPlan', verifyToken, async (req, res) => {
+  try {
+      const {  gender, height, level, duration, goal, currentWeight, targetWeight } = req.body;
+
+      // Ensure numerical fields are valid numbers
+      if ( isNaN(height) || isNaN(currentWeight) || isNaN(targetWeight)) {
+          return res.status(400).json({ message: 'height, current weight, and target weight must be valid numbers' });
+      }
+
+      // Validate gender input
+      if (!['Male', 'Female', 'Other'].includes(gender)) {
+          return res.status(400).json({ message: 'Invalid gender. Allowed values: Male, Female, Other' });
+      }
+
+      // Validate weight goals
+      if (goal === 'Weight Gain' && targetWeight <= currentWeight) {
+          return res.status(400).json({ message: 'Target weight must be greater than current weight for Weight Gain' });
+      } else if (goal === 'Weight Loss' && targetWeight >= currentWeight) {
+          return res.status(400).json({ message: 'Target weight must be less than current weight for Weight Loss' });
+      }
+
+      const userId = req.user.uid; // Get user ID from Firebase token
+
+      let dietPlan = await DietPlan.findOne({ userId });
+      if (dietPlan) {
+          // Update existing record
+          // dietPlan.age = age;
+          dietPlan.gender = gender;
+          dietPlan.height = height;
+          dietPlan.level = level;
+          dietPlan.duration = duration;
+          dietPlan.goal = goal;
+          dietPlan.currentWeight = currentWeight;
+          dietPlan.targetWeight = targetWeight;
+      } else {
+          // Create a new record
+          dietPlan = new DietPlan({ userId, gender, height, level, duration, goal, currentWeight, targetWeight });
+      }
+
+      await dietPlan.save();
+      return res.status(200).json({ message: 'Diet plan saved successfully', dietPlan });
+
+  } catch (error) {
+      console.error('Error saving diet plan:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+// 📌 API Route to Get User Diet Plan
+app.get('/getDietPlan', verifyToken, async (req, res) => {
+  try {
+      const userId = req.user.uid;
+      const dietPlan = await DietPlan.findOne({ userId });
+
+      if (!dietPlan) {
+          return res.status(404).json({ message: 'No diet plan found' });
+      }
+
+      return res.status(200).json(dietPlan);
+  } catch (error) {
+      console.error('Error fetching diet plan:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// 📌 API Route to Delete Diet Plan
+
 
 
 initializeSchedule();

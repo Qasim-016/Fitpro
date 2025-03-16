@@ -6,7 +6,7 @@ import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity
 import styling from '@/assets/Styles/styling';
 import MyButton from '@/components/Buttons/MyButton';
 import moment from 'moment';
-
+import { SERVER_IP } from './config';
 interface GymSchedule {
   day: string;
   startTime: string;
@@ -46,7 +46,7 @@ const Admin = () => {
   // Fetch gym schedule from backend
   const fetchSchedule = async () => {
     try {
-      const response = await axios.get('http://192.168.0.116:5000/api/gym-schedule');
+      const response = await axios.get(`http://${SERVER_IP}:5000/api/gym-schedule`);
       setGymSchedule(response.data);
     } catch (error) {
       console.error('Error fetching schedule:', error);
@@ -91,7 +91,7 @@ const Admin = () => {
           handleUpdate();
           clearInterval(checkTimeInterval);
         }
-      }, 60000); // Check every minute
+      }, 6000); // Check every minute
     }
   };
 
@@ -117,7 +117,7 @@ const Admin = () => {
         status: selectedStatus,
       };
 
-      await axios.put(`http://192.168.0.116:5000/api/gym-schedule/${selectedDay}`, updatedData);
+      await axios.put(`http://${SERVER_IP}:5000/api/gym-schedule/${selectedDay}`, updatedData);
 
       alert('Schedule updated successfully!');
       fetchSchedule(); // Refresh schedule after update
@@ -129,7 +129,7 @@ const Admin = () => {
 
         setTimeout(async () => {
           try {
-            await axios.put(`http://192.168.0.116:5000/api/gym-schedule/${selectedDay}`, {
+            await axios.put(`http://${SERVER_IP}:5000/api/gym-schedule/${selectedDay}`, {
               startTime: '-',
               endTime: '-',
               status: 'The gym is Closed',

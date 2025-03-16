@@ -13,7 +13,7 @@ import Paragraph from '../Text/Paragraph';
 import { Link, router } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { SERVER_IP } from '@/app/config';
 interface SidebarProps {
   isVisible: boolean; // Whether the sidebar is visible
   onClose: () => void;
@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
+            const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },

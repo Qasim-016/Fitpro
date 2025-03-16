@@ -7,7 +7,7 @@ import { auth } from '@/app/(AuthScreens)/firebaseConfig';
 import axios from 'axios';
 import styling from '@/assets/Styles/styling';
 import { Image } from 'react-native';
-
+import { SERVER_IP } from '../config';
 const usernameRegex = /^[A-Za-z ]+$/;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -85,7 +85,7 @@ const EditInfo = () => {
       try {
         const idToken = await auth.currentUser?.getIdToken();
         if (idToken) {
-          const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
+          const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
             headers: { Authorization: `Bearer ${idToken}` },
           });
           const { username, email, phone, password } = response.data;

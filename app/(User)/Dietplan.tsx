@@ -31,7 +31,7 @@ const Dietplan = () => {
         />
       <MyButton
         title="Customized"
-        onPress={() => router.push('/(User)/Dietplan')}
+        onPress={() => router.push('/(User)/CustomizedDiet')}
         style1={styling.FullWidthbutton}
         style2={styling.FullwidthbtnText}
         />

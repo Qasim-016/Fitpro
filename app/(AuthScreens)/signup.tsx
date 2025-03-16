@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from './firebaseConfig'; // Ensure this points to your Firebase configuration file
 import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'firebase/auth';
 import axios from 'axios'; // Axios for API requests
-
+import { SERVER_IP } from '../config';
 // Regular expressions for validations
 const usernameRegex = /^[A-Za-z ]+$/; // Only letters and spaces allowed
 const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Validate email format (only Gmail)
@@ -112,7 +112,7 @@ const handleSignup = async () => {
       const user = userCredential.user;
 
       // Call backend to save user details
-      const response = await axios.post('http://192.168.0.116:5000/api/auth/signup', {
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/signup`, {
         username: formData.username,
         email: user.email,
         phone: formData.phone,
@@ -148,7 +148,7 @@ const handleSignup = async () => {
 
   const handleEmailVerification = async (uid:string) => {
     try {
-      const response = await axios.post('http://192.168.0.116:5000/api/auth/verifyUserEmail', { uid });
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/verifyUserEmail`, { uid });
 
       if (response.status === 200) {
         Alert.alert('Success', 'Your email is verified, and your account is activated.');

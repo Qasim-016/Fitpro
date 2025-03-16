@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { auth } from '../(AuthScreens)/firebaseConfig'
-
+import { SERVER_IP } from '../config'
 const AccountSettings = () => {
   const [userData, setUserData] = useState<{ username: string; email: string; phone: number; password: string } | null>(null);
   useEffect(() => {
@@ -16,7 +16,7 @@ const AccountSettings = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
+        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);

@@ -27,6 +27,7 @@ export default function RootLayout() {
                 <Stack.Screen name="Admin" />
                 <Stack.Screen name="(User)/Profile" />
                 <Stack.Screen name="(User)/AccountSettings" />
+                <Stack.Screen name="(User)/CustomizedDiet" />
                 <Stack.Screen name="(User)/PersonalInfo" />
                 <Stack.Screen name="(User)/EditInfo" />
                 <Stack.Screen name="(User)/WorkoutNormal" />
@@ -131,7 +132,50 @@ export default function RootLayout() {
                 <Stack.Screen name="CustomizedWorkout/InterLoss"/>
                 <Stack.Screen name="CustomizedWorkout/ProGain"/>
                 <Stack.Screen name="CustomizedWorkout/ProLoss"/>
-
+                <Stack.Screen name="CustomizedDiet/Gain1"/>
+                <Stack.Screen name="CustomizedDiet/Gain2"/>
+                <Stack.Screen name="CustomizedDiet/Gain3"/>
+                <Stack.Screen name="CustomizedDiet/Gain4"/>
+                <Stack.Screen name="CustomizedDiet/Gain5"/>
+                <Stack.Screen name="CustomizedDiet/Gain6"/>
+                <Stack.Screen name="CustomizedDiet/Gain7"/>
+                <Stack.Screen name="CustomizedDiet/Gain8"/>
+                <Stack.Screen name="CustomizedDiet/Gain9"/>
+                <Stack.Screen name="CustomizedDiet/Gain10"/>
+                <Stack.Screen name="CustomizedDiet/Gain11"/>
+                <Stack.Screen name="CustomizedDiet/Gain12"/>
+                <Stack.Screen name="CustomizedDiet/Gain13"/>
+                <Stack.Screen name="CustomizedDiet/Gain14"/>
+                <Stack.Screen name="CustomizedDiet/Gain15"/>
+                <Stack.Screen name="CustomizedDiet/Gain16"/>
+                <Stack.Screen name="CustomizedDiet/Gain17"/>
+                <Stack.Screen name="CustomizedDiet/Gain18"/>
+                <Stack.Screen name="CustomizedDiet/Gain19"/>
+                <Stack.Screen name="CustomizedDiet/Gain20"/>
+                <Stack.Screen name="CustomizedDiet/Gain21"/>
+                <Stack.Screen name="CustomizedDiet/Gain22"/>
+                <Stack.Screen name="CustomizedDiet/FGain1"/>
+                <Stack.Screen name="CustomizedDiet/FGain2"/>
+                <Stack.Screen name="CustomizedDiet/FGain3"/>
+                <Stack.Screen name="CustomizedDiet/FGain4"/>
+                <Stack.Screen name="CustomizedDiet/FGain5"/>
+                <Stack.Screen name="CustomizedDiet/FGain6"/>
+                <Stack.Screen name="CustomizedDiet/FGain7"/>
+                <Stack.Screen name="CustomizedDiet/FGain8"/>
+                <Stack.Screen name="CustomizedDiet/FGain9"/>
+                <Stack.Screen name="CustomizedDiet/FGain10"/>
+                <Stack.Screen name="CustomizedDiet/FGain11"/>
+                <Stack.Screen name="CustomizedDiet/FGain12"/>
+                <Stack.Screen name="CustomizedDiet/FGain13"/>
+                <Stack.Screen name="CustomizedDiet/FGain14"/>
+                <Stack.Screen name="CustomizedDiet/FGain15"/>
+                <Stack.Screen name="CustomizedDiet/FGain16"/>
+                <Stack.Screen name="CustomizedDiet/FGain17"/>
+                <Stack.Screen name="CustomizedDiet/FGain18"/>
+                <Stack.Screen name="CustomizedDiet/FGain19"/>
+                <Stack.Screen name="CustomizedDiet/FGain20"/>
+                <Stack.Screen name="CustomizedDiet/FGain21"/>
+                <Stack.Screen name="CustomizedDiet/FGain22"/>
 
 
 

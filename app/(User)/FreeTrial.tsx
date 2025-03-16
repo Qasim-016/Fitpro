@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { auth } from '../(AuthScreens)/firebaseConfig';
 import MyButton from '@/components/Buttons/MyButton';
 import styling from '@/assets/Styles/styling';
-
+import { SERVER_IP } from '../config';
 const FreeTrial = () => {
   const router = useRouter();
   const { height, width } = Dimensions.get('screen');
@@ -20,7 +20,7 @@ const FreeTrial = () => {
       const userId = auth.currentUser?.uid;
       if (!userId) return;
 
-      const response = await axios.get(`http://192.168.0.116:5000/api/auth/trialStatus/${userId}`);
+      const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/trialStatus/${userId}`);
 
       if (response.status === 200 && response.data.count >= 1) {
         setTrialUsed(true); // Disable button if trial has been used
@@ -41,7 +41,7 @@ const FreeTrial = () => {
       }
 
       const response = await axios.post(
-        'http://192.168.0.116:5000/api/auth/startTrial',
+        `http://${SERVER_IP}:5000/api/auth/startTrial`,
         { userId },
         { headers: { Authorization: `Bearer ${idToken}` } }
       );

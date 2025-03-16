@@ -19,6 +19,7 @@ import PlaceHolderHeading from '@/components/PlaceHolder/PlaceHolderHeading';
 import { router } from 'expo-router';
 import styling from '@/assets/Styles/styling';
 import { duration } from 'moment';
+import { SERVER_IP } from '../config';
 
 const PaymentForm: React.FC = () => {
   const { confirmPayment } = useStripe();
@@ -56,7 +57,7 @@ const PaymentForm: React.FC = () => {
       if (!currentUserId) return; // Ensure user is logged in
 
       try {
-        const response = await fetch(`http://192.168.0.116:5000/api/subscription/${currentUserId}`);
+        const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`);
         const data = await response.json();
         if (data && data.subscriptionEndTime) {
           setSubscriptionEndTime(data.subscriptionEndTime);
@@ -120,7 +121,7 @@ const PaymentForm: React.FC = () => {
       try {
         // Ensure `planDuration` is passed with the selected duration in months
 
-        const response = await fetch('http://192.168.0.116:5000/api/payment-intent', {
+        const response = await fetch(`http://${SERVER_IP}:5000/api/payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -173,7 +174,7 @@ const PaymentForm: React.FC = () => {
           setSubscriptionEndTime(endTime);
 
           // Save subscription data to MongoDB
-          const response = await fetch('http://192.168.0.116:5000/api/subscription', {
+          const response = await fetch(`http://${SERVER_IP}:5000/api/subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: currentUserId, subscriptionEndTime: endTime }),
@@ -206,7 +207,7 @@ const PaymentForm: React.FC = () => {
     // Remove subscription data from MongoDB
     if (currentUserId) {
       try {
-        const response = await fetch(`http://192.168.0.116:5000/api/subscription/${currentUserId}`, {
+        const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`, {
           method: 'DELETE',
         });
 

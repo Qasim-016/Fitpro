@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
-
+import { SERVER_IP } from '../config';
 const CustomizedWorkout = () => {
     const [level, setLevel] = useState('Begin');
     const [goal, setGoal] = useState('Weight Loss');
@@ -26,7 +26,7 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.post('http://192.168.0.116:5000/saveWorkoutPlan', 
+            const response = await axios.post(`http://${SERVER_IP}:5000/saveWorkoutPlan`, 
                 { level, goal },
                 { headers: { Authorization: token } }
             );
@@ -72,7 +72,7 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.delete('http://192.168.0.116:5000/deleteWorkoutPlan', {
+            const response = await axios.delete(`http://${SERVER_IP}:5000/deleteWorkoutPlan`, {
                 headers: { Authorization: token },
             });
     
@@ -120,7 +120,7 @@ const CustomizedWorkout = () => {
                 
 
                 <View style={{ alignItems: 'center' }}>
-                    <MyButton title="Submit" onPress={handleSubmit} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
+                    <MyButton title="Submit" onPress={handleSubmit} style1={styling.FullwidthWhitebtn} style2={styling.whitebtntext} />
                 </View>
                 <View style={{ alignItems: 'center' ,marginTop:10}}>
                     <MyButton title="Predefined" onPress={handlePredefined} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />

@@ -7,10 +7,15 @@ import { router } from 'expo-router';
 import axios from 'axios'; // Import axios to make the API request
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import Heading from '@/components/Text/Heading';
+import { getAuth } from 'firebase/auth';
+import { Alert } from 'react-native';
 // import Paragraph from '@/components/Text/Paragraph';
-
+import { SERVER_IP } from '../config';
 const Paragraph = ({ paragraph }: { paragraph: string }) => {
+  
   const parts = paragraph.split(' '); // Split the paragraph into parts by spaces
+  
+  
 
   return (
     <View style={styles.paragraphContainer}>
@@ -51,11 +56,59 @@ const GymScheduleScreen = () => {
   const [isGymOpen, setIsGymOpen] = useState(false);
   const [gymSchedule, setGymSchedule] = useState<GymScheduleItem | null>(null); // Store only the current day's schedule
   const [error, setError] = useState<string | null>(null); // Store error messages
+  const handleWorkoutPress = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
+    if (!user) {
+      Alert.alert('Error', 'You must be logged in.');
+      return;
+    }
+
+    try {
+      const token = await user.getIdToken();
+      const response = await axios.get(`http://${SERVER_IP}:5000/getWorkoutPlan`, {
+        headers: { Authorization: token }
+      });
+
+      if (response.data && response.data.workoutPlan) {
+        const { level, goal } = response.data.workoutPlan;
+
+        console.log('User Workout Plan:', level, goal); // Debugging
+
+        // 🔹 Apply conditions based on fitness level and goal
+        if (level === 'Begin' && goal === 'Weight Gain') {
+          router.push('/CustomizedWorkout/BeginnerGain');
+          return;
+        } else if (level === 'Begin' && goal === 'Weight Loss') {
+          router.push('/CustomizedWorkout/BeginnerLoss');
+          return;
+        } else if (level === 'Intermediate' && goal === 'Weight Gain') {
+          router.push('/CustomizedWorkout/InterGain');
+          return;
+        } else if (level === 'Intermediate' && goal === 'Weight Loss') {
+          router.push('/CustomizedWorkout/InterLoss');
+          return;
+        } else if (level === 'Pro' && goal === 'Weight Gain') {
+          router.push('/CustomizedWorkout/ProGain');
+          return;
+        } else{
+          router.push('/CustomizedWorkout/ProLoss');
+          return;
+        }
+      } else {
+        router.push('/(User)/Workoutplan'); // If no plan exists, navigate to WorkoutPlan
+      }
+    } catch (error: any) {
+      // console.error('Error fetching workout plan:', error.response?.data || error.message || error);
+      // Alert.alert('Error', 'Failed to fetch workout plan.');
+      router.push('/(User)/Workoutplan'); // If error, redirect to WorkoutPlan
+    }
+  };
   // Fetch gym schedule from the backend
   const fetchGymSchedule = async () => {
     try {
-      const response = await axios.get('http://192.168.0.116:5000/api/gym-schedule');
+      const response = await axios.get(`http://${SERVER_IP}:5000/api/gym-schedule`);
       const today = moment().format('dddd'); // Get current day (e.g., 'Monday')
       const todaySchedule = response.data.find((schedule: GymScheduleItem) => schedule.day === today);
 
@@ -72,6 +125,8 @@ const GymScheduleScreen = () => {
       setError('Error fetching gym schedule');
     }
   };
+
+  
 
   useEffect(() => {
     // Set the current date
@@ -127,7 +182,7 @@ const GymScheduleScreen = () => {
         {/* <Text>Want to know about Diet and Workout Plan?</Text> */}
         <MyButton title={'Diet Plan'} onPress={() => router.push('/(User)/Dietplan')} style1={styling.FullwidthWhitebtn} style2={styling.FreeTrialText} />
         <MyButton title={'Goto admin panel'} onPress={() => router.push('/Admin')} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
-        <MyButton title={'Workout Plan'} onPress={() => router.push('/(User)/Workoutplan')} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
+        <MyButton title={'Workout Plan'} onPress={handleWorkoutPress} style1={styling.FullWidthbutton} style2={styling.FullwidthbtnText} />
       </View>
     </View>
   );

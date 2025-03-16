@@ -23,6 +23,7 @@ import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import Heading from '@/components/Text/Heading';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
+import { SERVER_IP } from '../config';
 
 // Helper to format date labels (e.g., "Today", "Yesterday", or date)
 const formatDateLabel = (date: Date) => {
@@ -111,7 +112,7 @@ const Chatbot = () => {
 
       // Fetch response from backend
       try {
-        const response = await axios.post('http://192.168.0.116:5000/api/chatbot', { question: userQuestion });
+        const response = await axios.post(`http://${SERVER_IP}:5000/api/chatbot`, { question: userQuestion });
         const botResponse = response.data.answer || "Sorry, I couldn't get an answer.";
         // insufficient balance: 4000 0000 0000 9995
         // payment successfull : 4242 4242 4242 4242

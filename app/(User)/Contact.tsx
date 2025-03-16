@@ -10,7 +10,7 @@ import { useRouter } from 'expo-router';
 import { Platform } from 'react-native';
 const usernameRegex = /^[A-Za-z ]+$/; // Only letters and spaces allowed
 const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
+import { SERVER_IP } from '../config';
 const Contact = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -60,7 +60,7 @@ const Contact = () => {
   const handleSubmit = async () => {
     if (validateForm()) {
       try {
-        const response = await fetch('http://192.168.0.116:5000/api/auth/submit', {
+        const response = await fetch(`http://${SERVER_IP}:5000/api/auth/submit`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

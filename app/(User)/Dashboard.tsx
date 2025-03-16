@@ -15,7 +15,7 @@ import GymScheduleScreen from './GymScheduleScreen';
 import Profile from './Profile';
 import { Alert } from 'react-native';
 import { getAuth } from 'firebase/auth';
-
+import { SERVER_IP } from '../config';
 const Dashboard = () => {
   const { selectedSection } = useLocalSearchParams();
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -34,7 +34,7 @@ const Dashboard = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get('http://192.168.0.116:5000/api/auth/getUserdata', {
+        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
       // 🔹 Check trial status first
       try {
-        const trialResponse = await axios.get(`http://192.168.0.116:5000/api/trial/${userId}`);
+        const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userId}`);
         if (trialResponse.data.trialStatus === 'active') {
           // console.log(" Free trial is active. Granting access.");
           setHasAccess(true);
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
       // 🔹 If no active trial, check subscription
       try {
-        const subscriptionResponse = await axios.get(`http://192.168.0.116:5000/api/subscription/${userId}`);
+        const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userId}`);
         const subscriptionData = subscriptionResponse.data;
 
         const currentTime = Date.now();
@@ -111,7 +111,7 @@ const Dashboard = () => {
 
     try {
       const token = await user.getIdToken();
-      const response = await axios.get('http://192.168.0.116:5000/getWorkoutPlan', {
+      const response = await axios.get(`http://${SERVER_IP}:5000/getWorkout&DietPlan`, {
         headers: { Authorization: token }
       });
 
@@ -149,6 +149,9 @@ const Dashboard = () => {
       router.push('/(User)/Workoutplan'); // If error, redirect to WorkoutPlan
     }
   };
+
+
+  
 
 
 
