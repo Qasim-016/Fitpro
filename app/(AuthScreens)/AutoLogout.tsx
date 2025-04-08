@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth';

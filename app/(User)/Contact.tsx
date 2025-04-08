@@ -108,30 +108,6 @@ const Contact = () => {
           <View style={styling.subcontainercontact}>
             <LogoImgForScreen path={require('@/assets/images/icon.png')} styles={styling.loginimg} />
 
-            {/* Username Input */}
-            <PlaceHolder
-              placeholderText={'Ali Ahmed'}
-              value={formData.username}
-              onChangeText={(value) => handleChange('username', value)}
-              onBlur={() => handleBlur('username')}
-              iconName="person"
-            />
-            {errors.username && (
-              <Text style={{ color: 'red', marginBottom: 10 }}>{errors.username}</Text>
-            )}
-
-            {/* Email Input */}
-            <PlaceHolder
-              placeholderText={'abc123@gmail.com'}
-              value={formData.email}
-              onChangeText={(value) => handleChange('email', value)}
-              onBlur={() => handleBlur('email')}
-              iconName="email"
-            />
-            {errors.email && (
-              <Text style={{ color: 'red', marginBottom: 10 }}>{errors.email}</Text>
-            )}
-
             {/* Message Input */}
             <PlaceHolder
               placeholderText={'Enter your message here'}
@@ -141,8 +117,8 @@ const Contact = () => {
               multiline={true} // Allows multi-line input
               numberOfLines={4}
               style={{
-                height: 150, // Height set to 3 times (approximately) the height of other inputs
-              }} // Optional: Suggests 4 lines in the input field
+                height: 150, 
+              }} 
             />
             {errors.message && (
               <Text style={{ color: 'red', marginBottom: 10 }}>{errors.message}</Text>

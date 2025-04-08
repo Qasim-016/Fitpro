@@ -11,13 +11,7 @@ router.post('/verifyUserEmail',verifyUserEmail);
 router.post('/submit',createContact)
 router.post('/updateUser',updateUser)
 router.post('/startTrial', startTrial);
-
-
-
-
-  
-
-  module.exports = router;
+module.exports = router;
 
 
 

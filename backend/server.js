@@ -1,32 +1,25 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai'); 
-const fs = require('fs');
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const axios = require('axios');
 const mongoose = require('mongoose');
 const path = require('path');
-const stripe = require('stripe')('sk_test_51QQorvDwtEPD58vaGf1gfpz6XX0Ns7nSUbfZ97vLntYdtMftqiiPpfhHT48RmrpQg6og69nIkFmZWsY4tDHMbZaI00ulYSpyAe');
 const authRoutes = require('./routes/auth');
-const TempUser = require('./models/temuser');
-const GymSchedule = require('./models/gymtiming'); // Import gym schedule schema
 const admin = require('firebase-admin');
 require('./cleanuptask'); // Include the cleanup task
-const Subscription = require('./models/subscription');
-
+const User=require('./models/User')
 const WorkoutPlan = require('./models/CustomizedWorkout');
 const DietPlan = require('./models/DietPlan');
-
-
-
-
-// Schedule the status check to run every minute
-
-
+const http = require('http');
+const socketIo = require('socket.io');
+const chatbotRoutes = require('./routes/chatbotRoutes'); // Adjust path if needed
+const { router: gymScheduleRoutes, initializeSchedule } = require('./routes/gymScheduleRoutes');
 dotenv.config();
 
 const app = express();
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({ limit: '10mb' }));  // Increase to 10MB
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 app.use(cors());
 
 // Initialize Firebase Admin
@@ -57,217 +50,53 @@ const connectDB = async () => {
 };
 
 connectDB();
+let clients = new Set();
 
-// Google Generative AI Initialization
-const genAI = new GoogleGenerativeAI(process.env.GEN_AI_API_KEY);
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: "*", // Adjust this for security (e.g., specific frontend URL)
+        methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', (socket) => {
+    // console.log('✅ New client connected:', socket.id);
+
+    socket.on('message', (message) => {
+        // console.log('📩 Received message:', message);
+        
+        // Broadcast the message to all connected clients except the sender
+        socket.broadcast.emit('message', message);
+    });
+
+    socket.on('disconnect', () => {
+        // console.log('❌ Client disconnected:', socket.id);
+    });
+
+    socket.on('error', (error) => {
+        // console.error('⚠️ Socket.IO Error:', error);
+    });
+});
+// API endpoint to send a notification
+
+
+// Send test notifications every 10 seconds
+setInterval(() => {
+  const testNotification = {
+      title: "💪 Stay Active!",
+      body: "Remember to complete your workout today!",
+  };
+
+  clients.forEach(client => client.emit('notification', testNotification));
+  console.log("📢 Test notification sent via WebSocket");
+}, 10000);
 
 // Existing Routes
 app.use('/api/auth', authRoutes);
-
-// Chatbot API
-app.post('/api/chatbot', async (req, res) => {
-  const { question } = req.body;
-
-  try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const result = await model.generateContent([question]);
-    const responseText = result.response.text() || 'Sorry, no response generated.';
-    res.json({ answer: responseText });
-  } catch (error) {
-    console.error('Error calling Gemini API:', error);
-    res.status(500).json({ error: 'Failed to generate response.' });
-  }
-});
-
-// Payment API
-// Payment Intent Endpoint
-app.post('/api/payment-intent', async (req, res) => {
-  try {
-    const { amount, userId, username } = req.body;
-
-    // Create a payment intent using Stripe
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: parseInt(amount) * 100, // Amount in cents
-      currency: 'usd',
-      metadata: { userId, username },
-    });
-
-    // Get the current date (startDate)
-    const startDate = new Date();
-
-    // Calculate subscription end date (for example, add 30 days for a one-month subscription)
-    const subscriptionEndTime = new Date(startDate);
-    subscriptionEndTime.setMonth(startDate.getMonth() + 1);
-    // Save the subscription details in the MongoDB database
-    const newSubscription = new Subscription({
-      userId,
-      email: 'user@example.com', // Replace with actual email if needed
-      name: username, // Store the user's name
-      amount,
-      startDate,
-      subscriptionEndTime,
-    });
-
-    // Save the subscription record to MongoDB
-    await newSubscription.save();
-
-    // Send the client secret back to the frontend
-    res.json({ clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Payment initialization failed' });
-  }
-});
-
-// Subscription Save Endpoint
-app.post('/api/subscription', async (req, res) => {
-  try {
-    const { userId, subscriptionEndTime } = req.body;
-    const subscription = await Subscription.findOneAndUpdate(
-      { userId },
-      { subscriptionEndTime },
-      { new: true, upsert: true } // Creates a new document if it doesn't exist
-    );
-
-    res.json({ success: true, subscription });
-  } catch (error) {
-    // console.error(error);
-    res.status(500).json({ error: 'Failed to save subscription data' });
-  }
-});
-
-// Subscription Delete Endpoint
-app.delete('/api/subscription/:userId', async (req, res) => {
-  try {
-    const { userId } = req.params;
-    await Subscription.findOneAndDelete({ userId });
-
-    res.json({ success: true });
-  } catch (error) {
-    // console.error(error);
-    res.status(500).json({ error: 'Failed to cancel subscription' });
-  }
-});
-
-const Trial = require('./models/trialSchema'); // Import the Trial model
-app.get('/api/trial/:userId', async (req, res) => {
-  try {
-    console.log("Received request for userId:", req.params.userId);
-    const trial = await Trial.findOne({ userId: req.params.userId });
-if(!trial){
-  return res.status(404).json({error:'No Trial'})
-}
-    if (trial.trialStatus==='inactive') {
-      return res.status(404).json({ error: 'No free trial found' });
-    }
-
-    // console.log("Trial found:", trial);
-
-    if (trial.trialStatus === 'active') {
-      // console.log("Trial is active!");
-      return res.status(200).json({ success: true, trialStatus: 'active' });
-    }
-
-    
-  } catch (error) {
-    // console.error('Error fetching trial:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-const updateExpiredTrials = async () => {
-  try {
-    const currentDate = new Date();
-
-    // Find trials where the end time has passed and status is still "active"
-    const expiredTrials = await Trial.find({ endTime: { $lte: currentDate }, trialStatus: 'active' });
-
-    for (const trial of expiredTrials) {
-      trial.trialStatus = 'inactive'; // Set trial status to inactive
-      await trial.save();
-      // console.log(` Trial expired for user: ${trial.userId}`);
-    }
-  } catch (error) {
-    // console.error(' Error updating expired trials:', error);
-  }
-};
-
-// Run every hour (3600000ms)
-setInterval(updateExpiredTrials, 6000);
-// console.log(' Trial auto-expiration job started...');
-
-
-app.get('/api/subscription/:userId', async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const subscription = await Subscription.findOne({ userId });
-
-    if (!subscription) {
-      return res.status(404).json({ error: 'No subscription found' }); //  Explicit 404
-    }
-
-    res.json({ subscriptionEndTime: subscription.subscriptionEndTime });
-  } catch (error) {
-    // console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve subscription data' });
-  }
-});
-
-
-
-
-// Gym Schedule APIs
-// Get the entire gym schedule
-app.get('/api/gym-schedule', async (req, res) => {
-  try {
-    const schedule = await GymSchedule.find();
-    res.json(schedule);
-  } catch (error) {
-    // console.error('Error fetching schedule:', error);
-    res.status(500).json({ message: 'Failed to fetch gym schedule', error });
-  }
-});
-// Express route to handle user data update
-
-// Update a specific day's schedule
-app.put('/api/gym-schedule/:day', async (req, res) => {
-  const { day } = req.params;
-  const { startTime, endTime, status } = req.body;
-
-  try {
-    const updatedSchedule = await GymSchedule.findOneAndUpdate(
-      { day },
-      { startTime, endTime, status },
-      { new: true }
-    );
-
-    if (!updatedSchedule) {
-      return res.status(404).json({ message: `Schedule for ${day} not found.` });
-    }
-
-    res.json(updatedSchedule);
-  } catch (error) {
-    // console.error('Error updating schedule:', error);
-    res.status(500).json({ message: 'Failed to update gym schedule', error });
-  }
-});
-
-// Initialize gym schedule for all days (run once)
-const initializeSchedule = async () => {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const existingData = await GymSchedule.find();
-
-  if (existingData.length === 0) {
-    const schedule = days.map((day) => ({
-      day,
-      startTime: '-',
-      endTime: '-',
-      status: 'The gym is Closed',
-    }));
-
-    await GymSchedule.insertMany(schedule);
-    // console.log('Initialized gym schedule.');
-  }
-};
+app.use('/api', chatbotRoutes);
+app.use('/api', require('./routes/paymentRoutes')); // ✅ Add this line
+app.use('/api', gymScheduleRoutes); // ✅ Add this
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -348,47 +177,6 @@ app.delete('/deleteWorkoutPlan', async (req, res) => {
       res.status(500).json({ message: 'Failed to delete workout plan' });
   }
 });
-// app.post('/saveDietPlan', verifyToken, async (req, res) => {
-//   try {
-//       const { level,duration ,goal, currentWeight, targetWeight } = req.body;
-
-//       // Ensure weights are numbers
-//       if (isNaN(currentWeight) || isNaN(targetWeight)) {
-//           return res.status(400).json({ message: 'Current weight and target weight must be valid numbers' });
-//       }
-
-//       // Validation: Target weight must be greater for weight gain
-//       if (goal === 'Weight Gain' && targetWeight <= currentWeight) {
-//           return res.status(400).json({ message: 'Target weight must be greater than current weight for Weight Gain' });
-//       }else if(goal === 'Weight Loss' && targetWeight >= currentWeight){
-//         return res.status(400).json({ message: 'Target weight must be less than current weight for Weight loss' });
-
-//       }
-
-//       const userId = req.user.uid; // Get user ID from Firebase token
-
-//       let dietPlan = await DietPlan.findOne({ userId });
-//       if (dietPlan) {
-//           // Update existing record
-//           dietPlan.level = level;
-//           dietPlan.duration = duration;
-//           dietPlan.goal = goal;
-//           dietPlan.currentWeight = currentWeight;
-//           dietPlan.targetWeight = targetWeight;
-//       } else {
-//           // Create a new record
-//           dietPlan = new DietPlan({ userId, level,duration, goal, currentWeight, targetWeight });
-//       }
-
-//       await dietPlan.save();
-//       return res.status(200).json({ message: 'Diet plan saved successfully', dietPlan });
-
-//   } catch (error) {
-//       console.error('Error saving diet plan:', error);
-//       res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// });
-
 
 app.post('/saveDietPlan', verifyToken, async (req, res) => {
   try {
@@ -439,24 +227,87 @@ app.post('/saveDietPlan', verifyToken, async (req, res) => {
 });
 
 
-// 📌 API Route to Get User Diet Plan
-app.get('/getDietPlan', verifyToken, async (req, res) => {
+app.delete('/deleteDietPlan', async (req, res) => {
   try {
-      const userId = req.user.uid;
-      const dietPlan = await DietPlan.findOne({ userId });
+      const authHeader = req.headers.authorization;
+      if (!authHeader) return res.status(401).json({ message: 'Unauthorized' });
 
-      if (!dietPlan) {
-          return res.status(404).json({ message: 'No diet plan found' });
-      }
+      const decodedToken = await admin.auth().verifyIdToken(authHeader);
+      const userId = decodedToken.uid;
 
-      return res.status(200).json(dietPlan);
+      await dietPlan.deleteOne({ userId }); // Assuming your collection is named WorkoutPlan
+
+      res.json({ message: 'Diet plan deleted successfully' });
   } catch (error) {
-      console.error('Error fetching diet plan:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error deleting Diet plan:', error);
+      res.status(500).json({ message: 'Failed to delete Diet plan' });
   }
 });
 
+// 📌 API Route to Get User Diet Plan
+app.get('/getDietPlan', verifyToken, async (req, res) => {
+  const userId = req.user.uid;
+
+  try {
+      const dietPlan = await DietPlan.findOne({ userId });
+
+      if (dietPlan) {
+          res.status(200).json({ dietPlan });
+      } else {
+          res.status(404).json({ message: 'No diet plan found' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error fetching diet plan' });
+  }
+});
+
+
 // 📌 API Route to Delete Diet Plan
+app.post('/upload-profile-image', async (req, res) => {
+  // console.log("Received request:", req.body);
+
+  const { userId, image } = req.body;
+  if (!userId || !image) {
+    return res.status(400).json({ success: false, message: 'Missing userId or image' });
+  }
+
+  try {
+    // Query using `uid` instead of `_id`
+    const updatedUser = await User.findOneAndUpdate(
+      { uid: userId }, // Match by `uid`
+      { profileImage: image },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      console.log("User not found:", userId);
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    console.log("Image updated successfully for user:", userId);
+    res.json({ success: true, message: 'Profile image updated' });
+  } catch (error) {
+    console.error("Error updating image:", error);
+    res.status(500).json({ success: false, message: 'Error uploading image' });
+  }
+});
+
+
+
+app.get('/user/:userId', async (req, res) => {
+  try {
+    const user = await User.findOne({ uid: req.params.userId }); // Find by `uid`
+    if (user) {
+      res.json({ profileImage: user.profileImage });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user data' });
+  }
+});
+
 
 
 
@@ -469,40 +320,6 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   // async function deleteAllUsers() {
   //   try {
   //     let nextPageToken;

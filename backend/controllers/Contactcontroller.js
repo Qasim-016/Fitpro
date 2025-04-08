@@ -1,5 +1,3 @@
-// controllers/contactController.js
-
 const Contact = require('../models/Contact')
 exports.createContact = async (req, res) => {
   const { username, email, message } = req.body;

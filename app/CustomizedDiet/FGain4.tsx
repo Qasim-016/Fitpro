@@ -9,6 +9,7 @@ import Heading from '@/components/Text/Heading';
 import MyButton from '@/components/Buttons/MyButton';
 import styling from '@/assets/Styles/styling';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
+import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 
 // const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -258,6 +259,20 @@ const FGain4 = () => {
                     style2={styling.NextBackbtntext}
                 />
                 <Heading title="Diet Plan" styles={styling.HeaderText} />
+                <View style={{position:'absolute',right:5,top:30}}>
+                        <MyButton
+                              title={
+                                <Dashboardscreenimage
+                                  path={require('@/assets/images/Profile/edit.png')}
+                                  styles={styling.dashboardbtnimages}
+                                // tintColor='#2ecc71'
+                                />
+                              }
+                              onPress={()=>router.navigate('/(User)/CustomizedDiet')}
+                              style1={styling.button}
+                              style2={styling.NextBackbtntext}
+                            />
+                        </View>
             </View>
 
             {/* Day Selector */}

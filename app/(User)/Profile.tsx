@@ -63,21 +63,6 @@ const Profile = () => {
       console.error('Error fetching user data', error);
     }
   };
-
-  const loadProfileImage = async () => {
-    try {
-      const userId = auth.currentUser?.uid;
-      if (userId) {
-        const savedImage = await AsyncStorage.getItem(`profileImage_${userId}`);
-        if (savedImage) {
-          setProfileImage(savedImage);
-        }
-      }
-    } catch (error) {
-      console.error('Error loading profile image', error);
-    }
-  };
-
   const selectProfileImage = async () => {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -85,28 +70,61 @@ const Profile = () => {
         Alert.alert('Permission required', 'Please grant access to your photo library.');
         return;
       }
-
+  
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
+        base64: true, // ✅ Enable Base64 encoding
       });
-
-      if (!result.canceled) {
-        const selectedImage = result.assets[0].uri;
-        setProfileImage(selectedImage);
-
-        // Save to AsyncStorage
+  
+      if (!result.canceled && result.assets.length > 0) {
+        const selectedImageBase64 = result.assets[0].base64; // ✅ Access base64
         const userId = auth.currentUser?.uid;
-        if (userId) {
-          await AsyncStorage.setItem(`profileImage_${userId}`, selectedImage);
+        if (userId && selectedImageBase64) {
+          await uploadImageToMongoDB(userId, selectedImageBase64);
         }
       }
     } catch (error) {
       console.error('Error picking image:', error);
     }
   };
+
+const uploadImageToMongoDB = async (userId: string, imageBase64: any) => {
+  try {
+    const response = await fetch(`http://${SERVER_IP}:5000/upload-profile-image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, image: imageBase64 }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      console.log('Image uploaded successfully');
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+};
+
+
+const loadProfileImage = async () => {
+  try {
+    const userId = auth.currentUser?.uid;
+    if (userId) {
+      const response = await fetch(`http://${SERVER_IP}:5000/user/${userId}`);
+      const data = await response.json();
+
+      if (data.profileImage) {
+        setProfileImage(`data:image/jpeg;base64,${data.profileImage}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error loading profile image:', error);
+  }
+};
+
 
 
   const [formData, setFormData] = useState<FormData>({

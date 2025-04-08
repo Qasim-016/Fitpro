@@ -9,6 +9,7 @@ import Heading from '@/components/Text/Heading';
 import MyButton from '@/components/Buttons/MyButton';
 import styling from '@/assets/Styles/styling';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
+import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 
 // const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -40,7 +41,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 53, name: 'Peanut Butter', Qt: '2 tbsp', cal: '190', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
             { id: 54, name: 'Milk', Qt: '500ml', cal: '300', protein: '16', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 55, name: 'Banana', Qt: '3', cal: '315', protein: '3', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
             { id: 56, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
             { id: 57, name: 'Yogurt', Qt: '1 bowl', cal: '150', protein: '10', image: require('@/assets/images/Diet/Breakfast/y.jpg') },
@@ -49,20 +50,20 @@ const DietPlans: Record<string, MealPlan> = {
             // { id: 58, name: 'Chicken Breast', Qt: '150g', cal: '330', protein: '45', image: require('@/assets/images/Chatbot/bc.jpg') },
             { id: 59, name: 'Brown Rice', Qt: '1 cup', cal: '215', protein: '5', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
             { id: 60, name: 'Cooked Lentils', Qt: '100g', cal: '180', protein: '12', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
-,            { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
+            , { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
 
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             // { id: 62, name: 'Whey Protein', Qt: '1 scope', cal: '120', protein: '25', image: require('@/assets/images/Diet/Breakfast/wp.jpg') },
             { id: 63, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
-,            { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
+            , { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
 
         ],
         Dinner: [
             { id: 65, name: 'Grilled Fish', Qt: '150g fish', cal: '300', protein: '40', image: require('@/assets/images/Diet/Breakfast/gf.jpg') },
             { id: 66, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') }
         ]
-       
+
     },
     Tue: {
         Breakfast: [
@@ -73,7 +74,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 71, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
 
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 72, name: 'Boiled Eggs', Qt: '4', cal: '300', protein: '24', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
             { id: 73, name: 'Whole Wheat Crackers', Qt: '50', cal: '120', protein: '4', image: require('@/assets/images/Diet/Breakfast/wr.jpg') }
 
@@ -84,7 +85,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 76, name: 'Olive Oil', Qt: '2 tbsp', cal: '200', protein: '0', image: require('@/assets/images/Diet/Breakfast/oil.jpg') }
 
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             { id: 78, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Chatbot/gc.jpg') },
             { id: 79, name: 'Whey Protein', Qt: '30g', cal: '120', protein: '25', image: require('@/assets/images/Diet/Breakfast/wp.jpg') },
             { id: 80, name: 'Peanut Butter', Qt: '3 tbsp', cal: '270', protein: '12', image: require('@/assets/images/Chatbot/pb.jpg') },
@@ -97,7 +98,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 83, name: 'Mashed Potatoes', Qt: '300g', cal: '300', protein: '10', image: require('@/assets/images/Diet/Breakfast/mp.jpg') }
 
         ]
-        
+
     },
     Wed: {
         Breakfast: [
@@ -107,7 +108,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 87, name: 'Milk', Qt: '500ml', cal: '300', protein: '16', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
 
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 88, name: 'Peanut Butter', Qt: '5 tbsp', cal: '450', protein: '20', image: require('@/assets/images/Chatbot/pb.jpg') },
             { id: 89, name: 'Banana', Qt: '4', cal: '420', protein: '4', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
 
@@ -117,7 +118,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 5, name: 'Brown Rice', Qt: '200g', cal: '215', protein: '5', image: require('@/assets/images/Diet//Breakfast/br.jpg') },
             { id: 7, name: 'Broccoli', Qt: '100g', cal: '50', protein: '5', image: require('@/assets/images/Diet/Breakfast/bro.jpg') },
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             { id: 70, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
             { id: 71, name: 'Protein Bar', Qt: '1', cal: '250', protein: '20', image: require('@/assets/images/Diet/Breakfast/pbar.jpg') }
         ],
@@ -134,7 +135,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 53, name: 'Peanut Butter', Qt: '2 tbsp', cal: '190', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
             { id: 54, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 55, name: 'Banana', Qt: '3', cal: '315', protein: '3', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
             { id: 56, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
             { id: 57, name: 'Yogurt', Qt: '1 bowl', cal: '150', protein: '10', image: require('@/assets/images/Diet/Breakfast/y.jpg') },
@@ -143,20 +144,20 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 58, name: 'Chicken Breast', Qt: '50g', cal: '110', protein: '15', image: require('@/assets/images/Chatbot/bc.jpg') },
             { id: 59, name: 'Brown Rice', Qt: '1 cup', cal: '215', protein: '5', image: require('@/assets/images/Diet/Breakfast/br.jpg') }
             // { id: 60, name: 'Cooked Lentils', Qt: '100g', cal: '180', protein: '12', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
-,            { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
+            , { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
 
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             // { id: 62, name: 'Whey Protein', Qt: '1 scope', cal: '120', protein: '25', image: require('@/assets/images/Diet/Breakfast/wp.jpg') },
             { id: 63, name: 'Milk', Qt: '500ml', cal: '300', protein: '16', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
-,            { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
+            , { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
 
         ],
         Dinner: [
             { id: 65, name: 'Grilled Fish', Qt: '150g fish', cal: '300', protein: '40', image: require('@/assets/images/Diet/Breakfast/gf.jpg') },
             { id: 66, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') }
         ]
-       
+
     },
     Fri: {
         Breakfast: [
@@ -166,7 +167,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 87, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
 
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 88, name: 'Peanut Butter', Qt: '3 tbsp', cal: '270', protein: '12', image: require('@/assets/images/Chatbot/pb.jpg') },
             { id: 89, name: 'Banana', Qt: '3', cal: '315', protein: '3', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
 
@@ -176,7 +177,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 5, name: 'Brown Rice', Qt: '200g', cal: '215', protein: '5', image: require('@/assets/images/Diet//Breakfast/br.jpg') },
             { id: 7, name: 'Broccoli', Qt: '100g', cal: '50', protein: '5', image: require('@/assets/images/Diet/Breakfast/bro.jpg') },
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             { id: 70, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
             { id: 71, name: 'Protein Bar', Qt: '2', cal: '500', protein: '40', image: require('@/assets/images/Diet/Breakfast/pbar.jpg') }
         ],
@@ -186,7 +187,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 98, name: 'Oats', Qt: '100g', cal: '400', protein: '16', image: require('@/assets/images/Chatbot/om.jpg') },
 
         ],
-       
+
     },
     Sat: {
         Breakfast: [
@@ -197,7 +198,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 71, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
 
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 72, name: 'Boiled Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
             { id: 73, name: 'Whole Wheat Crackers', Qt: '50', cal: '120', protein: '4', image: require('@/assets/images/Diet/Breakfast/wr.jpg') }
 
@@ -208,7 +209,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 76, name: 'Olive Oil', Qt: '2 tbsp', cal: '400', protein: '0', image: require('@/assets/images/Diet/Breakfast/oil.jpg') }
 
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             { id: 78, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Chatbot/gc.jpg') },
             // { id: 79, name: 'Whey Protein', Qt: '30g', cal: '120', protein: '25', image: require('@/assets/images/Diet/Breakfast/wp.jpg') },
             { id: 80, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
@@ -221,7 +222,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 83, name: 'Mashed Potatoes', Qt: '400g', cal: '400', protein: '10', image: require('@/assets/images/Diet/Breakfast/mp.jpg') }
 
         ]
-        
+
     },
     Sun: {
         Breakfast: [
@@ -230,7 +231,7 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 53, name: 'Peanut Butter', Qt: '3 tbsp', cal: '270', protein: '12', image: require('@/assets/images/Chatbot/pb.jpg') },
             { id: 54, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
         ],
-        Mid_Morning:[
+        Mid_Morning: [
             { id: 55, name: 'Banana', Qt: '3', cal: '315', protein: '3', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
             { id: 56, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
             { id: 57, name: 'Yogurt', Qt: '1 bowl', cal: '150', protein: '10', image: require('@/assets/images/Diet/Breakfast/y.jpg') },
@@ -239,20 +240,20 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 58, name: 'Chicken Breast', Qt: '150g', cal: '330', protein: '45', image: require('@/assets/images/Chatbot/bc.jpg') },
             { id: 59, name: 'Brown Rice', Qt: '1 cup', cal: '215', protein: '5', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
             { id: 60, name: 'Cooked Lentils', Qt: '100g', cal: '180', protein: '12', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
-,            { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
+            , { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
 
         ],
-        Evening_Snack:[
+        Evening_Snack: [
             // { id: 62, name: 'Whey Protein', Qt: '1 scope', cal: '120', protein: '25', image: require('@/assets/images/Diet/Breakfast/wp.jpg') },
             { id: 63, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
-,            { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
+            , { id: 64, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') }
 
         ],
         Dinner: [
             // { id: 65, name: 'Grilled Fish', Qt: '150g fish', cal: '300', protein: '40', image: require('@/assets/images/Diet/Breakfast/gf.jpg') },
             { id: 66, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') }
         ]
-       
+
     },
     // Add more days as needed...
 };
@@ -281,6 +282,20 @@ const Gain20 = () => {
                     style2={styling.NextBackbtntext}
                 />
                 <Heading title="Diet Plan" styles={styling.HeaderText} />
+                <View style={{ position: 'absolute', right: 5, top: 30 }}>
+                    <MyButton
+                        title={
+                            <Dashboardscreenimage
+                                path={require('@/assets/images/Profile/edit.png')}
+                                styles={styling.dashboardbtnimages}
+                            // tintColor='#2ecc71'
+                            />
+                        }
+                        onPress={() => router.navigate('/(User)/CustomizedDiet')}
+                        style1={styling.button}
+                        style2={styling.NextBackbtntext}
+                    />
+                </View>
             </View>
 
             {/* Day Selector */}
@@ -296,7 +311,7 @@ const Gain20 = () => {
             </View>
 
             <ScrollView>
-                {['Breakfast','Mid_Morning' ,'Lunch','Evening_Snack', 'Dinner'].map(mealType => (
+                {['Breakfast', 'Mid_Morning', 'Lunch', 'Evening_Snack', 'Dinner'].map(mealType => (
                     <View key={mealType}>
                         <Text style={styling.sectionTitle}>{mealType}</Text>
                         {currentDiet[mealType as keyof MealPlan]?.length ? (

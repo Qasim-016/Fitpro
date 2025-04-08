@@ -20,6 +20,9 @@ import { router } from 'expo-router';
 import styling from '@/assets/Styles/styling';
 import { duration } from 'moment';
 import { SERVER_IP } from '../config';
+import axios from 'axios';
+import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PaymentForm: React.FC = () => {
   const { confirmPayment } = useStripe();
@@ -34,6 +37,8 @@ const PaymentForm: React.FC = () => {
   const [remainingTime, setRemainingTime] = useState<string>('');
   const [isCancelPopupVisible, setIsCancelPopupVisible] = useState(false);
   const [selectedPlanDuration, setSelectedPlanDuration] = useState(1); // Default 1 month
+    const [userData, setUserData] = useState<{ username: string ,email:string} | null>(null);
+  
 
   // Example of how you might handle the change when a user selects a plan
 
@@ -68,6 +73,7 @@ const PaymentForm: React.FC = () => {
     };
 
     loadSubscriptionData();
+    fetchUserData()
   }, [currentUserId]);
 
   // Timer Logic
@@ -111,32 +117,50 @@ const PaymentForm: React.FC = () => {
     return valid;
   };
 
+
+ const fetchUserData = async () => {
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      if (idToken) {
+        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+          headers: { Authorization: `Bearer ${idToken}` },
+        });
+        setUserData(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching user data', error);
+    }
+  };
   const handleSubmit = async () => {
     if (!currentUserId) {
       Alert.alert('Error', 'User not logged in.');
       return;
     }
-
+  
+    if (!name) {
+      Alert.alert('Error', 'Failed to fetch username. Please try again.');
+      return;
+    }
+  
     if (validateForm()) {
       try {
-        // Ensure `planDuration` is passed with the selected duration in months
-
+        
         const response = await fetch(`http://${SERVER_IP}:5000/api/payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount,
+            email:userData?.email,
             userId: currentUserId,
-            username: name,
-            // Send the selected plan duration
+            username: userData?.username, // Send the fetched username
           }),
         });
-
+  
         const data = await response.json();
         if (!data.clientSecret) {
           throw new Error('Failed to fetch client secret.');
         }
-
+  
         setClientSecret(data.clientSecret);
         setIsConfirmationVisible(true);
       } catch (error) {
@@ -144,13 +168,13 @@ const PaymentForm: React.FC = () => {
       }
     }
   };
-
+  
   const handlePayment = async () => {
     if (!clientSecret || !cardDetails?.complete) {
       Alert.alert('Error', 'Please enter valid card details.');
       return;
     }
-
+  
     try {
       const { error, paymentIntent } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
@@ -158,34 +182,65 @@ const PaymentForm: React.FC = () => {
           billingDetails: { name },
         },
       });
-
+  
       if (error) {
         Alert.alert('Payment Error', error.message || 'An error occurred during payment.');
       } else if (paymentIntent?.status === 'Succeeded') {
         Alert.alert('Payment Successful', 'Your payment was processed successfully.');
         setIsConfirmationVisible(false);
-
-        // Calculate and Save Subscription Data
+  
+        const notificationData = {
+          id: Date.now().toString(),
+          title: 'Payment Successful',
+          message: `Your payment of ${amount} has been processed successfully!`,
+          timestamp: Date.now(), // ✅ Store as a number
+        };
+  
+        // 🔹 Push Local Notification
+        PushNotification.localNotification({
+          channelId: 'fitpro_channel',
+          title: notificationData.title,
+          message: notificationData.message,
+          playSound: true,
+          soundName: 'default',
+          importance: 'high',
+          priority: 'high',
+          vibrate: true,
+        });
+  
+        // 🔹 Store Notification in AsyncStorage
+        const storeNotification = async () => {
+          try {
+            const existingNotifications = await AsyncStorage.getItem(`notifications_${currentUserId}`);
+            const notifications = existingNotifications ? JSON.parse(existingNotifications) : [];
+            notifications.push(notificationData);
+            await AsyncStorage.setItem(`notifications_${currentUserId}`, JSON.stringify(notifications));
+          } catch (error) {
+            console.error('Error storing notification:', error);
+          }
+        };
+        await storeNotification();
+  
+        // 🔹 Save Subscription Data to MongoDB
         const selectedPlan = amounts.find((item) => item.value === amount);
         if (selectedPlan) {
           const now = Date.now();
           const endTime = now + selectedPlan.duration * 24 * 60 * 60 * 1000;
-
+  
           setSubscriptionEndTime(endTime);
-
-          // Save subscription data to MongoDB
+  
           const response = await fetch(`http://${SERVER_IP}:5000/api/subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: currentUserId, subscriptionEndTime: endTime }),
           });
-
+  
           const data = await response.json();
           if (data.success) {
             console.log('Subscription data saved successfully.');
           }
         }
-
+  
         router.navigate('/(User)/Dashboard');
       } else {
         Alert.alert('Payment Failed', 'The payment did not complete successfully.');
@@ -194,6 +249,7 @@ const PaymentForm: React.FC = () => {
       Alert.alert('Error', 'Payment failed. Please try again.');
     }
   };
+  
 
   const handleCancelSubscription = () => {
     setIsCancelPopupVisible(true); // Show the confirmation popup
@@ -203,14 +259,46 @@ const PaymentForm: React.FC = () => {
     setSubscriptionEndTime(null);
     setRemainingTime('');
     setIsCancelPopupVisible(false); // Close the popup
-
-    // Remove subscription data from MongoDB
+  
+    const notificationData = {
+      id: Date.now().toString(),
+      title: 'Subscription Canceled',
+      message: `Your subscription has been canceled successfully!`,
+      timestamp: Date.now(), // ✅ Store as a number
+    };
+  
+    // 🔹 Push Local Notification
+    PushNotification.localNotification({
+      channelId: 'fitpro_channel',
+      title: notificationData.title,
+      message: notificationData.message,
+      playSound: true,
+      soundName: 'default',
+      importance: 'high',
+      priority: 'high',
+      vibrate: true,
+    });
+  
+    // 🔹 Store Notification in AsyncStorage
+    const storeNotification = async () => {
+      try {
+        const existingNotifications = await AsyncStorage.getItem(`notifications_${currentUserId}`);
+        const notifications = existingNotifications ? JSON.parse(existingNotifications) : [];
+        notifications.push(notificationData);
+        await AsyncStorage.setItem(`notifications_${currentUserId}`, JSON.stringify(notifications));
+      } catch (error) {
+        console.error('Error storing notification:', error);
+      }
+    };
+    await storeNotification();
+  
+    // 🔹 Remove Subscription from MongoDB
     if (currentUserId) {
       try {
         const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`, {
           method: 'DELETE',
         });
-
+  
         const data = await response.json();
         if (data.success) {
           Alert.alert('Subscription Canceled', 'Your subscription has been successfully canceled.');
@@ -220,7 +308,7 @@ const PaymentForm: React.FC = () => {
       }
     }
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={styling.Paymentmaincontainer}

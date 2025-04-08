@@ -111,7 +111,7 @@ const Dashboard = () => {
 
     try {
       const token = await user.getIdToken();
-      const response = await axios.get(`http://${SERVER_IP}:5000/getWorkout&DietPlan`, {
+      const response = await axios.get(`http://${SERVER_IP}:5000/getWorkoutPlan`, {
         headers: { Authorization: token }
       });
 
@@ -152,6 +152,787 @@ const Dashboard = () => {
 
 
   
+   const handleDietPress = async () => {
+    // const { goal, gender, height,currentWeight, level, duration,targetWeight }=req.body[]
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            Alert.alert('Error', 'You must be logged in to save your diet plan.');
+            return;
+        }
+       
+        try {
+          const token = await user.getIdToken();
+          const response = await axios.get(`http://${SERVER_IP}:5000/getDietPlan`, {
+            headers: { Authorization: token }
+          });
+            if (response.data && response.data.dietPlan) {
+              const { gender, height, level, duration, goal, currentWeight } = response.data.dietPlan;
+              const heightNum = Number(height);
+              const currentWeightNum = Number(currentWeight);
+            if (goal === 'Weight Gain') {
+
+                if (gender === 'Male' || gender === 'Other') {
+
+                    if (heightNum < 170 &&
+                        currentWeightNum < 60
+                    ) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain1');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain4');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain7');
+                                return;
+                            }
+                        } else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain2');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain5');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain8');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain3');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain6');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain9');
+                                return;
+                            }
+                        }
+                    }
+                    else if (
+                        heightNum > 169 &&
+                        currentWeightNum < 60) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain10');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain13');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain16');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain11');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain14');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain17');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain12');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain15');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain18');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 170 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain4');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain7');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain19');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain5');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain8');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain20');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain6');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain9');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain21');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 190 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain11');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain14');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain17');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain12');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain15');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain18');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Gain13');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Gain16');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Gain22');
+                                return;
+                            }
+                        }
+                    }
+
+                }
+
+                if (gender === 'Female') {
+
+                    if (heightNum < 170 &&
+                        currentWeightNum < 60
+                    ) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain1');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain4');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain7');
+                                return;
+                            }
+                        } else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain2');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain5');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain8');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain3');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain6');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain9');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum > 169 &&
+                        currentWeightNum < 60) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain10');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain13');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain16');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain11');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain14');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain17');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain12');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain15');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain18');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 170 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain4');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain7');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain19');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain5');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain8');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain20');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain6');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain9');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain21');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 190 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain11');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain14');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain17');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain12');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain15');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain18');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/FGain13');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/FGain16');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/FGain22');
+                                return;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            if (goal === 'Weight loss') {
+
+                if (gender === 'Male' || gender === 'Other') {
+
+                    if (heightNum < 170 &&
+                        currentWeightNum < 60
+                    ) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                        } else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                        }
+                    }
+                    else if (
+                        heightNum > 169 &&
+                        currentWeightNum < 60) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 170 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1800');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 190 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1800');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1900');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1800');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                        }
+                    }
+
+                }
+
+                if (gender === 'Female') {
+
+                    if (heightNum < 170 &&
+                        currentWeightNum < 60
+                    ) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1100');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1000');
+                                return;
+                            }
+                        } else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1100');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            } else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum > 169 &&
+                        currentWeightNum < 60) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1100');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                        }
+                    }
+                    else if (
+                        heightNum < 170 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1200');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                        }
+                    }
+
+                    else if (
+                        heightNum < 190 &&
+                        currentWeightNum > 59) {
+                        if (level === '1-3 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1300');
+                                return;
+                            }
+                        }
+                        else if (level === '4-5 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1400');
+                                return;
+                            }
+                        }
+                        else if (level === '5-6 Times') {
+                            if (duration === '0.5kg') {
+                                router.push('/CustomizedDiet/Loss1700');
+                                return;
+                            }
+                            else if (duration === '1kg') {
+                                router.push('/CustomizedDiet/Loss1600');
+                                return;
+                            }
+                            else if (duration === '1.5kg') {
+                                router.push('/CustomizedDiet/Loss1500');
+                                return;
+                            }
+                        }
+                    }
+
+                }
+            }}
+            else {
+              router.push('/(User)/Dietplan'); // If no plan exists, navigate to WorkoutPlan
+            }
+        } catch (error) {
+            router.push('/(User)/Dietplan'); // If no plan exists, navigate to WorkoutPlan
+          
+        }
+    };
 
 
 
@@ -240,7 +1021,7 @@ const Dashboard = () => {
             <View style={styling.dashbaordfeaturesmainview}>
               <View style={styling.featuresubview}>
                 <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/workoutplan2.png')} styles={styling.featureimage} />} style1={styling.button} style2={styling.NextBackbtntext} onPress={handleWorkoutPress} />
-                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage} />} style1={styling.button} style2={styling.NextBackbtntext} onPress={() => router.navigate('/Dietplan')} />
+                <MyButton title={<LogoImgForScreen path={require('@/assets/images/dashboard/Dietplan.png')} styles={styling.featureimage} />} style1={styling.button} style2={styling.NextBackbtntext} onPress={handleDietPress} />
               </View>
               <View style={styling.featuresubview}>
 

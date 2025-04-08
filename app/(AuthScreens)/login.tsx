@@ -14,6 +14,9 @@ import axios from 'axios';
 import { signInWithCustomToken } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { SERVER_IP } from '../config';
+import * as Notifications from 'expo-notifications';
+import PushNotification from 'react-native-push-notification';
+
 const Login = () => {
   const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
@@ -73,88 +76,108 @@ const Login = () => {
     return isValid;
   };
 
-  
 
- 
-
-
-  const loginUser = async (): Promise<void> => {
-    if (validateForm()) {
-      if (retryTimeout && Date.now() < retryTimeout) {
-        const remainingTime = Math.ceil((retryTimeout - Date.now()) / 1000);
-        Alert.alert(
-          'Checking your email verification',
-          `You will be notified in one minute after verification. Please try again after ${remainingTime} seconds.`
-        );
-        return;
-      }
-  
-      try {
-        // Send login request to the backend
-        const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/login`, {
-          email: form.email.trim(),
-          password: form.password.trim(),
-        });
-  
-        if (response.status === 200) {
-          const { token, userData } = response.data;
-  
-          // Authenticate using Firebase custom token
-          await signInWithCustomToken(auth, token);
-  
-          // 🔹 Step 1: Check Free Trial
-          let isTrialActive = false;
-          try {
-            const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userData.uid}`);
-            if (trialResponse.status === 200 && trialResponse.data?.trialStatus === 'active') {
-              isTrialActive = true;
-            }
-          } catch (trialError: any) {
-            
-            // console.error("Error fetching trial:", trialError);
-          }
-  
-          // 🔹 Step 2: Check Subscription
-          let hasActiveSubscription = false;
-          try {
-            const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userData.uid}`);
-            if (subscriptionResponse.status === 200 && subscriptionResponse.data?.subscriptionEndTime > Date.now()) {
-              hasActiveSubscription = true;
-            }
-          } catch (subscriptionError) {
-            // console.error("Error fetching subscription:", subscriptionError);
-          }
-  
-          // 🔹 Final Decision: Navigate Only Once
-          if (hasActiveSubscription || isTrialActive) {
-            router.navigate('/(User)/Dashboard');
-          } else {
-            router.navigate('/(User)/FreeTrial');
-          }
-        }
-      } catch (error: any) {
-        if (error.response && error.response.data.message === 'User does not exist.') {
-          const nextRetry = Date.now() + 60000;
-          setRetryTimeout(nextRetry);
-  
-          Alert.alert(
-            'User does not exist',
-            'Please create your account and verify your Email and try again in 1 minute.'
-          );
-        } else if (error.response) {
-          Alert.alert('Error', error.response.data.message || 'Login failed.');
-        } else {
-          Alert.alert('Error', 'Something went wrong. Please try again later.');
-        }
-      }
-    } else {
-      Alert.alert('Error', 'Please correct the highlighted errors.');
+const loginUser = async (): Promise<void> => {
+  if (validateForm()) {
+    if (retryTimeout && Date.now() < retryTimeout) {
+      const remainingTime = Math.ceil((retryTimeout - Date.now()) / 1000);
+      Alert.alert(
+        'Checking your email verification',
+        `You will be notified in one minute after verification. Please try again after ${remainingTime} seconds.`
+      );
+      return;
     }
-  };
-  
-  
-  
-  
+
+    try {
+      // Send login request to the backend
+      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/login`, {
+        email: form.email.trim(),
+        password: form.password.trim(),
+      });
+
+      if (response.status === 200) {
+        const { token, userData } = response.data;
+
+        // Authenticate using Firebase custom token
+        await signInWithCustomToken(auth, token);
+
+        // 🔹 Construct Notification Data
+        const notificationData = {
+          id: Date.now().toString(),
+          title: 'Welcome Back!',
+          message: `Hi ${userData.username || 'User'}, great to see you again!`,
+          timestamp: new Date().toISOString(),
+        };
+
+        // 🔹 Push Local Notification
+        PushNotification.localNotification({
+          channelId: 'fitpro_channel', // Ensure this channel exists
+          title: notificationData.title,
+          message: notificationData.message,
+          playSound: true,
+          soundName: 'default',
+          importance: 'high',
+          priority: 'high',
+          vibrate: true,
+        });
+
+        // 🔹 Store Notification in AsyncStorage
+        const storeNotification = async () => {
+          try {
+            const existingNotifications = await AsyncStorage.getItem(`notifications_${userData.uid}`);
+            const notifications = existingNotifications ? JSON.parse(existingNotifications) : [];
+            notifications.push(notificationData);
+            await AsyncStorage.setItem(`notifications_${userData.uid}`, JSON.stringify(notifications));
+          } catch (error) {
+            console.error('Error storing notification:', error);
+          }
+        };
+        await storeNotification();
+
+        // 🔹 Step 1: Check Free Trial
+        let isTrialActive = false;
+        try {
+          const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userData.uid}`);
+          if (trialResponse.status === 200 && trialResponse.data?.trialStatus === 'active') {
+            isTrialActive = true;
+          }
+        } catch (trialError: any) {}
+
+        // 🔹 Step 2: Check Subscription
+        let hasActiveSubscription = false;
+        try {
+          const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userData.uid}`);
+          if (subscriptionResponse.status === 200 && subscriptionResponse.data?.subscriptionEndTime > Date.now()) {
+            hasActiveSubscription = true;
+          }
+        } catch (subscriptionError) {}
+
+        // 🔹 Final Decision: Navigate Only Once
+        if (hasActiveSubscription || isTrialActive) {
+          router.navigate('/(User)/Dashboard');
+        } else {
+          router.navigate('/(User)/FreeTrial');
+        }
+      }
+    } catch (error: any) {
+      if (error.response && error.response.data.message === 'User does not exist.') {
+        const nextRetry = Date.now() + 60000;
+        setRetryTimeout(nextRetry);
+
+        Alert.alert(
+          'User does not exist',
+          'Please create your account and verify your Email and try again in 1 minute.'
+        );
+      } else if (error.response) {
+        Alert.alert('Error', error.response.data.message || 'Login failed.');
+      } else {
+        Alert.alert('Error', 'Something went wrong. Please try again later.');
+      }
+    }
+  } else {
+    Alert.alert('Error', 'Please correct the highlighted errors.');
+  }
+};
   return (
     <SafeAreaView style={styling.container}>
       <View style={styling.Backbtn}>

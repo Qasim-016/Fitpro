@@ -24,7 +24,6 @@ export default function RootLayout() {
                 <Stack.Screen name="(User)/PaymentForm" />
                 <Stack.Screen name="(User)/Contact" />
                 <Stack.Screen name="(User)/GymScheduleScreen" />
-                <Stack.Screen name="Admin" />
                 <Stack.Screen name="(User)/Profile" />
                 <Stack.Screen name="(User)/AccountSettings" />
                 <Stack.Screen name="(User)/CustomizedDiet" />
@@ -176,9 +175,16 @@ export default function RootLayout() {
                 <Stack.Screen name="CustomizedDiet/FGain20"/>
                 <Stack.Screen name="CustomizedDiet/FGain21"/>
                 <Stack.Screen name="CustomizedDiet/FGain22"/>
-
-
-
+                <Stack.Screen name="CustomizedDiet/Loss1000"/>
+                <Stack.Screen name="CustomizedDiet/Loss1100"/>
+                <Stack.Screen name="CustomizedDiet/Loss1200"/>
+                <Stack.Screen name="CustomizedDiet/Loss1300"/>
+                <Stack.Screen name="CustomizedDiet/Loss1400"/>
+                <Stack.Screen name="CustomizedDiet/Loss1500"/>
+                <Stack.Screen name="CustomizedDiet/Loss1600"/>
+                <Stack.Screen name="CustomizedDiet/Loss1700"/>
+                <Stack.Screen name="CustomizedDiet/Loss1800"/>
+                <Stack.Screen name="CustomizedDiet/Loss1900"/>
             </Stack>
             <StatusBar backgroundColor="black" />
         </>

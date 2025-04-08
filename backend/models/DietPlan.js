@@ -15,7 +15,6 @@ const mongoose = require('mongoose');
 
 const DietPlanSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true }, 
-    // age: { type: Number, required: true },  // Added age
     gender: { type: String, required: true, enum: ['Male', 'Female', 'Other'] },  // Added gender
     height: { type: Number, required: true },  // Added height in cm
     level: { type: String, required: true },  // Beginner, Intermediate, Advanced

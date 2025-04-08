@@ -32,7 +32,21 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -40,7 +54,8 @@
     "extra": {
       "eas": {
         "projectId": "fa9b7eca-e170-416c-b497-58de5320a483"
-      }
+      },
+      "firebaseServiceAccount": "firebase-service-account.json"
     }
   }
 }

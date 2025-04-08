@@ -5,6 +5,7 @@ const serviceAccount = require('C:/Users/Qasim/Desktop/FitPro/firebase-service-a
 const nodemailer = require('nodemailer');
 const TempOTP = require('../models/TempOTP');
 const bcrypt = require('bcryptjs');
+
 const { getAuth } = require('firebase-admin/auth');  // Temporary collection to store OTPs
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -408,6 +409,13 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong. Please try again later.' });
   }
 };
+
+
+
+
+
+
+
 
 
 

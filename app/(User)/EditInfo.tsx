@@ -138,19 +138,19 @@ const EditInfo = () => {
           />
           {errors.username && <Text style={{ color: 'red' }}>{errors.username}</Text>}
 
-          <View style={styling.profileicons3}>
+          {/* <View style={styling.profileicons3}>
             <Image source={require('@/assets/images/Profile/profileemail.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Email</Text>
-          </View>
+          </View> */}
 
-          <TextInput
+          {/* <TextInput
             style={styling.placeholder}
             placeholder="Email"
             value={formData.email}
             onChangeText={(value) => handleInputChange('email', value)}
             keyboardType="email-address"
           />
-          {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
+          {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>} */}
 
           <View style={styling.profileicons3}>
             <Image source={require('@/assets/images/Profile/profilecontact.png')} style={{ width: 25, height: 25, marginRight: 5 }} />

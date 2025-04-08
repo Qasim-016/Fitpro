@@ -9,7 +9,7 @@ import Heading from '@/components/Text/Heading';
 import MyButton from '@/components/Buttons/MyButton';
 import styling from '@/assets/Styles/styling';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
-
+import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 // const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -110,54 +110,54 @@ const DietPlans: Record<string, MealPlan> = {
             { id: 7, name: 'Broccoli', Qt: '100g', cal: '50', protein: '5', image: require('@/assets/images/Diet/Breakfast/bro.jpg') },
         ],
         Evening_Snack:[
-            { id: 70, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
-            { id: 71, name: 'Protein Bar', Qt: '1', cal: '250', protein: '20', image: require('@/assets/images/Diet/Breakfast/pbar.jpg') }
+            { id: 90, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
+            { id: 91, name: 'Protein Bar', Qt: '1', cal: '250', protein: '20', image: require('@/assets/images/Diet/Breakfast/pbar.jpg') }
         ],
         Dinner: [
             { id: 6, name: 'Paneer', Qt: '200g', cal: '500', protein: '40', image: require('@/assets/images/Diet/Breakfast/pan.jpg') },
-            { id: 71, name: 'Cooked Quinoa', Qt: '185g', cal: '220', protein: '8', image: require('@/assets/images/Diet/Breakfast/cq.jpg') }
+            { id: 101, name: 'Cooked Quinoa', Qt: '185g', cal: '220', protein: '8', image: require('@/assets/images/Diet/Breakfast/cq.jpg') }
 
         ],
     },
     Thu: {
         Breakfast: [
-            { id: 51, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
-            { id: 52, name: 'Whole Wheat Bread', Qt: '2', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
-            { id: 53, name: 'Peanut Butter', Qt: '2 tbsp', cal: '190', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
-            { id: 54, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
+            { id: 102, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 41, name: 'Whole Wheat Bread', Qt: '2', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
+            { id: 42, name: 'Peanut Butter', Qt: '2 tbsp', cal: '190', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
+            { id: 43, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
         ],
         Mid_Morning:[
-            { id: 55, name: 'Banana', Qt: '2', cal: '210', protein: '2', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
-            { id: 56, name: 'Almonds', Qt: '30', cal: '200', protein: '8', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
-            { id: 57, name: 'Yogurt', Qt: '1 bowl', cal: '150', protein: '10', image: require('@/assets/images/Diet/Breakfast/y.jpg') },
+            { id: 45, name: 'Banana', Qt: '2', cal: '210', protein: '2', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
+            { id: 46, name: 'Almonds', Qt: '30', cal: '200', protein: '8', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
+            { id: 47, name: 'Yogurt', Qt: '1 bowl', cal: '150', protein: '10', image: require('@/assets/images/Diet/Breakfast/y.jpg') },
         ],
         Lunch: [
-            { id: 59, name: 'Brown Rice', Qt: '1 cup', cal: '215', protein: '5', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
-            { id: 60, name: 'Cooked Lentils', Qt: '100g', cal: '180', protein: '12', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
+            { id: 49, name: 'Brown Rice', Qt: '1 cup', cal: '215', protein: '5', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
+            { id: 40, name: 'Cooked Lentils', Qt: '100g', cal: '180', protein: '12', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
 
         ],
         Evening_Snack:[
-            { id: 63, name: 'Milk', Qt: '500ml', cal: '300', protein: '16', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
-,            { id: 64, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') }
+            { id: 33, name: 'Milk', Qt: '500ml', cal: '300', protein: '16', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
+,            { id: 34, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') }
 
         ],
         Dinner: [
-            { id: 66, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') },
-            { id: 51, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 36, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') },
+            { id: 31, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
 
         ]
        
     },
     Fri: {
         Breakfast: [
-            { id: 84, name: 'Scrambled Eggs', Qt: '3', cal: '225', protein: '18', image: require('@/assets/images/Diet/Breakfast/ScEggs.jpg') },
-            { id: 85, name: 'Cheese', Qt: '1 slice', cal: '80', protein: '5', image: require('@/assets/images/Diet/Breakfast/ch.jpg') },
-            { id: 86, name: 'Whole Wheat Toast', Qt: '2 slice', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
+            { id: 24, name: 'Scrambled Eggs', Qt: '3', cal: '225', protein: '18', image: require('@/assets/images/Diet/Breakfast/ScEggs.jpg') },
+            { id: 25, name: 'Cheese', Qt: '1 slice', cal: '80', protein: '5', image: require('@/assets/images/Diet/Breakfast/ch.jpg') },
+            { id: 26, name: 'Whole Wheat Toast', Qt: '2 slice', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
             
         ],
         Mid_Morning:[
-            { id: 88, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
-            { id: 89, name: 'Banana', Qt: '4', cal: '420', protein: '4', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
+            { id: 28, name: 'Peanut Butter', Qt: '2 tbsp', cal: '180', protein: '8', image: require('@/assets/images/Chatbot/pb.jpg') },
+            { id: 29, name: 'Banana', Qt: '4', cal: '420', protein: '4', image: require('@/assets/images/Diet/Breakfast/b.jpg') },
             
         ],
         Lunch: [
@@ -165,71 +165,71 @@ const DietPlans: Record<string, MealPlan> = {
         ],
         Evening_Snack:[
             { id: 5, name: 'Brown Rice', Qt: '200g', cal: '215', protein: '5', image: require('@/assets/images/Diet//Breakfast/br.jpg') },
-            { id: 70, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
+            { id: 20, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
         ],
         Dinner: [
-            { id: 6, name: 'Paneer', Qt: '100g', cal: '250', protein: '20', image: require('@/assets/images/Diet/Breakfast/pan.jpg') },
-            { id: 71, name: 'Cooked Quinoa', Qt: '185g', cal: '220', protein: '8', image: require('@/assets/images/Diet/Breakfast/cq.jpg') },
-            { id: 99, name: 'Whole Wheat Pasta', Qt: '200g', cal: '250', protein: '8', image: require('@/assets/images/Diet/Breakfast/wpas.jpg') },
+            { id: 16, name: 'Paneer', Qt: '100g', cal: '250', protein: '20', image: require('@/assets/images/Diet/Breakfast/pan.jpg') },
+            { id: 11, name: 'Cooked Quinoa', Qt: '185g', cal: '220', protein: '8', image: require('@/assets/images/Diet/Breakfast/cq.jpg') },
+            { id: 19, name: 'Whole Wheat Pasta', Qt: '200g', cal: '250', protein: '8', image: require('@/assets/images/Diet/Breakfast/wpas.jpg') },
 
         ],
        
     },
     Sat: {
         Breakfast: [
-            { id: 67, name: 'Oats', Qt: '150g', cal: '600', protein: '24', image: require('@/assets/images/Chatbot/om.jpg') },
-            { id: 70, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
-            { id: 71, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
+            { id: 17, name: 'Oats', Qt: '150g', cal: '600', protein: '24', image: require('@/assets/images/Chatbot/om.jpg') },
+            { id: 10, name: 'Almonds', Qt: '15', cal: '100', protein: '4', image: require('@/assets/images/Diet/Breakfast/alm.jpg') },
+            { id: 171, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
 
         ],
         Mid_Morning:[
-            { id: 72, name: 'Boiled Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
-            { id: 73, name: 'Whole Wheat Crackers', Qt: '50', cal: '120', protein: '4', image: require('@/assets/images/Diet/Breakfast/wr.jpg') }
+            { id: 172, name: 'Boiled Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 173, name: 'Whole Wheat Crackers', Qt: '50', cal: '120', protein: '4', image: require('@/assets/images/Diet/Breakfast/wr.jpg') }
 
         ],
         Lunch: [
-            { id: 75, name: 'Whole Wheat Pasta', Qt: '200g', cal: '250', protein: '8', image: require('@/assets/images/Diet/Breakfast/wpas.jpg') },
-            { id: 76, name: 'Olive Oil', Qt: '1 tbsp', cal: '100', protein: '0', image: require('@/assets/images/Diet/Breakfast/oil.jpg') }
+            { id: 175, name: 'Whole Wheat Pasta', Qt: '200g', cal: '250', protein: '8', image: require('@/assets/images/Diet/Breakfast/wpas.jpg') },
+            { id: 176, name: 'Olive Oil', Qt: '1 tbsp', cal: '100', protein: '0', image: require('@/assets/images/Diet/Breakfast/oil.jpg') }
 
         ],
         Evening_Snack:[
-            { id: 78, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Chatbot/gc.jpg') },
-            { id: 80, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') },
-            { id: 90, name: 'Boiled Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 178, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Chatbot/gc.jpg') },
+            { id: 180, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') },
+            { id: 190, name: 'Boiled Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
 
 
         ],
         Dinner: [
-            { id: 82, name: 'Steamed Vegetables', Qt: '300g', cal: '300', protein: '15', image: require('@/assets/images/Diet/Breakfast/sv.jpg') },
-            { id: 83, name: 'Mashed Potatoes', Qt: '200g', cal: '200', protein: '5', image: require('@/assets/images/Diet/Breakfast/mp.jpg') }
+            { id: 182, name: 'Steamed Vegetables', Qt: '300g', cal: '300', protein: '15', image: require('@/assets/images/Diet/Breakfast/sv.jpg') },
+            { id: 183, name: 'Mashed Potatoes', Qt: '200g', cal: '200', protein: '5', image: require('@/assets/images/Diet/Breakfast/mp.jpg') }
 
         ]
         
     },
     Sun: {
         Breakfast: [
-            { id: 51, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
-            { id: 52, name: 'Whole Wheat Bread', Qt: '2', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
-            { id: 53, name: 'Peanut Butter', Qt: '3 tbsp', cal: '270', protein: '12', image: require('@/assets/images/Chatbot/pb.jpg') },
-            { id: 54, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
+            { id: 151, name: 'Whole Eggs', Qt: '2', cal: '150', protein: '12', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 152, name: 'Whole Wheat Bread', Qt: '2', cal: '160', protein: '6', image: require('@/assets/images/Chatbot/brownbread.jpg') },
+            { id: 153, name: 'Peanut Butter', Qt: '3 tbsp', cal: '270', protein: '12', image: require('@/assets/images/Chatbot/pb.jpg') },
+            { id: 154, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') },
         ],
         Mid_Morning:[
-            { id: 55, name: 'Whole Eggs', Qt: '3', cal: '225', protein: '18', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
+            { id: 155, name: 'Whole Eggs', Qt: '3', cal: '225', protein: '18', image: require('@/assets/images/Diet/Breakfast/e.jpg') },
 
         ],
         Lunch: [
-            { id: 59, name: 'Brown Rice', Qt: '2 cup', cal: '430', protein: '10', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
-            { id: 60, name: 'Cooked Lentils', Qt: '200g', cal: '360', protein: '24', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
-,            { id: 61, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
+            { id: 159, name: 'Brown Rice', Qt: '2 cup', cal: '430', protein: '10', image: require('@/assets/images/Diet/Breakfast/br.jpg') },
+            { id: 160, name: 'Cooked Lentils', Qt: '200g', cal: '360', protein: '24', image: require('@/assets/images/Diet/Breakfast/l.jpg') }
+,            { id: 161, name: 'Mixed Vegetables', Qt: '100g', cal: '100', protein: '5', image: require('@/assets/images/Diet/Breakfast/mv.jpg') }
 
         ],
         Evening_Snack:[
-            { id: 63, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
-,            { id: 64, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') }
+            { id: 613, name: 'Milk', Qt: '250ml', cal: '150', protein: '8', image: require('@/assets/images/Diet/Breakfast/milk.jpg') }
+,            { id: 164, name: 'Peanut Butter', Qt: '1 tbsp', cal: '90', protein: '4', image: require('@/assets/images/Chatbot/pb.jpg') }
 
         ],
         Dinner: [
-            { id: 66, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') }
+            { id: 166, name: 'Sweet Potato', Qt: '300g', cal: '258', protein: '4.8', image: require('@/assets/images/Chatbot/sp.jpg') }
         ]
        
     },
@@ -260,6 +260,20 @@ const FGain2 = () => {
                     style2={styling.NextBackbtntext}
                 />
                 <Heading title="Diet Plan" styles={styling.HeaderText} />
+                <View style={{position:'absolute',right:5,top:30}}>
+                        <MyButton
+                              title={
+                                <Dashboardscreenimage
+                                  path={require('@/assets/images/Profile/edit.png')}
+                                  styles={styling.dashboardbtnimages}
+                                // tintColor='#2ecc71'
+                                />
+                              }
+                              onPress={()=>router.navigate('/(User)/CustomizedDiet')}
+                              style1={styling.button}
+                              style2={styling.NextBackbtntext}
+                            />
+                        </View>
             </View>
 
             {/* Day Selector */}

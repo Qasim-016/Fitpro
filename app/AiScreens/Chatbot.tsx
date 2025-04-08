@@ -58,9 +58,6 @@ const Chatbot = () => {
     'Track my diet?',
     'Gym timings?',
     'What is my workout plan?',
-    ' What workouts suit me?, Tell me in detail.',
-    'What is my workout plan?',
-    'Gym timings Are?... ',
   ];
 
   // Get the user ID from Firebase Authentication
@@ -114,9 +111,7 @@ const Chatbot = () => {
       try {
         const response = await axios.post(`http://${SERVER_IP}:5000/api/chatbot`, { question: userQuestion });
         const botResponse = response.data.answer || "Sorry, I couldn't get an answer.";
-        // insufficient balance: 4000 0000 0000 9995
-        // payment successfull : 4242 4242 4242 4242
-        // Add the bot's reply to the chat history
+
         updatedChatHistory = [
           ...updatedChatHistory,
           { sender: 'bot', message: botResponse, timestamp: currentTime, date: currentDate },

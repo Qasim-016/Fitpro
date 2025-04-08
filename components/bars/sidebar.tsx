@@ -51,46 +51,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
   }, [isVisible]);
 
   // Load profile image from AsyncStorage using userId (uid)
-  const loadProfileImage = async () => {
-    try {
-      const userId = auth.currentUser?.uid; // Get the current user's UID
-      if (userId) {
-        const savedImage = await AsyncStorage.getItem(`profileImage_${userId}`);
-        if (savedImage) {
-          setProfileImage(savedImage);
-        }
+const loadProfileImage = async () => {
+  try {
+    const userId = auth.currentUser?.uid;
+    if (userId) {
+      const response = await fetch(`http://${SERVER_IP}:5000/user/${userId}`);
+      const data = await response.json();
+
+      if (data.profileImage) {
+        setProfileImage(`data:image/jpeg;base64,${data.profileImage}`);
       }
-    } catch (error) {
-      console.error('Error loading profile image', error);
     }
-  };
+  } catch (error) {
+    console.error('Error loading profile image:', error);
+  }
+};
 
   // Handle image selection
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'You need to allow access to the gallery.');
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1], // Square image
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets.length > 0) {
-      const selectedImage = result.assets[0].uri;
-      setProfileImage(selectedImage);
-
-      // Store the image for the current user using their uid
-      const userId = auth.currentUser?.uid;
-      if (userId) {
-        await AsyncStorage.setItem(`profileImage_${userId}`, selectedImage);
-      }
-    }
-  };
+ 
 
   if (!isVisible) return null;
 
@@ -103,13 +81,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
       </View>
 
       <View style={styling.sidebarHeader}>
-        <TouchableOpacity onPress={pickImage}>
+        
           {/* Profile image */}
           <Image
             source={profileImage ? { uri: profileImage } : require('@/assets/images/dashboard/noimage.png')} // Default image
             style={styling.profileImage} // Add styling for the profile image
           />
-        </TouchableOpacity>
 
         {userData ? (
           <>
