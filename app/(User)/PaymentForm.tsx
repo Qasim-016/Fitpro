@@ -18,11 +18,11 @@ import MyButton from '@/components/Buttons/MyButton';
 import PlaceHolderHeading from '@/components/PlaceHolder/PlaceHolderHeading';
 import { router } from 'expo-router';
 import styling from '@/assets/Styles/styling';
-import { duration } from 'moment';
 import { SERVER_IP } from '../config';
 import axios from 'axios';
 import PushNotification from 'react-native-push-notification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import type { PaymentIntent } from '@stripe/stripe-js';
 
 const PaymentForm: React.FC = () => {
   const { confirmPayment } = useStripe();
@@ -38,13 +38,6 @@ const PaymentForm: React.FC = () => {
   const [isCancelPopupVisible, setIsCancelPopupVisible] = useState(false);
   const [selectedPlanDuration, setSelectedPlanDuration] = useState(1); // Default 1 month
     const [userData, setUserData] = useState<{ username: string ,email:string} | null>(null);
-  
-
-  // Example of how you might handle the change when a user selects a plan
-
-  // Example of how you might handle the change when a user selects a plan
-
-
 
   const auth = getAuth(); // Initialize Firebase Auth
   const currentUserId = auth.currentUser?.uid; // Get the logged-in user's Firebase ID
@@ -56,7 +49,6 @@ const PaymentForm: React.FC = () => {
     { label: '1 Year / 16500', value: '16500', duration: 365 },
   ];
 
-  // Load Subscription Data from MongoDB for Current User
   useEffect(() => {
     const loadSubscriptionData = async () => {
       if (!currentUserId) return; // Ensure user is logged in
@@ -131,6 +123,7 @@ const PaymentForm: React.FC = () => {
       console.error('Error fetching user data', error);
     }
   };
+
   const handleSubmit = async () => {
     if (!currentUserId) {
       Alert.alert('Error', 'User not logged in.');
@@ -144,13 +137,12 @@ const PaymentForm: React.FC = () => {
   
     if (validateForm()) {
       try {
-        
         const response = await fetch(`http://${SERVER_IP}:5000/api/payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount,
-            email:userData?.email,
+            email: userData?.email,
             userId: currentUserId,
             username: userData?.username, // Send the fetched username
           }),
@@ -185,7 +177,7 @@ const PaymentForm: React.FC = () => {
   
       if (error) {
         Alert.alert('Payment Error', error.message || 'An error occurred during payment.');
-      } else if (paymentIntent?.status === 'Succeeded') {
+      } else if (paymentIntent?.status === 'Succeeded') { // <--- lowercase here
         Alert.alert('Payment Successful', 'Your payment was processed successfully.');
         setIsConfirmationVisible(false);
   
@@ -193,10 +185,10 @@ const PaymentForm: React.FC = () => {
           id: Date.now().toString(),
           title: 'Payment Successful',
           message: `Your payment of ${amount} has been processed successfully!`,
-          timestamp: Date.now(), // ✅ Store as a number
+          timestamp: Date.now(),
         };
   
-        // 🔹 Push Local Notification
+        // Push Local Notification
         PushNotification.localNotification({
           channelId: 'fitpro_channel',
           title: notificationData.title,
@@ -208,7 +200,7 @@ const PaymentForm: React.FC = () => {
           vibrate: true,
         });
   
-        // 🔹 Store Notification in AsyncStorage
+        // Store Notification in AsyncStorage
         const storeNotification = async () => {
           try {
             const existingNotifications = await AsyncStorage.getItem(`notifications_${currentUserId}`);
@@ -221,23 +213,29 @@ const PaymentForm: React.FC = () => {
         };
         await storeNotification();
   
-        // 🔹 Save Subscription Data to MongoDB
+        // Save Subscription Data to MongoDB AFTER payment success
         const selectedPlan = amounts.find((item) => item.value === amount);
         if (selectedPlan) {
-          const now = Date.now();
-          const endTime = now + selectedPlan.duration * 24 * 60 * 60 * 1000;
-  
-          setSubscriptionEndTime(endTime);
-  
-          const response = await fetch(`http://${SERVER_IP}:5000/api/subscription`, {
+          const response = await fetch(`http://${SERVER_IP}:5000/api/save-subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: currentUserId, subscriptionEndTime: endTime }),
+            body: JSON.stringify({
+              userId: currentUserId,
+              username: userData?.username,
+              email: userData?.email,
+              amount,
+              duration: selectedPlan.duration, // <-- Add this line
+            }),            
           });
   
           const data = await response.json();
           if (data.success) {
             console.log('Subscription data saved successfully.');
+            const now = Date.now();
+            const endTime = now + selectedPlan.duration * 24 * 60 * 60 * 1000;
+            setSubscriptionEndTime(endTime);
+          } else {
+            console.log('Failed to save subscription data.');
           }
         }
   
@@ -264,10 +262,10 @@ const PaymentForm: React.FC = () => {
       id: Date.now().toString(),
       title: 'Subscription Canceled',
       message: `Your subscription has been canceled successfully!`,
-      timestamp: Date.now(), // ✅ Store as a number
+      timestamp: Date.now(), //Store as a number
     };
   
-    // 🔹 Push Local Notification
+    //Push Local Notification
     PushNotification.localNotification({
       channelId: 'fitpro_channel',
       title: notificationData.title,
@@ -279,7 +277,7 @@ const PaymentForm: React.FC = () => {
       vibrate: true,
     });
   
-    // 🔹 Store Notification in AsyncStorage
+    //Store Notification in AsyncStorage
     const storeNotification = async () => {
       try {
         const existingNotifications = await AsyncStorage.getItem(`notifications_${currentUserId}`);
@@ -292,7 +290,7 @@ const PaymentForm: React.FC = () => {
     };
     await storeNotification();
   
-    // 🔹 Remove Subscription from MongoDB
+    //Remove Subscription from MongoDB
     if (currentUserId) {
       try {
         const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`, {
@@ -456,7 +454,4 @@ const PaymentForm: React.FC = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({});
-
 export default PaymentForm;

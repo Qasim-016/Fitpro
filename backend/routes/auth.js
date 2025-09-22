@@ -1,6 +1,6 @@
 const express = require('express');
-const { signup, login,getUserData ,verifyUserEmail, checkEmailAndSendOTP,verifyOTPAndResetPassword,trial,updateUser,startTrial} = require('../controllers/authController');
-const {createContact } = require('../controllers/Contactcontroller')
+const { signup, login,getUserData ,verifyUserEmail, checkEmailAndSendOTP,verifyOTPAndResetPassword,trial,updateUser,updatePass,startTrial} = require('../controllers/authController');
+const {createContact } = require('../controllers/Contactcontroller');
 const router = express.Router();
 router.post('/checkEmailAndSendOTP',checkEmailAndSendOTP)
 router.post('/verifyOTPAndResetPassword',verifyOTPAndResetPassword)
@@ -10,6 +10,7 @@ router.post('/login', login);
 router.post('/verifyUserEmail',verifyUserEmail);
 router.post('/submit',createContact)
 router.post('/updateUser',updateUser)
+router.post('/updatepass',updatePass)
 router.post('/startTrial', startTrial);
 module.exports = router;
 

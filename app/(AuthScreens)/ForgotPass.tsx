@@ -123,10 +123,10 @@ const ForgotPass = () => {
 
   return (
     <SafeAreaView style={styling.container}>
-      <View style={styling.Backbtn}>
+      <View style={[styling.Backbtn,{zIndex:10}]}>
         <MyButton
-          title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage} />}
-          onPress={() => router.back()}
+          title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
+          onPress={() => router.replace('/(AuthScreens)/login')}
           style1={styling.button}
           style2={styling.NextBackbtntext}
         />

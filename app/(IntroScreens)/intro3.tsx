@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View,  Image } from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router'
 import MyButton from '@/components/Buttons/MyButton'
@@ -14,12 +14,12 @@ const intro3 = () => {
     router.back()
   }
   const Next = () => {
-    router.push("/welcome")
+    router.navigate("/welcome")
   }
   return (
     <SafeAreaView style={styling.intro3container}>
       <View style={styling.Backbtn}>
-        <MyButton title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage} />} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext} />
+        <MyButton title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext} />
       </View>
 
       <Image source={require('@/assets/images/intro/Workout-rafiki 1.png')} />

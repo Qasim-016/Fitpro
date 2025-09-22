@@ -3,11 +3,10 @@ import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from '@/app/(AuthScreens)/firebaseConfig';
 import axios from 'axios';
+import { StyleSheet } from 'react-native';
 import styling from '@/assets/Styles/styling';
 import MyButton from '@/components/Buttons/MyButton';
-import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import Heading from '@/components/Text/Heading';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
@@ -15,8 +14,6 @@ import { TextInput } from 'react-native';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 import AccountSettings from './AccountSettings';
 import PersonalInfo from './PersonalInfo';
-import EditInfo from './EditInfo';
-
 import { KeyboardAvoidingView } from 'react-native';
 import { Platform } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native';
@@ -29,16 +26,12 @@ const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 interface FormData {
   username: string;
-  email: string;
   phone: string;
-  password: string;
 }
 
 interface Errors {
   username: string;
-  email: string;
   phone: string;
-  password: string;
 }
 const Profile = () => {
   const [activeSection, setActiveSection] = useState('Profile');
@@ -76,11 +69,11 @@ const Profile = () => {
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
-        base64: true, // ✅ Enable Base64 encoding
+        base64: true,
       });
   
       if (!result.canceled && result.assets.length > 0) {
-        const selectedImageBase64 = result.assets[0].base64; // ✅ Access base64
+        const selectedImageBase64 = result.assets[0].base64;
         const userId = auth.currentUser?.uid;
         if (userId && selectedImageBase64) {
           await uploadImageToMongoDB(userId, selectedImageBase64);
@@ -129,16 +122,12 @@ const loadProfileImage = async () => {
 
   const [formData, setFormData] = useState<FormData>({
     username: '',
-    email: '',
     phone: '',
-    password: '',
   });
 
   const [errors, setErrors] = useState<Errors>({
     username: '',
-    email: '',
     phone: '',
-    password: '',
   });
 
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -149,7 +138,7 @@ const loadProfileImage = async () => {
   };
 
   const validateForm = () => {
-    const { username, email, phone, password } = formData;
+    const { username, phone } = formData;
     let formErrors = { ...errors };
 
     formErrors.username = username.trim() === ''
@@ -158,11 +147,7 @@ const loadProfileImage = async () => {
         ? 'Username can only contain letters and spaces'
         : '';
 
-    formErrors.email = email.trim() === ''
-      ? 'Email is required'
-      : !email.match(emailRegex)
-        ? 'Please enter a valid Gmail address (e.g., example@gmail.com)'
-        : '';
+    
 
     formErrors.phone = phone.trim() === ''
       ? 'Phone number is required'
@@ -170,11 +155,7 @@ const loadProfileImage = async () => {
         ? 'Phone number should be 12 digits (e.g., +923154721687)'
         : '';
 
-    formErrors.password = password.trim() === ''
-      ? 'Password is required'
-      : !password.match(passwordRegex)
-        ? 'At least 8 characters, start with a capital letter, and contain a number'
-        : '';
+    
 
     setErrors(formErrors);
     return Object.values(formErrors).every(error => error === '');
@@ -188,13 +169,11 @@ const loadProfileImage = async () => {
           const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
             headers: { Authorization: `Bearer ${idToken}` },
           });
-          const { username, email, phone, password } = response.data;
+          const { username,  phone } = response.data;
 
           setFormData({
             username: username || '',
-            email: email || '',
             phone: phone || '',
-            password: password || '',
           });
         }
       } catch (error) {
@@ -217,7 +196,7 @@ const loadProfileImage = async () => {
       const userId = auth.currentUser?.uid;
 
       if (!userId || !idToken) {
-        Alert.alert('User not authenticated');
+        Alert.alert('Error','User not authenticated');
         return;
       }
 
@@ -228,13 +207,14 @@ const loadProfileImage = async () => {
       );
 
       if (response.data.success) {
-        Alert.alert('Updated successfully');
+        Alert.alert('Update',' Updated successfully');
+        router.replace('/(User)/Dashboard')
       } else {
-        Alert.alert('Failed to update user');
+        Alert.alert('Error','Failed to update user');
       }
     } catch (error) {
       console.error('Update error:', error);
-      Alert.alert('Error updating user');
+      Alert.alert('Error','Error updating user');
     }
   };
 
@@ -289,7 +269,7 @@ const loadProfileImage = async () => {
                 <Dashboardscreenimage
                   path={require('@/assets/images/dashboard/logout.png')}
                   styles={styling.dashboardbtnimages}
-                  tintColor='#2ecc71'
+                  tintColor='black'
                 />
               }
               onPress={() => router.navigate('/(AuthScreens)/login')}
@@ -304,16 +284,6 @@ const loadProfileImage = async () => {
 
       {/* Static Profile Section */}
       <View style={styling.profileHeader1}>
-        {/* <TouchableOpacity style={styling.imageContainer}>
-          <Image
-            source={
-              profileImage
-                ? { uri: profileImage }
-                : require('@/assets/images/dashboard/noimage.png')
-            }
-            style={styling.profileImage}
-          />
-        </TouchableOpacity> */}
         <TouchableOpacity style={styling.imageContainer} onPress={selectProfileImage}>
         <Image
           source={profileImage ? { uri: profileImage } : require('@/assets/images/dashboard/noimage.png')}
@@ -328,7 +298,7 @@ const loadProfileImage = async () => {
         {activeSection === 'Profile' && (
           <View style={styling.infoContainer}>
             <TouchableOpacity style={styling.infoItem} onPress={() => setActiveSection('Personal Info')}>
-              <Image source={require('@/assets/images/sidebar/personalinfo.png')} style={styling.infoIcon} />
+              <Image source={require('@/assets/images/sidebar/info.png')} style={styling.infoIcon} />
               <View style={styling.infoText}>
                 <Text style={styling.infoTitle}>Personal Info</Text>
                 <Text style={styling.infoSubtitle}>Name, Email, Contact</Text>
@@ -344,14 +314,14 @@ const loadProfileImage = async () => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styling.infoItem} onPress={() => router.push('/(User)/Gotonotifications')}>
-              <Image source={require('@/assets/images/sidebar/notify.png')} style={styling.infoIcon} />
+              <Image source={require('@/assets/images/Usersite/nnn.png')} style={styling.infoIcon} />
               <View style={styling.infoText}>
                 <Text style={styling.infoTitle}>Notifications</Text>
                 <Text style={styling.infoSubtitle}>Manage your alerts</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styling.infoItem} onPress={() => router.push('/AiScreens/Chatbot')}>
-              <Image source={require('@/assets/images/sidebar/ai.png')} style={styling.infoIcon} />
+              <Image source={require('@/assets/images/sidebar/msg.png')} style={styling.infoIcon} />
               <View style={styling.infoText}>
                 <Text style={styling.infoTitle}>AI ChatBot</Text>
                 <Text style={styling.infoSubtitle}>Personalized chatbot</Text>
@@ -363,7 +333,7 @@ const loadProfileImage = async () => {
                 onPress={() => {
                   router.navigate('/login');
                 }}
-                style1={styling.updateButton}
+                style1={styles.updateButton}
                 style2={styling.updateButtonText}
               />
             )}
@@ -372,7 +342,6 @@ const loadProfileImage = async () => {
 
         {activeSection === 'Personal Info' && (
           <View>
-            {/* <Text style={styling.headerTitle}>Personal Info</Text> */}
             <PersonalInfo />
 
           </View>
@@ -414,20 +383,6 @@ const loadProfileImage = async () => {
                 />
                 {errors.username ? <Text style={{ color: 'red' }}>{errors.username}</Text> : null}
 
-                {/* Email */}
-                <View style={styling.profileicons3}>
-                  <Image source={require('@/assets/images/Profile/profileemail.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Email</Text>
-                </View>
-                <TextInput
-                  style={styling.placeholder}
-                  placeholder="Email"
-                  value={formData.email}
-                  onChangeText={(value) => handleInputChange('email', value)}
-                  keyboardType="email-address"
-                />
-                {errors.email ? <Text style={{ color: 'red' }}>{errors.email}</Text> : null}
-
                 {/* Phone */}
                 <View style={styling.profileicons3}>
                   <Image source={require('@/assets/images/Profile/profilecontact.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
@@ -441,37 +396,33 @@ const loadProfileImage = async () => {
                   keyboardType="phone-pad"
                 />
                 {errors.phone ? <Text style={{ color: 'red' }}>{errors.phone}</Text> : null}
-
-                {/* Password */}
-                <View style={styling.profileicons3}>
-                  <Image source={require('@/assets/images/Profile/profilepass.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Password</Text>
-                </View>
-                <TextInput
-                  style={styling.placeholder}
-                  placeholder="Password"
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  secureTextEntry
-                />
-                {errors.password ? <Text style={{ color: 'red' }}>{errors.password}</Text> : null}
-
-                {/* Update Button */}
                 <TouchableOpacity onPress={handleUpdate} style={styling.updateButton}>
                   <Text style={styling.updateButtonText}>Update</Text>
                 </TouchableOpacity>
+                
+
+                <TouchableOpacity onPress={()=>router.replace('/(User)/UpdatePassword')} style={[styling.updateButton, { marginTop: 10 }]}>
+  <Text style={styling.updateButtonText}>Update Password</Text>
+</TouchableOpacity>
               </ScrollView>
             </TouchableWithoutFeedback>
           </KeyboardAvoidingView>
         )}
       </View>
-
-      {/* Logout Button (Static) */}
-
-
-      {/* Footer - Static */}
-
     </SafeAreaView>
   );
 };
 
 export default Profile;
+
+
+const styles = StyleSheet.create({
+  updateButton: {
+    backgroundColor: '#2ecc71',
+    padding: 5,
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '100%',
+  },})

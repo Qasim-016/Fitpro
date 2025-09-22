@@ -56,7 +56,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
 
   Fri: { title: '"Power starts from the\n hands—never skip forearms!"\n 💯握', workouts: [{ id: 28, name: 'Barbell Wrist\nCurls (Fast)', sets: '5 sets x 15-20', image: require('@/assets/images/Forearm/barbell-wrist-curl.gif') },
     { id: 29, name: 'Wrist Roller', sets: '5 sets x 15-20', image: require('@/assets/images/Forearm/WRIST_ROLLER.gif') },
-    { id: 31, name: 'Zottman Curls', sets: '5 sets x 15-20', image: require('@/assets/images/Forearm/Seated-Zottman-Curl.gif') }
+    { id: 30, name: 'Zottman Curls', sets: '5 sets x 15-20', image: require('@/assets/images/Forearm/Seated-Zottman-Curl.gif') }
   ] },
   Sat: { title: '"Your body won’t go \nwhere your legs can’t\n take you!" 🚀💥', workouts: [{ id:31, name: 'Barbell Squats\n(Light & Fast)', sets: '5 sets x 12-15', image: require('@/assets/images/Legs/Squats.gif') },
     { id:32, name: 'Kettlebell Goblet\nSquats', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/kettlebell-goblet-squat.gif') },
@@ -65,7 +65,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
     { id:35, name: 'Calf Raises', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/Lever-Seated-Calf-Raise.gif') },
     { id:36, name: 'Jump Lunges', sets: '4 sets x 12per leg', image: require('@/assets/images/Legs/power-lunge.gif') }
   ] },
-  Sun: { title: 'Rest Day', workouts: [] },
+  Sun: { title: "Rest and recover,'\n'tomorrow is another'\n' challenge!", workouts: [] },
 };
 
 const ProLoss = () => {
@@ -121,7 +121,7 @@ const ProLoss = () => {
                 {selectedDay !== 'Sun' ? (
                   <></>
                 ) : (
-                  <Text style={styling.restDayQuote}>"Rest and recover, tomorrow is another challenge!"</Text>
+                  <Text style={styling.restDayQuote}></Text>
                 )}
               </View>
             </View>

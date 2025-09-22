@@ -9,20 +9,19 @@ import LogoImgForScreen from "@/components/ScreenImages/LogoImgForScreen";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ✅ Define Notification Type
+// Define Notification Type
 interface Notification {
   id: string;
   title: string;
   message: string;
   timestamp: number;
-  type: string; // Type of notification (e.g., gym, workout, diet)
+  type: string;
 }
 
 const Gotonotifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const auth = getAuth(); // Initialize Firebase Auth
 
-  // 🔹 Fetch Notifications from AsyncStorage
   const fetchNotifications = async () => {
     try {
       const user = auth.currentUser;
@@ -43,7 +42,6 @@ const Gotonotifications = () => {
         });
       }
   
-      // Fetch other notifications (gym, workout, diet)
       const storedGymNotifications = await AsyncStorage.getItem('notifications_gym');
       const storedWorkoutNotifications = await AsyncStorage.getItem('workout_notifications');
       const storedDietNotifications = await AsyncStorage.getItem('diet_notifications');
@@ -78,18 +76,14 @@ const Gotonotifications = () => {
         });
       }
   
-      // ✅ Log the notifications before sorting
   
-      // ✅ Convert ISO string timestamps to Date and sort notifications by timestamp (latest first)
       const sortedNotifications = [...allNotifications].sort((a, b) => {
         const timestampA = new Date(a.timestamp).getTime(); // Convert to milliseconds
         const timestampB = new Date(b.timestamp).getTime(); // Convert to milliseconds
         return timestampB - timestampA; // Sort descending (latest first)
       });
   
-      // ✅ Log the notifications after sorting
   
-      // Set sorted notifications in state
       setNotifications(sortedNotifications);
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -102,7 +96,7 @@ const Gotonotifications = () => {
 
   return (
     <SafeAreaView style={styling.profilecontainer}>
-      <View style={styles.header}>
+      <View style={styling.headerN}>
         <MyButton
           title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
           onPress={() => router.back()}
@@ -112,52 +106,28 @@ const Gotonotifications = () => {
         <Heading title="Notifications" styles={styling.HeaderText} />
       </View>
 
-      {/* ✅ Ensure proper scrolling by setting flex: 1 */}
-      <View style={styles.notificationContainer}>
+      <View style={styling.notificationContainerN}>
         <FlatList
           data={notifications}
           keyExtractor={(item) => item.id} // Ensure each notification has a unique ID
           renderItem={({ item }) => (
-            <View style={styles.notificationCard}>
-              <Text style={styles.notificationTitle}>{item.title}</Text>
-              <Text style={styles.notificationMessage}>{item.message}</Text>
+            <View style={styling.notificationCardN}>
+              <Text style={styling.notificationTitleN}>{item.title}</Text>
+              <Text style={styling.notificationMessageN}>{item.message}</Text>
 
-              {/* ✅ Timestamp at bottom right */}
-              <Text style={styles.notificationTime}>
+              <Text style={styling.notificationTimeN}>
                 {new Date(item.timestamp).toLocaleString()}
               </Text>
             </View>
           )}
-          contentContainerStyle={{ paddingBottom: 20 }} // ✅ Prevents last item from being cut off
-          showsVerticalScrollIndicator={true} // ✅ Shows scrollbar
+          contentContainerStyle={{ paddingBottom: 20 }}
+          showsVerticalScrollIndicator={true}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#F5F5F5" },
-  header: { flexDirection: 'row', paddingLeft: 10, columnGap: 10 },
-  notificationContainer: { flex: 1, paddingHorizontal: 20 }, // ✅ Ensures scrolling works properly
-  notificationCard: {
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#2ecc71',
-    position: 'relative' // ✅ Allows absolute positioning for timestamp
-  },
-  notificationTitle: { fontSize: 16, fontWeight: "bold" },
-  notificationMessage: { marginTop: 5, fontSize: 14, color: "#333" },
-  notificationTime: {
-    fontSize: 12,
-    color: "gray",
-    position: "absolute", // ✅ Positions timestamp at the bottom right
-    bottom: 5,
-    right: 10,
-  },
-});
 
 export default Gotonotifications;
 

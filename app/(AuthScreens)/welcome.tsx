@@ -1,6 +1,6 @@
 import MyButton from "@/components/Buttons/MyButton";
-import { Link, useRouter } from "expo-router";
-import { Text, View,Image } from "react-native";
+import { useRouter } from "expo-router";
+import {  View} from "react-native";
 import LogoImgForScreen from "@/components/ScreenImages/LogoImgForScreen";
 import Heading from "@/components/Text/Heading";
 import styling from "@/assets/Styles/styling";
@@ -24,7 +24,7 @@ export default function Welcome() {
       style={styling.WelcomeContainer}
     >
       <View style={styling.Backbtn}>
-      <MyButton title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage}/>} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext}/>
+      <MyButton title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage}/>} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext}/>
       <Heading title={'Welcome'} styles={styling.HeaderText}/>
       </View>
     <View 

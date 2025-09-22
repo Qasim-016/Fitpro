@@ -1,11 +1,10 @@
-import { View, Text, Image } from 'react-native'
+import { View, Image } from 'react-native'
 import React from 'react'
 import MyButton from '@/components/Buttons/MyButton'
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen'
 
 import { useRouter } from 'expo-router'
 import styling from '@/assets/Styles/styling'
-import LogoImg from '@/components/ScreenImages/LogoImgForScreen'
 import Heading from '@/components/Text/Heading'
 import Paragraph from '@/components/Text/Paragraph'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,12 +15,12 @@ const Intro2 = () => {
     router.back()
   }
   const Next = () => {
-    router.push("/intro3")
+    router.navigate("/intro3")
   }
   return (
     <SafeAreaView style={styling.intro2container}>
       <View style={styling.Backbtn}>
-        <MyButton title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage} />} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext} />
+        <MyButton title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />} onPress={Back} style1={styling.button} style2={styling.NextBackbtntext} />
       </View>
 
       <Image source={require('@/assets/images/intro/Gym-bro 1.png')} />

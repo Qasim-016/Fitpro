@@ -1,5 +1,3 @@
-import dashboard from "@/app/(User)/Dashboard";
-import BenchPress from "@/app/Chest/BenchPress";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 const { width } = Dimensions.get('screen');
@@ -13,7 +11,6 @@ const featureimagebotwidth = width * 0.93;
 const featureimagebotheight = height * 0.15;
 const featureimageheight = height * 0.2;
 const closeviewheight = height * 0.8;
-const chatContainerwidth = width * 0.5;
 const sidebarbarbodywidth = width * 0.5;
 const widthcont = width * 0.9;
 const heightcont = height * 0.5;
@@ -114,7 +111,7 @@ const styling = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    // paddingVertical: 5,
+    paddingVertical: 4,
     fontSize: 15,
   }
   , FullWidthbutton: {
@@ -122,7 +119,7 @@ const styling = StyleSheet.create({
     backgroundColor: "#2ECC71", paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center'
   },
   FullwidthbtnText: {
-    fontSize: 20, color: "#CCCCCC", fontWeight: "bold"
+    fontSize: 20, color: 'white', fontWeight: "bold"
   },
   FullwidthWhitebtn: {
     paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center', borderWidth: 2, borderColor: '#2ecc71'
@@ -568,6 +565,7 @@ const styling = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+  
   },
   modalsubtitle: {
     fontSize: 18,
@@ -593,7 +591,7 @@ const styling = StyleSheet.create({
     fontSize: 16,
     color: 'red',
   },
-  cancelButton: { borderWidth: 2, borderColor: '#2ecc71', padding: 10, alignItems: 'center' },
+  cancelButton: { borderWidth: 2, borderColor: '#2ecc71',borderRadius:5, padding: 10, alignItems: 'center' },
   cancelButtonText: { color: '#2ecc71' },
 
   profilecontainer: {
@@ -730,16 +728,11 @@ const styling = StyleSheet.create({
     borderRadius: 5,
   },
   updateButton: {
-    // backgroundColor: '#2ecc71',
-    // paddingVertical: 10,
-    // borderRadius: 5,
-    // alignItems: 'center',
-
-    backgroundColor: "#2ECC71", paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center', marginTop: 5
+    backgroundColor: "#2ECC71", paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10, width: 300, alignItems: 'center', justifyContent:'center',marginTop: 5
 
   },
   updateButtonText: {
-    fontSize: 20, color: "#CCCCCC", fontWeight: "bold"
+    fontSize: 20, color: "white", fontWeight: "bold"
 
   },
 
@@ -819,107 +812,6 @@ const styling = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
-
-
-
-  // workoutnormalcontainer: {
-  //   flex: 1,
-  //   backgroundColor: '#f4f4f4',
-  //   paddingHorizontal: 16,
-  // },
-  // daySelector: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-around',
-  //   marginVertical: 10,
-  //   backgroundColor: '#fff',
-  //   paddingVertical: 10,
-  //   borderRadius: 10,
-  //   shadowColor: '#000',
-  //   shadowOpacity: 0.1,
-  //   shadowOffset: { width: 0, height: 3 },
-  //   elevation: 3,
-  // },
-  // dayButton: {
-  //   padding: 10,
-  //   borderRadius: 10,
-  //   backgroundColor: '#ccc',
-  // },
-  // selectedDay: {
-  //   backgroundColor: '#4CAF50',
-  // },
-  // dayText: {
-  //   fontSize: 16,
-  //   fontWeight: 'bold',
-  //   color: '#fff',
-  // },
-  // workoutCard: {
-  //   backgroundColor: '#4CAF50',
-  //   padding: 20,
-  //   borderRadius: 10,
-  //   alignItems: 'center',
-  //   marginVertical: 10,
-  // },
-  // workoutTitle: {
-  //   fontSize: 20,
-  //   fontWeight: 'bold',
-  //   color: '#fff',
-  // },
-  // workoutSubtitle: {
-  //   fontSize: 16,
-  //   color: '#fff',
-  //   marginBottom: 10,
-  // },
-  // buttonRowworkoutnormal: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   width: '100%',
-  // },
-  // startButton: {
-  //   backgroundColor: '#2e8b57',
-  //   padding: 10,
-  //   borderRadius: 5,
-  // },
-  // endButton: {
-  //   backgroundColor: '#d9534f',
-  //   padding: 10,
-  //   borderRadius: 5,
-  // },
-  // sectionTitle: {
-  //   fontSize: 18,
-  //   fontWeight: 'bold',
-  //   marginVertical: 10,
-  // },
-  // workoutItem: {
-  //   flexDirection: 'row',
-  //   backgroundColor: '#fff',
-  //   padding: 10,
-  //   marginVertical: 5,
-  //   borderRadius: 10,
-  //   alignItems: 'center',
-  // },
-  // workoutImage: {
-  //   width: 60,
-  //   height: 60,
-  //   borderRadius: 10,
-  // },
-  // workoutDetails: {
-  //   marginLeft: 10,
-  // },
-  // workoutName: {
-  //   fontSize: 16,
-  //   fontWeight: 'bold',
-  // },
-  // workoutSets: {
-  //   fontSize: 14,
-  //   color: '#666',
-  // },
-  // videoThumbnail: {
-  //   width: '100%',
-  //   height: 200,
-  //   borderRadius: 10,
-  //   marginVertical: 10,
-  // },
-
 
   workoutnormalcontainer: {
     flex: 1,
@@ -1056,7 +948,7 @@ color:'#fff'
     fontSize: 16,
     fontWeight: 'bold',
     color: '#FF5733', // Orange shade for motivation
-    textAlign: 'center',
+    textAlign: 'left',
     marginTop: 10,
   },
   workoutRowContainer: {
@@ -1184,7 +1076,121 @@ BenchPresssubview:{
 workoutheadingsdescriptions:{
   fontSize:14,
   color:'#2ecc71',fontWeight:'bold'
-}
+},
+overlay: {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  height: '100%',
+  width: '100%',
+  backgroundColor: 'rgba(0,0,0,0.3)', // Slight dark overlay
+  flexDirection: 'row',
+},
+headingCW: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 10,
+},
+labelcW: {
+  marginTop: 10,
+  fontSize: 16,
+  fontWeight: '500',
+},
+pickerContainerCW: {
+  borderWidth: 1,
+  borderColor: '#2ecc71',
+  borderRadius: 10,
+  overflow: 'hidden',
+  // marginTop: 5,
+  marginBottom: 10,
+  backgroundColor: '#fff',justifyContent:'center',
+},
+pickerCW: {
+  height: 30,
+  width: '100%',
+},
+scrollContainerCD: { flexGrow: 1, paddingBottom: 20 },
+containerCD: { marginTop: 60, marginHorizontal: 20, borderWidth: 1, borderColor: '#2ecc71', padding: 20 },
+headingCD: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
+pickerContainerCD: { borderWidth: 1, borderRadius: 10, marginBottom: 10, backgroundColor: '#fff' },
+pickerCD: { height: 50, width: '100%' },
+inputCD: { borderWidth: 1, borderRadius: 10, padding: 10, marginBottom: 10, backgroundColor: '#fff' },
+containerN: { flex: 1, padding: 20, backgroundColor: "#F5F5F5" },
+headerN: { flexDirection: 'row', paddingLeft: 10, columnGap: 10 },
+notificationContainerN: { flex: 1, paddingHorizontal: 20 },
+notificationCardN: {
+  padding: 15,
+  borderRadius: 8,
+  marginBottom: 10,
+  borderWidth: 1,
+  borderColor: '#2ecc71',
+  position: 'relative'
+},
+notificationTitleN: { fontSize: 16, fontWeight: "bold" },
+notificationMessageN: { marginTop: 5, fontSize: 14, color: "#333" },
+notificationTimeN: {
+  fontSize: 12,
+  color: "gray",
+  position: "absolute",
+  bottom: 5,
+  right: 10,
+},
+containerG: {
+  flex: 1,
+  alignItems: 'center',
+  backgroundColor: '#f5f5f5',
+  padding: 16,
+},
+dateTextG: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginBottom: 10,
+}, textviewG: {
+  // flex:1,
+  width: 150, height: 50, borderWidth: 2, borderColor: '#2ecc71', textAlign: 'center', color: '#333'
+},
+statusTextG: {
+  fontSize: 18,
+  color: '#2ecc71',
+  marginBottom: 20,
+},
+scheduleContainerG: {
+  flex: 1, justifyContent: 'center', borderWidth: 2, borderColor: '#2ecc71', marginBottom: 10, paddingHorizontal: 10,
+  // marginBottom: 20,
+
+}, butonG: {
+  width: 80, borderWidth: 2, borderColor: '#2ecc71', alignItems: 'center', height: 50, justifyContent: 'center'
+}, btntextG: {
+  color: 'black', fontWeight: 'bold', fontSize: 16
+},
+scheduleItemG: {
+  marginBottom: 10,
+  fontSize: 16,
+  color: '#333'
+}, timingG: {
+  flexDirection: 'row', gap: 10
+},
+GymtimingbuttonContainerG: {
+  marginBottom: 150,
+  flex: 1,
+  flexDirection: 'column',
+  alignItems: 'center',
+  rowGap: 10,
+  width: '100%',
+},
+errorTextG: {
+  color: 'red',
+  fontSize: 16,
+}, greenTextG: {
+  color: '#2ecc71', fontWeight: 'bold', fontSize: 16,
+},
+blackTextG: {
+  color: 'black', fontSize: 16,
+}, paragraphContainerG: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+},
 }
 );
 

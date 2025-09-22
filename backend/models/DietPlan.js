@@ -1,16 +1,3 @@
-// const mongoose = require('mongoose');
-// const DietPlanSchema = new mongoose.Schema({
-//     userId: { type: String, required: true, unique: true },
-//     level: { type: String, required: true },
-//     duration: { type: String, required: true },
-//     goal: { type: String, required: true },
-//     currentWeight: { type: Number, required: true },
-//     targetWeight: { type: Number, required: true },
-// });
-
-// module.exports = mongoose.model('DietPlan', DietPlanSchema);
-
-
 const mongoose = require('mongoose');
 
 const DietPlanSchema = new mongoose.Schema({

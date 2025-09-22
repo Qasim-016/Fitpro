@@ -26,7 +26,6 @@ const FreeTrial = () => {
         setTrialUsed(true); // Disable button if trial has been used
       }
     } catch (error) {
-      // console.error('Error fetching trial status:', error);
     }
   };
 
@@ -47,7 +46,6 @@ const FreeTrial = () => {
       );
 
       if (response.data.success) {
-        Alert.alert('Success', 'Trial started successfully!');
         setTrialUsed(true); // Disable button after starting the trial
         router.push({ pathname: '/Dashboard', params: { selectedSection: 'home' } });
       }
@@ -81,7 +79,7 @@ const FreeTrial = () => {
           onPress={startTrial}
           style1={[styling.freetrialbtn, trialUsed ? { backgroundColor: 'gray' } : {}]}
           style2={styling.FreeTrialText}
-          disabled={trialUsed} // 🔹 Disable if count >= 1
+          disabled={trialUsed} // Disable if count >= 1
         />
         <MyButton
           title="Get Premium"

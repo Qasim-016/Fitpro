@@ -36,7 +36,7 @@ const Dietplan = () => {
 
       setNotifications(notificationsArray);
     } catch (error) {
-      console.error('❌ Error storing notification:', error);
+      console.error('Error storing notification:', error);
     }
   };
 
@@ -47,13 +47,13 @@ const Dietplan = () => {
         setNotifications(JSON.parse(storedNotifications));
       }
     } catch (error) {
-      console.error('❌ Error loading notifications:', error);
+      console.error('Error loading notifications:', error);
     }
   };
 
   const startBackgroundTask = async () => {
     const backgroundTask = async () => {
-      console.log('✅ Diet Plan Background Task Started...');
+      console.log('Diet Plan Background Task Started...');
       while (true) {
         const now = new Date();
         const hours = now.getHours();
@@ -91,7 +91,7 @@ const Dietplan = () => {
         parameters: { delay: 1000 },
       });
     } catch (error) {
-      console.error('❌ Error starting diet background task:', error);
+      console.error('Error starting diet background task:', error);
     }
   };
 
@@ -107,7 +107,7 @@ const Dietplan = () => {
       vibrate: true,
     });
 
-    console.log(`🚀 Notification Sent: ${title}`);
+    console.log(`Notification Sent: ${title}`);
     storeNotification(title, message);
   };
 

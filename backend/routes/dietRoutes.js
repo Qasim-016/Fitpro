@@ -1,14 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const verifyToken = require('../middleware/verifyToken');
-const {
-  saveDietPlan,
-  getDietPlan,
-  deleteDietPlan,
-} = require('../controllers/dietController');
+const verifyToken = require("../middleware/verifyToken");
+const dietPlanController = require("../controllers/dietPlanController");
 
-router.post('/saveDietPlan', verifyToken, saveDietPlan);
-router.get('/getDietPlan', verifyToken, getDietPlan);
-router.delete('/deleteDietPlan', deleteDietPlan);
+router.post("/saveDietPlan", verifyToken, dietPlanController.saveDietPlan);
+router.get("/getDietPlan", verifyToken, dietPlanController.getDietPlan);
+router.delete("/deleteDietPlan", verifyToken, dietPlanController.deleteDietPlan);
 
 module.exports = router;

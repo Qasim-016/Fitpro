@@ -12,10 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-// import auth from '@react-native-firebase/auth'; 
-import { auth } from '../(AuthScreens)/firebaseConfig';// Import Firebase auth
 import styling from '@/assets/Styles/styling';
-// import { Auth } from 'firebase/auth';
 import PlaceHolder from '@/components/PlaceHolder/PlaceHolder';
 import MyButton from '@/components/Buttons/MyButton';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
@@ -25,7 +22,6 @@ import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { SERVER_IP } from '../config';
 
-// Helper to format date labels (e.g., "Today", "Yesterday", or date)
 const formatDateLabel = (date: Date) => {
   const today = new Date();
   const diffInDays = Math.floor((today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));

@@ -64,7 +64,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
   Fri: {
     title: '"Power starts from the\n hands—never skip forearms!"\n 💯握', workouts: [{ id: 28, name: 'Heavy Barbell\nWrist Curls', sets: '5 sets x 8-10', image: require('@/assets/images/Forearm/barbell-wrist-curl.gif') },
     { id: 29, name: 'Thick Grip\nDead Hangs', sets: '4 sets x 40sec', image: require('@/assets/images/Forearm/dead-hang.gif') },
-    { id: 31, name: 'Towel Grip\nPull-ups', sets: '4 sets x 6-8', image: require('@/assets/images/Forearm/towelpullups.gif') }
+    { id: 30, name: 'Towel Grip\nPull-ups', sets: '4 sets x 6-8', image: require('@/assets/images/Forearm/towelpullups.gif') }
     ]
   },
 
@@ -77,7 +77,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
     { id: 35, name: 'Stand Calf Raises', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/STD_CALF_RAISE.gif') },
     ]
   },
-  Sun: { title: 'Rest Day', workouts: [] },
+  Sun: { title: "Rest and recover,'\n'tomorrow is another'\n' challenge!", workouts: [] },
 };
 
 const ProGain = () => {
@@ -133,7 +133,7 @@ const ProGain = () => {
                 {selectedDay !== 'Sun' ? (
                   <></>
                 ) : (
-                  <Text style={styling.restDayQuote}>"Rest and recover, tomorrow is another challenge!"</Text>
+                  <Text style={styling.restDayQuote}></Text>
                 )}
               </View>
             </View>

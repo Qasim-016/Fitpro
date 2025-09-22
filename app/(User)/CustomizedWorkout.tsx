@@ -26,34 +26,33 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.post(`http://${SERVER_IP}:5000/saveWorkoutPlan`, 
+            const response = await axios.post(`http://${SERVER_IP}:5000/api/workout/saveWorkoutPlan`, 
                 { level, goal },
                 { headers: { Authorization: token } }
             );
     
             console.log('Server Response:', response.data);
-            // Alert.alert('Success', response.data.message);
             if (level === 'Begin' && goal === 'Weight Gain') {
-                router.push('/CustomizedWorkout/BeginnerGain'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/BeginnerGain'); 
                 return;
             }else if(level === 'Begin' && goal ==='Weight Loss'){
-                router.push('/CustomizedWorkout/BeginnerLoss'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/BeginnerLoss'); 
                 return;
             }else if(level === 'Intermediate' && goal ==='Weight Loss'){
-                router.push('/CustomizedWorkout/InterLoss'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/InterLoss'); 
                 return;
             }else if(level === 'Intermediate' && goal ==='Weight Gain'){
-                router.push('/CustomizedWorkout/InterGain'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/InterGain'); 
                 return;
             }else if(level === 'Pro' && goal ==='Weight Loss'){
-                router.push('/CustomizedWorkout/ProLoss'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/ProLoss'); 
                 return;
             }else{
-                router.push('/CustomizedWorkout/ProGain'); // ✅ Navigate to BeginnerLoss page
+                router.push('/CustomizedWorkout/ProGain');
                 return;
             }
 
-        } catch (error: any) {  // ✅ Fix: Explicitly declare 'error' as 'any'
+        } catch (error: any) {  // Fix: Explicitly declare 'error' as 'any'
             console.error('Error saving workout plan:', error.response?.data || error.message || error);
             Alert.alert('Error', 'Failed to save workout plan.');
         }
@@ -72,14 +71,14 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.delete(`http://${SERVER_IP}:5000/deleteWorkoutPlan`, {
+            const response = await axios.delete(`http://${SERVER_IP}:5000/api/workout/deleteWorkoutPlan`, {
                 headers: { Authorization: token },
             });
     
             console.log('Server Response:', response.data);
             // Alert.alert('Success', response.data.message);
     
-            router.navigate('/(User)/WorkoutNormal'); // ✅ Navigate after successful deletion
+            router.navigate('/(User)/WorkoutNormal'); // Navigate after successful deletion
     
         } catch (error: any) {
             console.error('Error deleting workout plan:', error.response?.data || error.message || error);
@@ -93,25 +92,25 @@ const CustomizedWorkout = () => {
         <SafeAreaView>
             <View style={styling.Backbtn}>
                 <MyButton title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
-                    onPress={() => router.back()}
+                    onPress={() => router.replace('/(User)/Dashboard')}
                     style1={styling.button}
                     style2={styling.NextBackbtntext} />
                 <Heading title="Workout Plan" styles={styling.HeaderText} />
                 
             </View>
              <View style={{marginTop:60,marginHorizontal:20,height:500,borderWidth:1,borderColor:'#2ecc71',justifyContent:'center',paddingHorizontal:20}}>
-            <Heading title='Fitness Level' styles={styles.heading} />
-                <View style={styles.pickerContainer}>
-                    <Picker selectedValue={level} onValueChange={(itemValue) => setLevel(itemValue)} style={styles.picker}>
+            <Heading title='Fitness Level' styles={styling.headingCW} />
+                <View style={styling.pickerContainerCW}>
+                    <Picker selectedValue={level} onValueChange={(itemValue) => setLevel(itemValue)} style={styling.pickerCW}>
                         <Picker.Item label="Begin" value="Begin" />
                         <Picker.Item label="Intermediate" value="Intermediate" />
                         <Picker.Item label="Pro" value="Pro" />
                     </Picker>
                 </View>
 
-                <Heading title='Goal' styles={styles.heading} />
-                <View style={styles.pickerContainer}>
-                    <Picker selectedValue={goal} onValueChange={(itemValue) => setGoal(itemValue)} style={styles.picker}>
+                <Heading title='Goal' styles={styling.headingCW} />
+                <View style={styling.pickerContainerCW}>
+                    <Picker selectedValue={goal} onValueChange={(itemValue) => setGoal(itemValue)} style={styling.pickerCW}>
                         <Picker.Item label="Weight Loss" value="Weight Loss" />
                         <Picker.Item label="Weight Gain" value="Weight Gain" />
                     </Picker>
@@ -129,35 +128,6 @@ const CustomizedWorkout = () => {
         </SafeAreaView>
     );
 };
-
-
-
-
-const styles = StyleSheet.create({
-    heading: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    label: {
-        marginTop: 10,
-        fontSize: 16,
-        fontWeight: '500',
-    },
-    pickerContainer: {
-        borderWidth: 1,
-        borderColor: '#2ecc71',
-        borderRadius: 10,
-        overflow: 'hidden',
-        // marginTop: 5,
-        marginBottom: 10,
-        backgroundColor: '#fff',justifyContent:'center',
-    },
-    picker: {
-        height: 30,
-        width: '100%',
-    },
-});
 
 export default CustomizedWorkout;
 

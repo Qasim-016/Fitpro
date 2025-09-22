@@ -35,13 +35,6 @@ const AccountSettings = () => {
         <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Name</Text>
       </View>
       <Text style={{ fontSize: 16 }}>{userData?.username}</Text>
-
-      {/* <View style={styling.profileicons}>
-        <Image source={require('@/assets/images/Profile/profileemail.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
-
-        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#2ecc71' }}>Email</Text>
-      </View> */}
-      {/* <Text style={{ fontSize: 16 }}>{userData?.email}</Text> */}
       <View style={styling.profileicons}>
         <Image source={require('@/assets/images/Profile/profilecontact.png')} style={{ width: 25, height: 25, marginRight: 5 }} />
 

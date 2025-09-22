@@ -14,7 +14,6 @@ import axios from 'axios';
 import { signInWithCustomToken } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { SERVER_IP } from '../config';
-import * as Notifications from 'expo-notifications';
 import PushNotification from 'react-native-push-notification';
 
 const Login = () => {
@@ -101,7 +100,7 @@ const loginUser = async (): Promise<void> => {
         // Authenticate using Firebase custom token
         await signInWithCustomToken(auth, token);
 
-        // 🔹 Construct Notification Data
+        // Construct Notification Data
         const notificationData = {
           id: Date.now().toString(),
           title: 'Welcome Back!',
@@ -109,7 +108,7 @@ const loginUser = async (): Promise<void> => {
           timestamp: new Date().toISOString(),
         };
 
-        // 🔹 Push Local Notification
+        // Push Local Notification
         PushNotification.localNotification({
           channelId: 'fitpro_channel', // Ensure this channel exists
           title: notificationData.title,
@@ -134,7 +133,7 @@ const loginUser = async (): Promise<void> => {
         };
         await storeNotification();
 
-        // 🔹 Step 1: Check Free Trial
+        // Step 1: Check Free Trial
         let isTrialActive = false;
         try {
           const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userData.uid}`);
@@ -143,7 +142,7 @@ const loginUser = async (): Promise<void> => {
           }
         } catch (trialError: any) {}
 
-        // 🔹 Step 2: Check Subscription
+        // Step 2: Check Subscription
         let hasActiveSubscription = false;
         try {
           const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userData.uid}`);
@@ -152,7 +151,7 @@ const loginUser = async (): Promise<void> => {
           }
         } catch (subscriptionError) {}
 
-        // 🔹 Final Decision: Navigate Only Once
+        // Final Decision: Navigate Only Once
         if (hasActiveSubscription || isTrialActive) {
           router.navigate('/(User)/Dashboard');
         } else {
@@ -180,10 +179,10 @@ const loginUser = async (): Promise<void> => {
 };
   return (
     <SafeAreaView style={styling.container}>
-      <View style={styling.Backbtn}>
+      <View style={[styling.Backbtn,{zIndex:10}]}>
         <MyButton
-          title={<LogoImgForScreen path={require('@/assets/images/nextback/back.png')} styles={styling.NextBackbtnimage} />}
-          onPress={() => router.back()}
+          title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
+          onPress={() => router.replace('/(AuthScreens)/welcome')}
           style1={styling.button}
           style2={styling.NextBackbtntext}
         />

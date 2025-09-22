@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import styling from '@/assets/Styles/styling';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,8 +11,6 @@ import { auth } from '@/app/(AuthScreens)/firebaseConfig'; // Ensure correct pat
 import Heading from '../Text/Heading';
 import Paragraph from '../Text/Paragraph';
 import { Link, router } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_IP } from '@/app/config';
 interface SidebarProps {
   isVisible: boolean; // Whether the sidebar is visible
@@ -100,7 +98,7 @@ const loadProfileImage = async () => {
 
       <View style={styling.sidebarbody}>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/personalinfo.png')} styles={styling.sidebaricons} />
+          <LogoImgForScreen path={require('@/assets/images/sidebar/info.png')} styles={styling.sidebaricons} />
           <Link href={'/(User)/Profile'}>Personal info</Link>
         </View>
         <View style={styling.sidebarbodysubview}>
@@ -108,11 +106,11 @@ const loadProfileImage = async () => {
           <MyButton title='Account Settings' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Profile')} />
         </View>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/notify.png')} styles={styling.sidebaricons} />
+          <LogoImgForScreen path={require('@/assets/images/Usersite/nnn.png')} styles={styling.sidebaricons} />
           <MyButton title='Notifications' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/(User)/Gotonotifications')} />
         </View>
         <View style={styling.sidebarbodysubview}>
-          <LogoImgForScreen path={require('@/assets/images/sidebar/ai.png')} styles={styling.sidebaricons} />
+          <LogoImgForScreen path={require('@/assets/images/sidebar/msg.png')} styles={styling.sidebaricons} />
           <MyButton title='Fitpro AI' style1={styling.sidebarbtn} style2={styling.none} onPress={() => router.navigate('/AiScreens/Chatbot')} />
         </View>
       </View>

@@ -33,7 +33,6 @@ cron.schedule('* * * * *', async () => {
         // Remove the user from the temporary MongoDB collection
         await TemUser.deleteOne({ uid });
       } catch (error) {
-        // console.error(`Error processing user ${uid}:`, error.message);
       }
     }
   } catch (error) {

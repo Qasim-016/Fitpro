@@ -1,6 +1,5 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { TextStyle } from 'react-native'
 interface HeadingProps {
   title: string; // Define paragraph as a string

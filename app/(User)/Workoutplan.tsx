@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, ImageBackground, Platform, ScrollView } from 'react-native';
+import { View, Dimensions, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PushNotification from 'react-native-push-notification';
 import BackgroundService from 'react-native-background-actions';
@@ -38,7 +38,7 @@ const Workoutplan = () => {
 
       setNotifications(notificationsArray);  // Update the notifications state
     } catch (error) {
-      console.error('❌ Error storing notification:', error);
+      console.error('Error storing notification:', error);
     }
   };
 
@@ -50,14 +50,14 @@ const Workoutplan = () => {
         setNotifications(JSON.parse(storedNotifications));
       }
     } catch (error) {
-      console.error('❌ Error loading notifications:', error);
+      console.error('Error loading notifications:', error);
     }
   };
 
   // Background task to trigger notifications at specific times
   const startBackgroundTask = async () => {
     const backgroundTask = async () => {
-      console.log('✅ Background task started...');
+      console.log('Background task started...');
       while (true) {
         const now = new Date();
         const hours = now.getHours();
@@ -86,7 +86,7 @@ const Workoutplan = () => {
         parameters: { delay: 1000 },
       });
     } catch (error) {
-      console.error('❌ Error starting background task:', error);
+      console.error('Error starting background task:', error);
     }
   };
 
@@ -103,7 +103,7 @@ const Workoutplan = () => {
       vibrate: true,
     });
 
-    console.log('🚀 Notification sent!');
+    console.log('Notification sent!');
     storeNotification('Workout Reminder', 'It\'s Time for your workout!');
   };
 

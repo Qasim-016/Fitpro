@@ -1,5 +1,5 @@
-const WorkoutPlan = require('../models/CustomizedWorkout'); // Adjust path as needed
-const admin = require('firebase-admin');
+// controllers/workoutController.js
+const WorkoutPlan = require('../models/CustomizedWorkout');
 
 exports.saveWorkoutPlan = async (req, res) => {
   const { level, goal } = req.body;
@@ -9,44 +9,35 @@ exports.saveWorkoutPlan = async (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  try {
-    let plan = await WorkoutPlan.findOne({ userId });
-    if (plan) {
-      plan.level = level;
-      plan.goal = goal;
-      await plan.save();
-    } else {
-      plan = new WorkoutPlan({ userId, level, goal });
-      await plan.save();
-    }
+  const existingPlan = await WorkoutPlan.findOne({ userId });
 
-    res.status(200).json({ message: 'Workout plan saved successfully!' });
-  } catch (error) {
-    console.error('Error saving workout plan:', error);
-    res.status(500).json({ error: 'Error saving workout plan' });
+  if (existingPlan) {
+    existingPlan.level = level;
+    existingPlan.goal = goal;
+    await existingPlan.save();
+  } else {
+    const newWorkout = new WorkoutPlan({ userId, level, goal });
+    await newWorkout.save();
   }
+
+  res.status(200).json({ message: 'Workout plan saved successfully!' });
 };
 
 exports.getWorkoutPlan = async (req, res) => {
-  try {
-    const plan = await WorkoutPlan.findOne({ userId: req.user.uid });
-    if (plan) {
-      res.status(200).json({ workoutPlan: plan });
-    } else {
-      res.status(404).json({ message: 'No workout plan found' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching workout plan' });
+  const userId = req.user.uid;
+
+  const workoutPlan = await WorkoutPlan.findOne({ userId });
+
+  if (workoutPlan) {
+    res.status(200).json({ workoutPlan });
+  } else {
+    res.status(404).json({ message: 'No workout plan found' });
   }
 };
 
 exports.deleteWorkoutPlan = async (req, res) => {
-  try {
-    const token = req.headers.authorization;
-    const decoded = await admin.auth().verifyIdToken(token);
-    await WorkoutPlan.deleteOne({ userId: decoded.uid });
-    res.json({ message: 'Workout plan deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to delete workout plan' });
-  }
+  const userId = req.user.uid;
+
+  await WorkoutPlan.deleteOne({ userId });
+  res.json({ message: 'Workout plan deleted successfully' });
 };

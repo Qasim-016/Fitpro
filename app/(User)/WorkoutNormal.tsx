@@ -1,15 +1,11 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { Href } from 'expo-router'; // Import Href type
-
 import Heading from '@/components/Text/Heading';
 import MyButton from '@/components/Buttons/MyButton';
-
 import styling from '@/assets/Styles/styling';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import { router } from 'expo-router';
-import Video from 'react-native-video'; // Import video player
-import Paragraph from '@/components/Text/Paragraph';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -64,7 +60,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
     { id:35, name: 'Calf Raises', sets: '4 sets x 12', image: require('@/assets/images/Legs/Lever-Seated-Calf-Raise.gif') },
     { id:36, name: 'Hip Thrusts', sets: '4 sets x 12', image: require('@/assets/images/Legs/Barbell-Hip-Thrust.gif') }
   ] },
-  Sun: { title: 'Rest Day', workouts: [] },
+  Sun: { title: "Rest and recover,'\n'tomorrow is another'\n' challenge!", workouts: [] },
 };
 
 const WorkoutNormal = () => {
@@ -77,7 +73,7 @@ const WorkoutNormal = () => {
       <View style={styling.navbar}>
         <MyButton 
           title={<LogoImgForScreen path={require('@/assets/images/Chatbot/back.png')} styles={styling.NextBackbtnimage} />}
-          onPress={() => router.back()}
+          onPress={() => router.replace('/(User)/Dashboard')}
           style1={styling.button}
           style2={styling.NextBackbtntext} 
         />
@@ -120,7 +116,7 @@ const WorkoutNormal = () => {
                 {selectedDay !== 'Sun' ? (
                   <></>
                 ) : (
-                  <Text style={styling.restDayQuote}>"Rest and recover, tomorrow is another challenge!"</Text>
+                  <Text style={styling.restDayQuote}></Text>
                 )}
               </View>
             </View>

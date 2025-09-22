@@ -6,7 +6,6 @@ const subscriptionSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true ,lowercase:true},
   amount: { type: Number, required: true },
   startDate: { type: Date, required: true },
-//   endDate:{type: Date,required:true},
   subscriptionEndTime: { type: Number, required: true } // Timestamp of subscription end time
 });
 

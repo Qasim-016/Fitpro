@@ -11,7 +11,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-exports.signup = async (req, res) => {
+exports.signup = async (req, res, next) => {
   const { email, username, phone, uid, password } = req.body;
 
   if (!email || !username || !phone || !password || !uid) {
@@ -19,10 +19,9 @@ exports.signup = async (req, res) => {
   }
 
   try {
-    // Check if the user already exists in MongoDB (permanent collection)
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
-      await admin.auth().deleteUser(uid);  // Deleting user from Firebase
+      await admin.auth().deleteUser(uid);
       console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
       return res.status(409).json({ message: 'phone number already registered.' });
     }
@@ -32,19 +31,17 @@ exports.signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save the user in the temporary collection
     const tempUser = new TemUser({
       uid,
       email,
       username,
       phone,
-      password, // Save the hashed password
+      password,
     });
     await tempUser.save();
 
     console.log('TempUser saved:', tempUser);
 
-    // Generate an email verification link
     const verificationLink = await admin.auth().generateEmailVerificationLink(email);
     console.log('Verification link generated:', verificationLink);
     console.log(password);
@@ -61,9 +58,9 @@ exports.signup = async (req, res) => {
     async function main() {
       const info = await transporter.sendMail({
         from: 'pikachugaming565@gmail.com',
-        to: email, // Send to the user's email
+        to: email,
         subject: "Verify your email",
-        html: `${verificationLink}`, // HTML body
+        html: `${verificationLink}`,
       });
       console.log("Message sent: %s", info.messageId);
     }
@@ -76,17 +73,12 @@ exports.signup = async (req, res) => {
       verificationLink,
     });
   } catch (error) {
-    console.error('Signup error:', error);
-    res.status(500).json({
-      message: 'Something went wrong. Please try again later.',
-    });
+    next(error);
   }
 };
 
 
-// Assuming your temporary user model is here
-
-exports.verifyUserEmail = async (req, res) => {
+exports.verifyUserEmail = async (req, res, next) => {
   const { uid } = req.body;
 
   if (!uid) {
@@ -109,26 +101,25 @@ exports.verifyUserEmail = async (req, res) => {
     console.log('TempUser retrieved:', tempUser);
 
     if (!firebaseUser.emailVerified) {
-      // If email is not verified, wait for 1 minute before checking again
       setTimeout(async () => {
-        const updatedFirebaseUser = await admin.auth().getUser(uid);
-        const hashedPassword = await bcrypt.hash(tempUser.password, 10);
+        try {
+          const updatedFirebaseUser = await admin.auth().getUser(uid);
+          const hashedPassword = await bcrypt.hash(tempUser.password, 10);
 
-        if (updatedFirebaseUser.emailVerified) {
-          // User verified, proceed to save to permanent database
-          const user = new User({
-            uid: tempUser.uid,
-            email: tempUser.email,
-            username: tempUser.username,
-            phone: tempUser.phone,
-            password: hashedPassword,
-          });
+          if (updatedFirebaseUser.emailVerified) {
+            const user = new User({
+              uid: tempUser.uid,
+              email: tempUser.email,
+              username: tempUser.username,
+              phone: tempUser.phone,
+              password: hashedPassword,
+            });
 
-          try {
             await user.save();
             console.log('User successfully saved to permanent database:', user);
             await TemUser.deleteOne({ uid });
             console.log('TempUser successfully removed after verification:', tempUser);
+
             const transporter = nodemailer.createTransport({
               host: "smtp.gmail.com",
               port: 587,
@@ -142,9 +133,8 @@ exports.verifyUserEmail = async (req, res) => {
             async function main() {
               const info = await transporter.sendMail({
                 from: 'pikachugaming565@gmail.com',
-                to: firebaseUser.email, // Send to the user's email
+                to: firebaseUser.email,
                 subject: "Verification successful",
-                // html: `${verificationLink}`, // HTML body
                 text: 'You are successfully verified ,Now you can SignIn'
               });
               console.log("Message sent: %s", info.messageId);
@@ -154,28 +144,20 @@ exports.verifyUserEmail = async (req, res) => {
             console.log('Verified');
             return res.status(200).json({ message: 'User verified and saved to database.' });
 
-          } catch (saveError) {
-            console.error('Error saving user to permanent database:', saveError);
-            return res.status(500).json({ message: 'Error saving user to permanent database.' });
-          }
-        } else {
-          // User not verified after 1 minute, delete user from Firebase and remove from temporary storage
-          try {
-            await admin.auth().deleteUser(uid);  // Deleting user from Firebase
+          } else {
+            await admin.auth().deleteUser(uid);
             console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
 
-            await TemUser.deleteOne({ uid });  // Removing from temporary storage
+            await TemUser.deleteOne({ uid });
             console.log('TempUser successfully removed from temporary storage after verification failure.');
 
             return res.status(400).json({ message: 'User not verified please create account again.' });
-          } catch (firebaseError) {
-            console.error('Error deleting user from Firebase:', firebaseError);
-            return res.status(500).json({ message: 'Error deleting user from Firebase.' });
           }
+        } catch (error) {
+          next(error);
         }
-      }, 60000); // Wait for 60 seconds (1 minute)
+      }, 60000);
     } else {
-      // If the email is verified immediately, save to permanent database
       const hashedPassword = await bcrypt.hash(tempUser.password, 10);
       const user = new User({
         uid: tempUser.uid,
@@ -193,19 +175,16 @@ exports.verifyUserEmail = async (req, res) => {
         return res.status(200).json({ message: 'User verified and saved to database.' });
 
       } catch (saveError) {
-        console.error('Error saving user to permanent database:', saveError);
-        return res.status(500).json({ message: 'Error saving user to permanent database.' });
+        next(saveError);
       }
     }
   } catch (error) {
-    console.error('Verification error:', error);
-    return res.status(500).json({ message: 'Something went wrong. Please try again later.' });
+    next(error);
   }
 };
 
 
-
-exports.checkEmailAndSendOTP = async (req, res) => {
+exports.checkEmailAndSendOTP = async (req, res, next) => {
   const { email } = req.body;
 
   if (!email) {
@@ -236,7 +215,7 @@ exports.checkEmailAndSendOTP = async (req, res) => {
         otpRequest.createdAt = new Date();
       }
 
-      if (otpRequest.requestCount >= 16) {
+      if (otpRequest.requestCount >= 5) {
         return res.status(400).json({
           status: 'error',
           message: 'You have exceeded the maximum OTP requests for today. Please try again tomorrow.',
@@ -271,7 +250,7 @@ exports.checkEmailAndSendOTP = async (req, res) => {
       from: 'pikachugaming565@gmail.com',
       to: email,
       subject: 'Your OTP code',
-      text: `Your OTP code is ${otp}. This code is valid for 30 seconds.`,
+      text: `Your OTP code is ${otp}. This code is valid for 1 minute.`,
     });
 
     // Respond to the frontend
@@ -281,12 +260,11 @@ exports.checkEmailAndSendOTP = async (req, res) => {
       uid,
     });
   } catch (error) {
-    console.error('Error sending OTP:', error);
-    res.status(500).json({ status: 'error', message: 'Error sending OTP.' });
+    next(error);
   }
 };
 
-exports.verifyOTPAndResetPassword = async (req, res) => {
+exports.verifyOTPAndResetPassword = async (req, res, next) => {
   const { email, otp, newPassword } = req.body;
 
   if (!email || !otp || !newPassword) {
@@ -307,7 +285,7 @@ exports.verifyOTPAndResetPassword = async (req, res) => {
     const timeDifference = Date.now() - new Date(tempOTP.createdAt).getTime();
     console.log(`Time difference: ${timeDifference}ms`);
 
-    if (timeDifference > 30 * 1000) { // 30 seconds
+    if (timeDifference > 60 * 1000) { // 30 seconds
       await TempOTP.deleteOne({ email });
       console.log('OTP expired, deleting...');
       return res.status(400).json({ status: 'error', message: 'OTP has expired.' });
@@ -349,23 +327,12 @@ exports.verifyOTPAndResetPassword = async (req, res) => {
       message: 'Password Updated Successfully',
     });
   } catch (error) {
-    console.error('Error verifying OTP:', error);
-    return res.status(500).json({ status: 'error', message: 'Error verifying OTP.' });
+    next(error);
   }
 };
 
 
-
-
-
-
-
-
-
-
-
-
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -406,22 +373,11 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Something went wrong. Please try again later.' });
+    next(error);
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-exports.getUserData = async (req, res) => {
+exports.getUserData = async (req, res, next) => {
   const idToken = req.headers.authorization?.split(' ')[1]; // Get the token from headers
 
   if (!idToken) {
@@ -442,14 +398,16 @@ exports.getUserData = async (req, res) => {
 
     return res.status(200).json({
       email: user.email,
-      username: user.username, phone: user.phone, password: '******************',
+      username: user.username,
+      phone: user.phone,
+      password: '******************',
     });
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to fetch user data', error });
+    next(error);
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUser = async (req, res, next) => {
   try {
     const { userId, username, email, phone, password } = req.body;
 
@@ -464,9 +422,9 @@ exports.updateUser = async (req, res) => {
       updateFields.password = await bcrypt.hash(password, salt);
     }
 
-    //  Change `_id` to `uid` since you're storing Firebase UID in `uid`
+    // Change `_id` to `uid` since you're storing Firebase UID in `uid`
     const updatedUser = await User.findOneAndUpdate(
-      { uid: userId }, //  Search using `uid`
+      { uid: userId }, // Search using `uid`
       updateFields,
       { new: true }
     );
@@ -478,22 +436,53 @@ exports.updateUser = async (req, res) => {
     res.json({ success: true, message: 'User details updated successfully', updatedUser });
   } catch (error) {
     console.error('Error updating user:', error);
-    res.status(500).json({ error: 'Failed to update user data' });
+    next(error);
   }
 };
 
 
 
+exports.updatePass = async (req, res, next) => {
+  try {
+    const { userId, oldPassword, password: newPassword } = req.body;
 
+    if (!userId || !oldPassword || !newPassword) {
+      return res.status(400).json({ error: 'userId, oldPassword and newPassword are required' });
+    }
+
+    // Find user by UID
+    const user = await User.findOne({ uid: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Compare old password with the hashed password in DB
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Old password is incorrect' });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update user password
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ error: 'Server error while updating password' });
+  }
+};
 
 
 const Trial = require('../models/trialSchema'); // Import Trial model
 
-
-
-
-
-exports.startTrial = async (req, res) => {
+exports.startTrial = async (req, res, next) => {
   try {
     const { userId } = req.body;
 
@@ -513,7 +502,7 @@ exports.startTrial = async (req, res) => {
       existingTrial.trialStatus = 'active';
       existingTrial.count = 1;
       existingTrial.startDate = new Date();
-      existingTrial.endTime = new Date(Date.now() + 3 * 60 * 60 * 60 * 1000); // 3-day trial
+      existingTrial.endTime = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000); // 3-day trial corrected
       await existingTrial.save();
 
       return res.json({ success: true, message: 'Trial started successfully', trial: existingTrial });
@@ -523,7 +512,7 @@ exports.startTrial = async (req, res) => {
     const trial = new Trial({
       userId,
       startDate: new Date(),
-      endTime: new Date(Date.now() + 60 * 1000), // 3-day trial
+      endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3-day trial corrected
       trialStatus: 'active',
       count: 1, // Initialize count to 1 on first trial start
     });
@@ -532,15 +521,6 @@ exports.startTrial = async (req, res) => {
 
     res.json({ success: true, message: 'Trial started successfully', trial });
   } catch (error) {
-    // console.error(' Error starting trial:', error);
-    res.status(500).json({ error: 'Failed to start trial' });
+    next(error);
   }
 };
-
-
-
-
-
-
-
-

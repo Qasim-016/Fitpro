@@ -8,8 +8,6 @@ import MyButton from '@/components/Buttons/MyButton';
 import styling from '@/assets/Styles/styling';
 import LogoImgForScreen from '@/components/ScreenImages/LogoImgForScreen';
 import { router } from 'expo-router';
-import Video from 'react-native-video'; // Import video player
-import Paragraph from '@/components/Text/Paragraph';
 import Dashboardscreenimage from '@/components/ScreenImages/Dashboardscreenimages';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -52,7 +50,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
   ] },
   Fri: { title: '"Power starts from the\n hands—never skip forearms!"\n 💯握', workouts: [{ id: 28, name: 'Barbell Wrist\nCurls (Light & Fast)', sets: '3 sets x 15', image: require('@/assets/images/Forearm/barbell-wrist-curl.gif') },
     { id: 29, name: 'Reverse Wrist Curls', sets: '3 sets x 15', image: require('@/assets/images/Forearm/REV_DB_WRIST_CURL.gif') },
-    { id: 31, name: 'Battle Rope', sets: '4 sets x 30sec', image: require('@/assets/images/Back/BAT_ROPE.gif') }
+    { id: 30, name: 'Battle Rope', sets: '4 sets x 30sec', image: require('@/assets/images/Back/BAT_ROPE.gif') }
   ] },
   Sat: { title: '"Your body won’t go \nwhere your legs can’t\n take you!" 🚀💥', workouts: [{ id:31, name: 'Goblet Squats', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/Dumbbell-Goblet-Squat.gif') },
     { id:32, name: 'Bulgarian Split\nSquats (Bodyweight)', sets: '4 sets x 12-15per leg', image: require('@/assets/images/Legs/Bodyweight-Bulgarian-Split-Squat.gif') },
@@ -61,7 +59,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
     { id:35, name: 'Box Jumps', sets: '4 sets x 15', image: require('@/assets/images/Legs/box-jump.gif') },
     { id:36, name: 'Seated Calf Raise', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/Lever-Seated-Calf-Raise.gif') }
   ] },
-  Sun: { title: 'Rest Day', workouts: [] },
+  Sun: { title: "Rest and recover,'\n'tomorrow is another'\n' challenge!", workouts: [] },
 };
 
 const InterLoss = () => {
@@ -117,7 +115,7 @@ const InterLoss = () => {
                 {selectedDay !== 'Sun' ? (
                   <></>
                 ) : (
-                  <Text style={styling.restDayQuote}>"Rest and recover, tomorrow is another challenge!"</Text>
+                  <Text style={styling.restDayQuote}></Text>
                 )}
               </View>
             </View>

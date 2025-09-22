@@ -53,7 +53,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
   ] },
   Fri: { title: '"Power starts from the\n hands—never skip forearms!"\n 💯握', workouts: [{ id: 28, name: 'Reverse Wrist Curls', sets: '4 sets x 10-12', image: require('@/assets/images/Forearm/REV_DB_WRIST_CURL.gif') },
     { id: 29, name: 'Heavy Farmer’s Carry', sets: '4 sets x 30sec', image: require('@/assets/images/Forearm/Farmerwalk.gif') },
-    { id: 31, name: 'Wrist Roller\n(Up & Down)', sets: '3 sets x 60sec', image: require('@/assets/images/Forearm/WRIST_ROLLER.gif') }
+    { id: 30, name: 'Wrist Roller\n(Up & Down)', sets: '3 sets x 60sec', image: require('@/assets/images/Forearm/WRIST_ROLLER.gif') }
   ] },
   Sat: { title: '"Your body won’t go \nwhere your legs can’t\n take you!" 🚀💥', workouts: [{ id:31, name: 'Barbell Squats', sets: '4 sets x 8-10', image: require('@/assets/images/Legs/Squats.gif') },
     { id:32, name: 'Leg Press(Heavy)', sets: '4 sets x 10-12', image: require('@/assets/images/Legs/LEG_PRESS.gif') },
@@ -62,7 +62,7 @@ const workoutPlans: Record<string, WorkoutPlan> = {
     { id:36, name: 'Seated Hamstring Curl', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/HAM.gif') },
     { id:35, name: 'Seated Calf Raises', sets: '4 sets x 12-15', image: require('@/assets/images/Legs/Lever-Seated-Calf-Raise.gif') },
   ] },
-  Sun: { title: 'Rest Day', workouts: [] },
+  Sun: { title: "Rest and recover,'\n'tomorrow is another'\n' challenge!", workouts: [] },
 };
 
 const InterGain = () => {
@@ -118,7 +118,7 @@ const InterGain = () => {
                 {selectedDay !== 'Sun' ? (
                   <></>
                 ) : (
-                  <Text style={styling.restDayQuote}>"Rest and recover, tomorrow is another challenge!"</Text>
+                  <Text style={styling.restDayQuote}></Text>
                 )}
               </View>
             </View>
