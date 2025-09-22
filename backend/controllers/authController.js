@@ -1,4 +1,4 @@
-const User = require('../models/User'); // Assuming User model is correctly defined
+const User = require('../models/user'); // Assuming User model is correctly defined
 const TemUser = require('../models/temuser')
 const admin = require('firebase-admin');
 const serviceAccount = require('C:/Users/Qasim/Desktop/FitPro/firebase-service-account.json');

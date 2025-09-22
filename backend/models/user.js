@@ -13,9 +13,9 @@ const userSchema = new mongoose.Schema({
 
 
   
-}, { collection: 'fitpro' }); // Ensure it's saved in the 'fitpro' collectionss
+}, { collection: 'fitpro' }); // Ensure it's saved in the 'fitpro' collectionssss
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('user', userSchema);
 
 module.exports = User;
 

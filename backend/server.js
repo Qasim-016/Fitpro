@@ -6,7 +6,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const admin = require('firebase-admin');
 require('./cleanuptask'); // Include the cleanup task
-const User=require('./models/User')
+const User=require('./models/user')
 const http = require('http');
 const socketIo = require('socket.io');
 const chatbotRoutes = require('./routes/chatbotRoutes'); // Adjust path if needed
