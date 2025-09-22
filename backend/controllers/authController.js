@@ -1,15 +1,9 @@
 const User = require('../models/user'); // Assuming User model is correctly defined
 const TemUser = require('../models/temuser')
-// const admin = require('firebase-admin');
-// const serviceAccount = require('C:/Users/Qasim/Desktop/FitPro/firebase-service-account.json');
+const admin = require('firebase-admin');
+const serviceAccount = require('C:/Users/Qasim/Desktop/FitPro/firebase-service-account.json');
 
-const admin = require("firebase-admin");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_KEY_PATH);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 const nodemailer = require('nodemailer');
 const TempOTP = require('../models/TempOTP');
