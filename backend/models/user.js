@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
 
 
   
-}, { collection: 'fitpro' }); // Ensure it's saved in the 'fitpro' collections
+}, { collection: 'fitpro' }); // Ensure it's saved in the 'fitpro' collectionss
 
 const User = mongoose.model('User', userSchema);
 
