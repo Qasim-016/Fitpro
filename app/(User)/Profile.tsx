@@ -47,7 +47,7 @@ const Profile = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+        const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -86,7 +86,7 @@ const Profile = () => {
 
 const uploadImageToMongoDB = async (userId: string, imageBase64: any) => {
   try {
-    const response = await fetch(`http://${SERVER_IP}:5000/upload-profile-image`, {
+    const response = await fetch(`${SERVER_IP}/upload-profile-image`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, image: imageBase64 }),
@@ -106,7 +106,7 @@ const loadProfileImage = async () => {
   try {
     const userId = auth.currentUser?.uid;
     if (userId) {
-      const response = await fetch(`http://${SERVER_IP}:5000/user/${userId}`);
+      const response = await fetch(`${SERVER_IP}/user/${userId}`);
       const data = await response.json();
 
       if (data.profileImage) {
@@ -166,7 +166,7 @@ const loadProfileImage = async () => {
       try {
         const idToken = await auth.currentUser?.getIdToken();
         if (idToken) {
-          const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+          const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
             headers: { Authorization: `Bearer ${idToken}` },
           });
           const { username,  phone } = response.data;
@@ -201,7 +201,7 @@ const loadProfileImage = async () => {
       }
 
       const response = await axios.post(
-        `http://${SERVER_IP}:5000/api/auth/updateUser`,
+        `${SERVER_IP}/api/auth/updateUser`,
         { userId, ...formData },
         { headers: { Authorization: `Bearer ${idToken}` } }
       );

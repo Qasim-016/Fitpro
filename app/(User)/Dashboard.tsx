@@ -40,7 +40,7 @@ const Dashboard = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+        const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -58,7 +58,7 @@ const Dashboard = () => {
 
       //Check trial status first
       try {
-        const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userId}`);
+        const trialResponse = await axios.get(`${SERVER_IP}/api/trial/${userId}`);
         if (trialResponse.data.trialStatus === 'active') {
           setHasAccess(true);
           return; // Exit early
@@ -72,7 +72,7 @@ const Dashboard = () => {
 
       //If no active trial, check subscription
       try {
-        const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userId}`);
+        const subscriptionResponse = await axios.get(`${SERVER_IP}/api/subscription/${userId}`);
         const subscriptionData = subscriptionResponse.data;
 
         const currentTime = Date.now();
@@ -109,7 +109,7 @@ const Dashboard = () => {
 
     try {
       const token = await user.getIdToken();
-      const response = await axios.get(`http://${SERVER_IP}:5000/api/workout/getWorkoutPlan`, {
+      const response = await axios.get(`${SERVER_IP}/api/workout/getWorkoutPlan`, {
         headers: { Authorization: token }
       });
 
@@ -158,7 +158,7 @@ const Dashboard = () => {
        
         try {
           const token = await user.getIdToken();
-          const response = await axios.get(`http://${SERVER_IP}:5000/api/diet/getDietPlan`, {
+          const response = await axios.get(`${SERVER_IP}/api/diet/getDietPlan`, {
             headers: { Authorization: token }
           });
             if (response.data && response.data.dietPlan) {

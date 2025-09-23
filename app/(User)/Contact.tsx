@@ -35,7 +35,7 @@ const Contact = () => {
         const idToken = await auth.currentUser?.getIdToken();
 
         if (idToken) {
-          const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+          const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
             headers: {
               Authorization: `Bearer ${idToken}`,
             },
@@ -77,7 +77,7 @@ const Contact = () => {
           message: formData.message,
         };
 
-        const response = await fetch(`http://${SERVER_IP}:5000/api/auth/submit`, {
+        const response = await fetch(`${SERVER_IP}/api/auth/submit`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, onClose }) => {
           const idToken = await auth.currentUser?.getIdToken();
 
           if (idToken) {
-            const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+            const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
@@ -53,7 +53,7 @@ const loadProfileImage = async () => {
   try {
     const userId = auth.currentUser?.uid;
     if (userId) {
-      const response = await fetch(`http://${SERVER_IP}:5000/user/${userId}`);
+      const response = await fetch(`${SERVER_IP}/user/${userId}`);
       const data = await response.json();
 
       if (data.profileImage) {

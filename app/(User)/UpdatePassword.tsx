@@ -84,7 +84,7 @@ const UpdatePassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/updatePass`, {
+      const response = await axios.post(`${SERVER_IP}/api/auth/updatePass`, {
         userId,
         oldPassword: formData.oldPassword,
         password: formData.newPassword,

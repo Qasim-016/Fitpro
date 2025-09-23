@@ -89,7 +89,7 @@ const loginUser = async (): Promise<void> => {
 
     try {
       // Send login request to the backend
-      const response = await axios.post(`http://${SERVER_IP}:5000/api/auth/login`, {
+      const response = await axios.post(`${SERVER_IP}/api/auth/login`, {
         email: form.email.trim(),
         password: form.password.trim(),
       });
@@ -136,7 +136,7 @@ const loginUser = async (): Promise<void> => {
         // Step 1: Check Free Trial
         let isTrialActive = false;
         try {
-          const trialResponse = await axios.get(`http://${SERVER_IP}:5000/api/trial/${userData.uid}`);
+          const trialResponse = await axios.get(`${SERVER_IP}/api/trial/${userData.uid}`);
           if (trialResponse.status === 200 && trialResponse.data?.trialStatus === 'active') {
             isTrialActive = true;
           }
@@ -145,7 +145,7 @@ const loginUser = async (): Promise<void> => {
         // Step 2: Check Subscription
         let hasActiveSubscription = false;
         try {
-          const subscriptionResponse = await axios.get(`http://${SERVER_IP}:5000/api/subscription/${userData.uid}`);
+          const subscriptionResponse = await axios.get(`${SERVER_IP}/api/subscription/${userData.uid}`);
           if (subscriptionResponse.status === 200 && subscriptionResponse.data?.subscriptionEndTime > Date.now()) {
             hasActiveSubscription = true;
           }

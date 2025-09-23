@@ -26,7 +26,7 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.post(`http://${SERVER_IP}:5000/api/workout/saveWorkoutPlan`, 
+            const response = await axios.post(`${SERVER_IP}/api/workout/saveWorkoutPlan`, 
                 { level, goal },
                 { headers: { Authorization: token } }
             );
@@ -71,7 +71,7 @@ const CustomizedWorkout = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
     
-            const response = await axios.delete(`http://${SERVER_IP}:5000/api/workout/deleteWorkoutPlan`, {
+            const response = await axios.delete(`${SERVER_IP}/api/workout/deleteWorkoutPlan`, {
                 headers: { Authorization: token },
             });
     

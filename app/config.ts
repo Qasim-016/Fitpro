@@ -1,1 +1,1 @@
-export const SERVER_IP = "172.20.10.6";
+export const SERVER_IP = "https://fitproaiman.onrender.com";

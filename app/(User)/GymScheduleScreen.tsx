@@ -112,7 +112,7 @@ const GymScheduleScreen = () => {
 
     const fetchGymSchedule = async () => {
         try {
-            const response = await axios.get(`http://${SERVER_IP}:5000/api/gym-schedule`);
+            const response = await axios.get(`${SERVER_IP}/api/gym-schedule`);
             const today = moment().format('dddd'); // Get current day (e.g., 'Monday')
             const todaySchedule = response.data.find((schedule: GymScheduleItem) => schedule.day === today);
 
@@ -183,7 +183,7 @@ const GymScheduleScreen = () => {
 
         try {
             const token = await user.getIdToken();
-            const response = await axios.get(`http://${SERVER_IP}:5000/api/diet/getDietPlan`, {
+            const response = await axios.get(`${SERVER_IP}/api/diet/getDietPlan`, {
                 headers: { Authorization: token }
             });
             if (response.data && response.data.dietPlan) {

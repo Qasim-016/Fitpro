@@ -20,7 +20,7 @@ const FreeTrial = () => {
       const userId = auth.currentUser?.uid;
       if (!userId) return;
 
-      const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/trialStatus/${userId}`);
+      const response = await axios.get(`${SERVER_IP}/api/auth/trialStatus/${userId}`);
 
       if (response.status === 200 && response.data.count >= 1) {
         setTrialUsed(true); // Disable button if trial has been used
@@ -40,7 +40,7 @@ const FreeTrial = () => {
       }
 
       const response = await axios.post(
-        `http://${SERVER_IP}:5000/api/auth/startTrial`,
+        `${SERVER_IP}/api/auth/startTrial`,
         { userId },
         { headers: { Authorization: `Bearer ${idToken}` } }
       );

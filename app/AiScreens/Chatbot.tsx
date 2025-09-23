@@ -105,7 +105,7 @@ const Chatbot = () => {
 
       // Fetch response from backend
       try {
-        const response = await axios.post(`http://${SERVER_IP}:5000/api/chatbot`, { question: userQuestion });
+        const response = await axios.post(`${SERVER_IP}/api/chatbot`, { question: userQuestion });
         const botResponse = response.data.answer || "Sorry, I couldn't get an answer.";
 
         updatedChatHistory = [

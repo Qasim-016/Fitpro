@@ -54,7 +54,7 @@ const PaymentForm: React.FC = () => {
       if (!currentUserId) return; // Ensure user is logged in
 
       try {
-        const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`);
+        const response = await fetch(`${SERVER_IP}/api/subscription/${currentUserId}`);
         const data = await response.json();
         if (data && data.subscriptionEndTime) {
           setSubscriptionEndTime(data.subscriptionEndTime);
@@ -114,7 +114,7 @@ const PaymentForm: React.FC = () => {
     try {
       const idToken = await auth.currentUser?.getIdToken();
       if (idToken) {
-        const response = await axios.get(`http://${SERVER_IP}:5000/api/auth/getUserdata`, {
+        const response = await axios.get(`${SERVER_IP}/api/auth/getUserdata`, {
           headers: { Authorization: `Bearer ${idToken}` },
         });
         setUserData(response.data);
@@ -137,7 +137,7 @@ const PaymentForm: React.FC = () => {
   
     if (validateForm()) {
       try {
-        const response = await fetch(`http://${SERVER_IP}:5000/api/payment-intent`, {
+        const response = await fetch(`${SERVER_IP}/api/payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -216,7 +216,7 @@ const PaymentForm: React.FC = () => {
         // Save Subscription Data to MongoDB AFTER payment success
         const selectedPlan = amounts.find((item) => item.value === amount);
         if (selectedPlan) {
-          const response = await fetch(`http://${SERVER_IP}:5000/api/save-subscription`, {
+          const response = await fetch(`${SERVER_IP}/api/save-subscription`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -293,7 +293,7 @@ const PaymentForm: React.FC = () => {
     //Remove Subscription from MongoDB
     if (currentUserId) {
       try {
-        const response = await fetch(`http://${SERVER_IP}:5000/api/subscription/${currentUserId}`, {
+        const response = await fetch(`${SERVER_IP}/api/subscription/${currentUserId}`, {
           method: 'DELETE',
         });
   

@@ -39,7 +39,7 @@ const CustomizedDiet = () => {
         try {
             const token = await user.getIdToken();
 
-            const response = await axios.post(`http://${SERVER_IP}:5000/api/diet/saveDietPlan`,
+            const response = await axios.post(`${SERVER_IP}/api/diet/saveDietPlan`,
                 { gender, height, level, duration, goal, currentWeight, targetWeight },
                 { headers: { Authorization: token } }
             );
@@ -6355,7 +6355,7 @@ const CustomizedDiet = () => {
             const token = await user.getIdToken();
             console.log('User Token:', token);
 
-            const response = await axios.delete(`http://${SERVER_IP}:5000/api/diet/deleteDietPlan`, {
+            const response = await axios.delete(`${SERVER_IP}/api/diet/deleteDietPlan`, {
                 headers: { Authorization: token },
             });
 
