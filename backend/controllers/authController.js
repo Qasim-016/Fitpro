@@ -31,24 +31,93 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccountPath),
 });
 
+// exports.signup = async (req, res, next) => {
+//   const { email, username, phone, uid, password } = req.body;
+
+//   if (!email || !username || !phone || !password || !uid) {
+//     return res.status(400).json({ message: 'All fields are required.' });
+//   }
+  
+//   try {
+//     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+//     if (existingUser) {
+//       await admin.auth().deleteUser(uid);
+//       console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
+//       return res.status(409).json({ message: 'phone number already registered.' });
+//     }
+
+//     let firebaseUser;
+//     firebaseUser = await admin.auth().getUser(uid);
+    
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const tempUser = new TemUser({
+//       uid,
+//       email,
+//       username,
+//       phone,
+//       password,
+//     });
+//     await tempUser.save();
+
+//     console.log('TempUser saved:', tempUser);
+    
+//     const verificationLink = await admin.auth().generateEmailVerificationLink(email);
+//     console.log('Verification link generated:', verificationLink);
+//     console.log(password);
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 465,
+//       secure: false,
+//       auth: {
+//         user: "pikachugaming565@gmail.com",
+//         pass: "crkzwidgxlglnpaf",
+//       },
+//     });
+    
+//     async function main() {
+//       const info = await transporter.sendMail({
+//         from: 'pikachugaming565@gmail.com',
+//         to: email,
+//         subject: "Verify your email",
+//         html: `${verificationLink}`,
+//       });
+//       console.log("Message sent: %s", info.messageId);
+//     }
+
+//     main().catch(console.error);
+//     console.log('Verification email sent.');
+    
+//     res.status(201).json({
+//       message: 'Account created successfully. Please verify your email.',
+//       verificationLink,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+
 exports.signup = async (req, res, next) => {
   const { email, username, phone, uid, password } = req.body;
 
   if (!email || !username || !phone || !password || !uid) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ message: "All fields are required." });
   }
-  
+
   try {
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
       await admin.auth().deleteUser(uid);
-      console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
-      return res.status(409).json({ message: 'phone number already registered.' });
+      console.log(`User with UID ${uid} deleted from Firebase.`);
+      return res
+        .status(409)
+        .json({ message: "Phone number already registered." });
     }
 
-    let firebaseUser;
-    firebaseUser = await admin.auth().getUser(uid);
-    
+    let firebaseUser = await admin.auth().getUser(uid);
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const tempUser = new TemUser({
@@ -60,43 +129,37 @@ exports.signup = async (req, res, next) => {
     });
     await tempUser.save();
 
-    console.log('TempUser saved:', tempUser);
-    
-    const verificationLink = await admin.auth().generateEmailVerificationLink(email);
-    console.log('Verification link generated:', verificationLink);
-    console.log(password);
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: false,
-      auth: {
-        user: "pikachugaming565@gmail.com",
-        pass: "crkzwidgxlglnpaf",
-      },
-    });
-    
-    async function main() {
-      const info = await transporter.sendMail({
-        from: 'pikachugaming565@gmail.com',
-        to: email,
-        subject: "Verify your email",
-        html: `${verificationLink}`,
-      });
-      console.log("Message sent: %s", info.messageId);
+    console.log("TempUser saved:", tempUser);
+
+    const verificationLink = await admin
+      .auth()
+      .generateEmailVerificationLink(email);
+    console.log("Verification link generated:", verificationLink);
+
+    // ✅ Send verification email using SendGrid
+    const msg = {
+      to: email,
+      from: process.env.SENDER_EMAIL, // Must be verified in SendGrid
+      subject: "Verify your email",
+      html: `<p>Please verify your email by clicking the link below:</p>
+             <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    try {
+      await sgMail.send(msg);
+      console.log("Verification email sent via SendGrid to:", email);
+    } catch (emailError) {
+      console.error("Error sending verification email with SendGrid:", emailError);
     }
 
-    main().catch(console.error);
-    console.log('Verification email sent.');
-    
     res.status(201).json({
-      message: 'Account created successfully. Please verify your email.',
+      message: "Account created successfully. Please verify your email.",
       verificationLink,
     });
   } catch (error) {
     next(error);
   }
 };
-
 
 // exports.verifyUserEmail = async (req, res, next) => {
 //   const { uid } = req.body;
@@ -205,11 +268,6 @@ exports.signup = async (req, res, next) => {
 
 
 
-const admin = require("firebase-admin");
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const TemUser = require("../models/tempUser");
-const sgMail = require("@sendgrid/mail");
 
 // ✅ Set your SendGrid API Key (better use env variable in production)
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || "YOUR_SENDGRID_API_KEY");
@@ -260,7 +318,7 @@ exports.verifyUserEmail = async (req, res, next) => {
             // ✅ Send email using SendGrid
             const msg = {
               to: firebaseUser.email,
-              from: "pikachugaming565@gmail.com", // must be verified in SendGrid
+              from: process.env.SENDER_EMAIL, // must be verified in SendGrid
               subject: "Verification Successful",
               text: "You are successfully verified. Now you can Sign In.",
             };
@@ -308,7 +366,7 @@ exports.verifyUserEmail = async (req, res, next) => {
         // ✅ Send email using SendGrid
         const msg = {
           to: firebaseUser.email,
-          from: "pikachugaming565@gmail.com", // must be verified in SendGrid
+          from: process.env.SENDER_EMAIL, // must be verified in SendGrid
           subject: "Verification Successful",
           text: "You are successfully verified. Now you can Sign In.",
         };
