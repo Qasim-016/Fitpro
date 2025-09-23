@@ -389,7 +389,6 @@ exports.verifyUserEmail = async (req, res, next) => {
 };
 
 
-module.exports = sendEmail;
 exports.checkEmailAndSendOTP = async (req, res, next) => {
   const { email } = req.body;
 
