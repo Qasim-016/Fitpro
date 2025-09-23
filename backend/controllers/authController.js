@@ -62,7 +62,7 @@ exports.signup = async (req, res, next) => {
     console.log(password);
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 587,
+      port: 465,
       secure: false,
       auth: {
         user: "pikachugaming565@gmail.com",
@@ -137,7 +137,7 @@ exports.verifyUserEmail = async (req, res, next) => {
 
             const transporter = nodemailer.createTransport({
               host: "smtp.gmail.com",
-              port: 587,
+              port: 465,
               secure: false,
               auth: {
                 user: "pikachugaming565@gmail.com",
@@ -253,7 +253,7 @@ exports.checkEmailAndSendOTP = async (req, res, next) => {
     // Send OTP email
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 587,
+      port: 465,
       secure: false,
       auth: {
         user: 'pikachugaming565@gmail.com',
