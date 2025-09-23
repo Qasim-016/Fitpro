@@ -15,6 +15,11 @@ const serviceAccountPath = {
   client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
   universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
 };
+const sgMail = require("@sendgrid/mail");
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+
 
 
 const nodemailer = require('nodemailer');
@@ -32,7 +37,7 @@ exports.signup = async (req, res, next) => {
   if (!email || !username || !phone || !password || !uid) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
-
+  
   try {
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
@@ -43,7 +48,7 @@ exports.signup = async (req, res, next) => {
 
     let firebaseUser;
     firebaseUser = await admin.auth().getUser(uid);
-
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const tempUser = new TemUser({
@@ -56,7 +61,7 @@ exports.signup = async (req, res, next) => {
     await tempUser.save();
 
     console.log('TempUser saved:', tempUser);
-
+    
     const verificationLink = await admin.auth().generateEmailVerificationLink(email);
     console.log('Verification link generated:', verificationLink);
     console.log(password);
@@ -69,7 +74,7 @@ exports.signup = async (req, res, next) => {
         pass: "crkzwidgxlglnpaf",
       },
     });
-
+    
     async function main() {
       const info = await transporter.sendMail({
         from: 'pikachugaming565@gmail.com',
@@ -82,7 +87,7 @@ exports.signup = async (req, res, next) => {
 
     main().catch(console.error);
     console.log('Verification email sent.');
-
+    
     res.status(201).json({
       message: 'Account created successfully. Please verify your email.',
       verificationLink,
@@ -93,15 +98,131 @@ exports.signup = async (req, res, next) => {
 };
 
 
+// exports.verifyUserEmail = async (req, res, next) => {
+//   const { uid } = req.body;
+
+//   if (!uid) {
+//     return res.status(400).json({ message: 'UID is required.' });
+//   }
+  
+//   try {
+//     console.log('Starting email verification process...');
+//     console.log(`Received UID: ${uid}`);
+
+//     const firebaseUser = await admin.auth().getUser(uid);
+//     console.log(`Checking emailVerified for UID ${uid}:`, firebaseUser.emailVerified);
+
+//     const tempUser = await TemUser.findOne({ uid });
+//     if (!tempUser) {
+//       console.error(`TempUser not found for UID: ${uid}`);
+//       return res.status(404).json({ message: 'User not found in temporary storage.' });
+//     }
+    
+//     console.log('TempUser retrieved:', tempUser);
+    
+//     if (!firebaseUser.emailVerified) {
+//       setTimeout(async () => {
+//         try {
+//           const updatedFirebaseUser = await admin.auth().getUser(uid);
+//           const hashedPassword = await bcrypt.hash(tempUser.password, 10);
+          
+//           if (updatedFirebaseUser.emailVerified) {
+//             const user = new User({
+//               uid: tempUser.uid,
+//               email: tempUser.email,
+//               username: tempUser.username,
+//               phone: tempUser.phone,
+//               password: hashedPassword,
+//             });
+
+//             await user.save();
+//             console.log('User successfully saved to permanent database:', user);
+//             await TemUser.deleteOne({ uid });
+//             console.log('TempUser successfully removed after verification:', tempUser);
+
+//             const transporter = nodemailer.createTransport({
+//               host: "smtp.gmail.com",
+//               port: 465,
+//               secure: false,
+//               auth: {
+//                 user: "pikachugaming565@gmail.com",
+//                 pass: "crkzwidgxlglnpaf",
+//               },
+//             });
+
+//             async function main() {
+//               const info = await transporter.sendMail({
+//                 from: 'pikachugaming565@gmail.com',
+//                 to: firebaseUser.email,
+//                 subject: "Verification successful",
+//                 text: 'You are successfully verified ,Now you can SignIn'
+//               });
+//               console.log("Message sent: %s", info.messageId);
+//             }
+
+//             main().catch(console.error);
+//             console.log('Verified');
+//             return res.status(200).json({ message: 'User verified and saved to database.' });
+
+//           } else {
+//             await admin.auth().deleteUser(uid);
+//             console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
+
+//             await TemUser.deleteOne({ uid });
+//             console.log('TempUser successfully removed from temporary storage after verification failure.');
+            
+//             return res.status(400).json({ message: 'User not verified please create account again.' });
+//           }
+//         } catch (error) {
+//           next(error);
+//         }
+//       }, 60000);
+//     } else {
+//       const hashedPassword = await bcrypt.hash(tempUser.password, 10);
+//       const user = new User({
+//         uid: tempUser.uid,
+//         email: tempUser.email,
+//         username: tempUser.username,
+//         phone: tempUser.phone,
+//         password: hashedPassword,
+//       });
+
+//       try {
+//         await user.save();
+//         console.log('User successfully saved to permanent database:', user);
+//         await TemUser.deleteOne({ uid });
+//         console.log('TempUser successfully removed after verification:', tempUser);
+//         return res.status(200).json({ message: 'User verified and saved to database.' });
+        
+//       } catch (saveError) {
+//         next(saveError);
+//       }
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+
+const admin = require("firebase-admin");
+const bcrypt = require("bcryptjs");
+const User = require("../models/user");
+const TemUser = require("../models/tempUser");
+const sgMail = require("@sendgrid/mail");
+
+// ✅ Set your SendGrid API Key (better use env variable in production)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || "YOUR_SENDGRID_API_KEY");
+
 exports.verifyUserEmail = async (req, res, next) => {
   const { uid } = req.body;
 
   if (!uid) {
-    return res.status(400).json({ message: 'UID is required.' });
+    return res.status(400).json({ message: "UID is required." });
   }
 
   try {
-    console.log('Starting email verification process...');
+    console.log("Starting email verification process...");
     console.log(`Received UID: ${uid}`);
 
     const firebaseUser = await admin.auth().getUser(uid);
@@ -110,12 +231,13 @@ exports.verifyUserEmail = async (req, res, next) => {
     const tempUser = await TemUser.findOne({ uid });
     if (!tempUser) {
       console.error(`TempUser not found for UID: ${uid}`);
-      return res.status(404).json({ message: 'User not found in temporary storage.' });
+      return res.status(404).json({ message: "User not found in temporary storage." });
     }
 
-    console.log('TempUser retrieved:', tempUser);
+    console.log("TempUser retrieved:", tempUser);
 
     if (!firebaseUser.emailVerified) {
+      // Wait 1 minute before re-checking
       setTimeout(async () => {
         try {
           const updatedFirebaseUser = await admin.auth().getUser(uid);
@@ -131,48 +253,43 @@ exports.verifyUserEmail = async (req, res, next) => {
             });
 
             await user.save();
-            console.log('User successfully saved to permanent database:', user);
+            console.log("User successfully saved to permanent database:", user);
             await TemUser.deleteOne({ uid });
-            console.log('TempUser successfully removed after verification:', tempUser);
+            console.log("TempUser successfully removed after verification:", tempUser);
 
-            const transporter = nodemailer.createTransport({
-              host: "smtp.gmail.com",
-              port: 465,
-              secure: false,
-              auth: {
-                user: "pikachugaming565@gmail.com",
-                pass: "crkzwidgxlglnpaf",
-              },
-            });
+            // ✅ Send email using SendGrid
+            const msg = {
+              to: firebaseUser.email,
+              from: "pikachugaming565@gmail.com", // must be verified in SendGrid
+              subject: "Verification Successful",
+              text: "You are successfully verified. Now you can Sign In.",
+            };
 
-            async function main() {
-              const info = await transporter.sendMail({
-                from: 'pikachugaming565@gmail.com',
-                to: firebaseUser.email,
-                subject: "Verification successful",
-                text: 'You are successfully verified ,Now you can SignIn'
-              });
-              console.log("Message sent: %s", info.messageId);
+            try {
+              await sgMail.send(msg);
+              console.log("Verification success email sent to:", firebaseUser.email);
+            } catch (emailError) {
+              console.error("Error sending email with SendGrid:", emailError);
             }
 
-            main().catch(console.error);
-            console.log('Verified');
-            return res.status(200).json({ message: 'User verified and saved to database.' });
+            console.log("Verified");
+            return res.status(200).json({ message: "User verified and saved to database." });
 
           } else {
             await admin.auth().deleteUser(uid);
             console.log(`User with UID ${uid} deleted from Firebase after 1 minute.`);
 
             await TemUser.deleteOne({ uid });
-            console.log('TempUser successfully removed from temporary storage after verification failure.');
+            console.log("TempUser successfully removed from temporary storage after verification failure.");
 
-            return res.status(400).json({ message: 'User not verified please create account again.' });
+            return res.status(400).json({ message: "User not verified, please create account again." });
           }
         } catch (error) {
           next(error);
         }
       }, 60000);
     } else {
+      // If already verified
       const hashedPassword = await bcrypt.hash(tempUser.password, 10);
       const user = new User({
         uid: tempUser.uid,
@@ -184,11 +301,26 @@ exports.verifyUserEmail = async (req, res, next) => {
 
       try {
         await user.save();
-        console.log('User successfully saved to permanent database:', user);
+        console.log("User successfully saved to permanent database:", user);
         await TemUser.deleteOne({ uid });
-        console.log('TempUser successfully removed after verification:', tempUser);
-        return res.status(200).json({ message: 'User verified and saved to database.' });
+        console.log("TempUser successfully removed after verification:", tempUser);
 
+        // ✅ Send email using SendGrid
+        const msg = {
+          to: firebaseUser.email,
+          from: "pikachugaming565@gmail.com", // must be verified in SendGrid
+          subject: "Verification Successful",
+          text: "You are successfully verified. Now you can Sign In.",
+        };
+
+        try {
+          await sgMail.send(msg);
+          console.log("Verification success email sent to:", firebaseUser.email);
+        } catch (emailError) {
+          console.error("Error sending email with SendGrid:", emailError);
+        }
+
+        return res.status(200).json({ message: "User verified and saved to database." });
       } catch (saveError) {
         next(saveError);
       }
@@ -199,6 +331,7 @@ exports.verifyUserEmail = async (req, res, next) => {
 };
 
 
+module.exports = sendEmail;
 exports.checkEmailAndSendOTP = async (req, res, next) => {
   const { email } = req.body;
 
